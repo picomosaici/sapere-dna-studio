@@ -1,0 +1,45 @@
+name: Compila installer Windows
+
+# Si avvia in due modi:
+#  • automaticamente quando pubblichi un tag di versione (es. v1.0.0)
+#  • a mano, dalla scheda "Actions" del repo (pulsante "Run workflow")
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # serve per allegare l'installer alla Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Scarica il codice
+        uses: actions/checkout@v4
+
+      - name: Prepara Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Installa le dipendenze
+        run: npm install
+
+      - name: Crea l'installer
+        run: npm run dist
+
+      # L'installer resta sempre scaricabile dalla pagina della run (artifact)
+      - name: Carica l'installer come artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Sapere-DNA-Studio-Setup
+          path: dist/*.exe
+          if-no-files-found: error
+
+      # Se hai pubblicato un tag (es. v1.0.0), l'installer viene allegato alla Release
+      - name: Allega l'installer alla Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.exe

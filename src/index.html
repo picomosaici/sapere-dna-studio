@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapere-DNA Studio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+  <!-- BARRA DI STATO -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="mark">Sapere-DNA <span class="heb">Studio</span></div>
+      <div class="tag">laboratorio del genoma</div>
+    </div>
+    <div class="genome-chip" id="genome-chip" title="Genoma di riferimento attivo">
+      <svg class="dna-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 3c0 6 14 6 14 12M5 9c0 6 14 6 14 12M5 3c0 0 14 6 14 12M5 9c0 0 14 6 14 6"/></svg>
+      <span class="gc-name" id="gc-name">—</span>
+      <span class="gc-sep">·</span>
+      <span class="gc-meta" id="gc-meta">—</span>
+    </div>
+  </div>
+
+  <!-- NAVIGAZIONE -->
+  <nav class="side">
+    <button class="nav-item acc-gold" data-view="gen" data-acc="gold">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 3c0 6 14 6 14 12M5 9c0 6 14 6 14 12"/><path d="M7 5h10M7 19h10M8.5 8h7M8.5 16h7"/></svg>
+      <span><span class="ni-lab">Genoma</span><span class="ni-sub">laboratorio</span></span>
+    </button>
+    <button class="nav-item acc-teal" data-view="cod" data-acc="teal">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 7v6l8 4 8-4V7"/></svg>
+      <span><span class="ni-lab">Codifica</span><span class="ni-sub">incidi nel filo</span></span>
+    </button>
+    <button class="nav-item acc-violet" data-view="dec" data-acc="violet">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h6l2-3 2 6 2-3h6"/></svg>
+      <span><span class="ni-lab">Decodifica</span><span class="ni-sub">rileggi il filo</span></span>
+    </button>
+    <button class="nav-item acc-dim" data-view="arc" data-acc="dim">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M5 6v13h14V6M9 10h6"/></svg>
+      <span><span class="ni-lab">Archivio</span><span class="ni-sub">del sapere</span></span>
+    </button>
+    <button class="nav-item acc-blue" data-view="men" data-acc="blue">
+    <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M8 6h4l4 6M8 18h4l4-6"/></svg>
+    <span><span class="ni-lab">Mente</span><span class="ni-sub">scatola trasparente</span></span>
+    </button>
+    <button class="nav-item acc-amber" data-view="tra" data-acc="amber">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h10M4 19h16"/><circle cx="18.5" cy="12" r="2.4"/></svg>
+      <span><span class="ni-lab">Transformer</span><span class="ni-sub">modello di punta</span></span>
+    </button>
+    <button class="nav-item acc-green" data-view="gnr" data-acc="green">
+      <svg class="ni-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h6M5 7h10M5 17h8"/><path d="M16 9l3 3-3 3"/></svg>
+      <span><span class="ni-lab">Generatore</span><span class="ni-sub">modello reale</span></span>
+    </button>
+    <div class="side-foot">v1.0 · motore unificato<br>Classico + Genoma + Mente<br>reversibile · auto-verificato</div>
+  </nav>
+
+  <!-- CONTENUTO -->
+  <main class="main">
+
+    <!-- GENOMA -->
+    <section class="view acc-gold" id="view-gen">
+      <div class="view-head">
+        <div class="kicker">Genoma di riferimento · גנום</div>
+        <h2>Laboratorio del genoma</h2>
+        <p>Costruisci e congela il dizionario condiviso: ogni parola un gene, ogni gene un indirizzo stabile. È il riferimento su cui poggiano codifica e decodifica — e la base tracciabile del progetto.</p>
+      </div>
+      <div class="panel" id="gen-overview"></div>
+      <div class="panel" id="gen-browser"></div>
+      <div class="panel" id="gen-build"></div>
+    </section>
+
+    <!-- CODIFICA -->
+    <section class="view acc-teal" id="view-cod">
+      <div class="view-head">
+        <div class="kicker">Incidere nel filo · זיכרון בחוט</div>
+        <h2>Codifica</h2>
+        <p>Trasforma la conoscenza in un filamento di DNA. In modalità Genoma le parole note diventano geni; in modalità Classica ogni carattere diventa lettera ebraica + indice gematrico.</p>
+      </div>
+      <div class="panel" id="cod-panel"></div>
+    </section>
+
+    <!-- DECODIFICA -->
+    <section class="view acc-violet" id="view-dec">
+      <div class="view-head">
+        <div class="kicker">Rileggere il filo · קריאת החוט</div>
+        <h2>Decodifica</h2>
+        <p>Rileggi un filamento e ritorna alla conoscenza. L'app riconosce la modalità, controlla l'integrità con le impronte e ti avverte se qualcosa non combacia, invece di sbagliare in silenzio.</p>
+      </div>
+      <div class="panel" id="dec-panel"></div>
+    </section>
+
+    <!-- ARCHIVIO -->
+    <section class="view acc-dim" id="view-arc">
+      <div class="view-head">
+        <div class="kicker">Archivio del sapere</div>
+        <h2>Archivio</h2>
+        <p>Le voci che hai inciso, conservate e pronte da esportare. Ogni voce porta con sé tutto ciò che serve per essere riletta e verificata.</p>
+      </div>
+      <div class="panel" id="arc-panel"></div>
+    </section>
+    <section class="view acc-blue" id="view-men">
+    <div class="view-head">
+      <div class="kicker">Dentro la scatola nera · interpretabilità</div>
+      <h2>Mente</h2>
+      <p>Una rete neurale vera, in miniatura, resa trasparente con gli stessi strumenti di Sapere-DNA: dai suoi neuroni estraiamo un genoma di concetti, incidiamo il tracciato di ogni decisione come filamento, lo mettiamo alla prova spegnendo i concetti e lo sigilliamo. È il banco dove l'idea smette di essere teoria.</p>
+    </div>
+    <div class="panel" id="men-panel"></div>
+    </section>
+    <section class="view acc-amber" id="view-tra">
+      <div class="view-head">
+        <div class="kicker">Modello di punta · Transformer trasparente</div>
+        <h2>Mente — Transformer</h2>
+        <p>Un Transformer vero, in miniatura e interamente ispezionabile. Impara un compito su un corpus di cui conosciamo le regole; poi dai suoi calcoli estraiamo un genoma di concetti, lo confrontiamo con la verità di base, incidiamo il tracciato di ogni risposta come filamento, lo mettiamo alla prova spegnendo i concetti e lo sigilliamo. La dimostrazione che la verifica di interpretabilità funziona davvero.</p>
+      </div>
+      <div class="panel" id="tra-panel"></div>
+    </section>
+    <section class="view acc-green" id="view-gnr">
+      <div class="view-head">
+        <div class="kicker">Fuori dal laboratorio · modello generativo reale</div>
+        <h2>Mente — Generatore</h2>
+        <p>Un piccolo Transformer a parole, addestrato sul tuo corpus, il cui vocabolario è il genoma. Genera testo continuando un avvio; per ogni parola prodotta puoi aprire la sua decisione — filamento dei concetti, intervento causale, sigillo. Qui la verità di base non c'è: restano la prova di causa e il sigillo, la parte di Sapere-DNA che vale dove la verità non la conosciamo.</p>
+      </div>
+      <div class="panel" id="gG-panel"></div>
+    </section>
+  </main>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="loader-box">
+    <div class="loader-ring"></div>
+    <div class="loader-title" id="loader-title">Lavoro in corso…</div>
+    <div class="loader-sub" id="loader-sub"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<!-- RISPETTARE ORDINE LINK  -->
+<script src="motore.js"></script>
+<script src="genoma_it-demo.js"></script>
+<script src="codifica.js"></script>
+<script src="decodifica.js"></script>
+<script src="rete.js"></script>
+<script src="trasformatore.js"></script>
+<script src="mente.js"></script>
+<script src="mente-trasformatore.js"></script>
+<script src="generatore.js"></script>
+<script src="mente-generatore.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

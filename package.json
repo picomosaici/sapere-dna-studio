@@ -1,0 +1,40 @@
+{
+  "name": "sapere-dna-studio",
+  "version": "1.0.0",
+  "description": "Sapere-DNA Studio — laboratorio del genoma: crea il dizionario di riferimento, codifica la conoscenza in un filamento di DNA e rileggila, in un'unica app.",
+  "author": "Mirko Federico",
+  "allowScripts": {
+    "electron": true
+  },
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win",
+    "pack": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "org.saperedna.studio",
+    "productName": "Sapere-DNA Studio",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ],
+    "win": {
+      "target": [ { "target": "nsis", "arch": ["x64"] } ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Sapere-DNA Studio"
+    }
+  }
+}

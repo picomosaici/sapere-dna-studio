@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida Utente — Sapere-DNA Studio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --ink:#0b0d10; --ink2:#0f1318; --ink3:#141a20; --panel:#10151a;
+    --parch:#e6ece8; --parch-dim:#9fb0a8; --parch-faint:#65726c;
+    --gold:#c9a24b; --gold-bright:#e8c878;
+    --teal:#4fb89a; --teal-bright:#6fe0bd;
+    --violet:#9b7bd4; --violet-bright:#b89ae8;
+    --blue:#6f9fe0; --blue-bright:#8fb8f0;
+    --red:#e08a8a; --green:#7fce9a; --green-bright:#9fe6b8;
+    --amber:#d9943f; --amber-bright:#f0b968;
+    --line:rgba(120,150,140,0.16); --line2:rgba(120,150,140,0.09);
+    --font-serif:'Spectral',Georgia,serif;
+    --font-display:'Fraunces',Georgia,serif;
+    --font-mono:'JetBrains Mono','Consolas',monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--parch);
+    font-family:var(--font-serif);
+    font-size:16px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(201,162,75,0.30);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:rgba(120,150,140,0.24);border-radius:6px}
+  ::-webkit-scrollbar-track{background:var(--ink2)}
+
+  /* ── HEADER ── */
+  header{
+    position:relative;
+    overflow:hidden;
+    padding:74px 48px 64px;
+    background:
+      radial-gradient(ellipse at 78% 30%, rgba(201,162,75,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 12% 90%, rgba(79,184,154,0.07) 0%, transparent 55%),
+      linear-gradient(180deg,var(--ink2),var(--ink));
+    border-bottom:1px solid var(--line);
+  }
+  .helix{
+    position:absolute; right:-40px; top:-30px; width:360px; height:460px;
+    opacity:.16; color:var(--gold-bright); pointer-events:none;
+  }
+  .header-inner{position:relative;max-width:900px;margin:0 auto}
+  .logo-badge{
+    display:inline-flex;align-items:center;gap:11px;
+    background:rgba(201,162,75,0.06);
+    border:1px solid var(--line);
+    border-radius:100px;padding:6px 16px 6px 7px;margin-bottom:26px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold-bright);
+  }
+  .logo-dot{
+    width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold));
+    display:flex;align-items:center;justify-content:center;color:#1a1305;
+  }
+  .logo-dot svg{width:15px;height:15px}
+  h1{
+    font-family:var(--font-display);font-weight:400;
+    font-size:clamp(40px,6vw,64px);line-height:1.06;color:#fff;margin-bottom:18px;
+  }
+  h1 .heb{color:var(--gold-bright);font-style:italic}
+  .header-sub{font-size:18px;color:var(--parch-dim);font-weight:300;max-width:620px;line-height:1.6}
+  .header-tags{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
+  .htag{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
+    padding:5px 12px;border-radius:6px;border:1px solid var(--line);color:var(--parch-dim);
+    background:rgba(8,10,13,0.5);
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(11,13,16,0.86);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1040px;margin:0 auto;padding:0 20px;
+    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;
+  }
+  nav a{
+    display:block;padding:13px 13px;
+    font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;
+    color:var(--parch-dim);text-decoration:none;white-space:nowrap;
+    border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+  }
+  nav a:hover{color:var(--gold-bright);border-color:var(--gold)}
+
+  /* ── LAYOUT ── */
+  main{max-width:900px;margin:0 auto;padding:60px 48px 110px}
+
+  section{margin-bottom:74px;scroll-margin-top:70px}
+  section+section{border-top:1px solid var(--line);padding-top:66px}
+
+  .section-label{
+    font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-label.teal{color:var(--teal-bright)}
+  .section-label.violet{color:var(--violet-bright)}
+  .section-label.blue{color:var(--blue-bright)}
+  .section-label.amber{color:var(--amber-bright)}
+  .section-label.green{color:var(--green-bright)}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line);max-width:90px}
+
+  h2{font-family:var(--font-display);font-weight:400;font-size:34px;line-height:1.16;margin-bottom:18px;color:#fff}
+  h3{font-family:var(--font-display);font-size:22px;font-weight:400;margin:34px 0 12px;color:var(--parch)}
+  h4{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--parch)}
+  p{margin-bottom:14px;color:var(--parch-dim)}
+  p:last-child{margin-bottom:0}
+  strong{color:var(--parch);font-weight:600}
+  em{font-style:italic;color:var(--parch)}
+  a.inline{color:var(--gold-bright);text-decoration:none;border-bottom:1px dotted currentColor}
+  a.inline:hover{color:#fff}
+  code{
+    background:rgba(8,10,13,0.7);padding:2px 7px;border-radius:5px;
+    font-family:var(--font-mono);font-size:13px;color:var(--gold-bright);
+    border:1px solid var(--line2);
+  }
+  ul,ol{margin-left:24px;margin-bottom:14px;color:var(--parch-dim)}
+  li{margin-bottom:7px}
+  li strong{color:var(--parch)}
+
+  /* ── CARDS ── */
+  .card-grid{display:grid;gap:14px;margin-bottom:20px}
+  .card-grid.col2{grid-template-columns:1fr 1fr}
+  .card-grid.col3{grid-template-columns:1fr 1fr 1fr}
+  .card-mini{
+    background:linear-gradient(180deg,rgba(230,236,232,0.035),rgba(230,236,232,0.01));
+    border-radius:9px;border:1px solid var(--line);padding:17px 19px;
+    box-shadow:0 24px 60px -50px rgba(0,0,0,.9);
+  }
+  .card-mini h4{margin-bottom:7px}
+  .card-mini p{font-size:14px;color:var(--parch-dim);line-height:1.6;margin-bottom:0}
+  .card-mini .ic{font-size:18px;margin-bottom:8px;display:block}
+
+  /* ── CALLOUTS ── */
+  .callout{
+    border-left:3px solid var(--gold);background:rgba(201,162,75,0.06);
+    padding:14px 18px;border-radius:7px;margin:20px 0;display:flex;gap:13px;align-items:flex-start;
+  }
+  .callout .ci{font-size:17px;flex-shrink:0;line-height:1.5}
+  .callout>div:last-child{flex:1;font-size:14.5px;line-height:1.66;color:var(--parch-dim)}
+  .callout.tip{border-color:var(--teal);background:rgba(79,184,154,0.07)}
+  .callout.warning{border-color:var(--gold-bright);background:rgba(201,162,75,0.08)}
+  .callout.danger{border-color:var(--red);background:rgba(224,138,138,0.08)}
+  .callout.note{border-color:var(--violet);background:rgba(155,123,212,0.07)}
+
+  /* ── STEP LIST ── */
+  .step-list{list-style:none;margin-left:0;counter-reset:step}
+  .step-list>li{
+    counter-increment:step;padding:16px 0 16px 56px;position:relative;
+    border-bottom:1px solid var(--line2);
+  }
+  .step-list>li:last-child{border-bottom:none}
+  .step-list>li::before{
+    content:counter(step);position:absolute;left:0;top:15px;width:36px;height:36px;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1305;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;font-family:var(--font-mono);
+  }
+  .step-list.teal>li::before{background:linear-gradient(180deg,var(--teal-bright),var(--teal));color:#06120e}
+  .step-list.violet>li::before{background:linear-gradient(180deg,var(--violet-bright),var(--violet));color:#0e0a16}
+  .step-title{font-weight:600;margin-bottom:3px;color:var(--parch)}
+  .step-body{font-size:14px;color:var(--parch-dim);line-height:1.6}
+
+  /* ── TABLE ── */
+  table.t{
+    width:100%;border-collapse:collapse;margin:8px 0 18px;
+    background:rgba(8,10,13,0.4);border:1px solid var(--line);border-radius:9px;overflow:hidden;
+  }
+  table.t th{
+    background:rgba(201,162,75,0.08);color:var(--parch);padding:11px 15px;text-align:left;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
+    border-bottom:1px solid var(--line);
+  }
+  table.t td{padding:11px 15px;border-bottom:1px solid var(--line2);font-size:14px;vertical-align:top}
+  table.t tr:last-child td{border-bottom:none}
+  table.t td code, table.t td .mono{font-family:var(--font-mono);font-size:12.5px}
+  .c-gold{color:var(--gold-bright)} .c-teal{color:var(--teal-bright)} .c-violet{color:var(--violet-bright)} .c-red{color:var(--red)} .c-blue{color:var(--blue-bright)} .c-amber{color:var(--amber-bright)} .c-green{color:var(--green-bright)}
+
+  /* ── UI DIAGRAM (guscio app) ── */
+  .ui-shell{
+    background:#0a0c0f;border:1px solid var(--line);border-radius:12px;
+    padding:14px;margin:24px 0;box-shadow:0 30px 70px -40px #000;
+  }
+  .ui-shell .grid{
+    display:grid;grid-template-columns:188px 1fr;grid-template-rows:auto 1fr;
+    grid-template-areas:"top top" "side body";gap:8px;min-height:300px;
+    font-family:var(--font-mono);font-size:11px;
+  }
+  .uib{border:1px solid var(--line);border-radius:7px;padding:11px 13px;color:var(--parch-dim)}
+  .uib b{color:var(--parch);display:block;margin-bottom:3px;font-family:var(--font-serif);font-weight:600;font-size:13px}
+  .uib.top{grid-area:top;background:rgba(201,162,75,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .uib.side{grid-area:side;background:rgba(8,10,13,0.6);display:flex;flex-direction:column;gap:6px}
+  .uib.body{grid-area:body;background:rgba(230,236,232,0.02)}
+  .navchip{padding:8px 10px;border-radius:6px;border:1px solid transparent;color:var(--parch-dim)}
+  .navchip.g{border-color:rgba(201,162,75,.4);color:var(--gold-bright)}
+  .navchip.t{border-color:rgba(79,184,154,.4);color:var(--teal-bright)}
+  .navchip.v{border-color:rgba(155,123,212,.4);color:var(--violet-bright)}
+  .navchip.d{border-color:rgba(160,170,165,.3);color:var(--parch-dim)}
+  .navchip.b{border-color:rgba(111,159,224,.4);color:var(--blue-bright)}
+  .navchip.am{border-color:rgba(217,148,63,.4);color:var(--amber-bright)}
+  .navchip.gr{border-color:rgba(127,206,154,.4);color:var(--green-bright)}
+  .chip-mini{font-family:var(--font-mono);font-size:10px;color:var(--gold-bright);border:1px solid var(--line);border-radius:6px;padding:5px 10px}
+
+  /* strand demo */
+  .strand{
+    font-family:var(--font-mono);font-size:13px;line-height:1.9;word-break:break-all;
+    background:rgba(8,10,13,0.7);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:6px 0 16px;
+  }
+  .sg{color:var(--gold-bright);font-weight:700}
+  .sc{color:var(--violet-bright)}
+  .sr{color:var(--red);font-weight:700}
+  .sk{color:var(--parch-faint)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12px;color:var(--parch-dim);margin:-6px 0 16px}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  /* tips */
+  .tips{
+    background:rgba(79,184,154,0.07);border-left:3px solid var(--teal);border-radius:9px;
+    padding:18px 22px;margin:24px 0 0;font-size:14.5px;line-height:1.66;
+  }
+  .tips .th{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--parch);margin-bottom:10px;font-size:15px}
+  .tips ul{margin:0 0 0 18px;color:var(--parch-dim)}
+  .tips li{margin-bottom:7px}
+
+  /* footer */
+  footer{
+    background:var(--ink2);border-top:1px solid var(--line);
+    color:var(--parch-faint);padding:34px 48px;text-align:center;font-size:13px;font-family:var(--font-mono);
+  }
+  footer strong{color:var(--parch-dim)}
+  footer .hebsig{color:var(--gold);font-family:var(--font-serif);font-size:15px}
+
+  @media (max-width:760px){
+    header{padding:46px 22px 40px}
+    main{padding:36px 22px 70px}
+    .card-grid.col2,.card-grid.col3{grid-template-columns:1fr}
+    .ui-shell .grid{grid-template-columns:1fr;grid-template-areas:"top" "side" "body"}
+    .helix{opacity:.08}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <svg class="helix" viewBox="0 0 100 130" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <path d="M20 5 C70 25, 70 45, 20 65 C70 85, 70 105, 20 125"/>
+    <path d="M80 5 C30 25, 30 45, 80 65 C30 85, 30 105, 80 125"/>
+    <path d="M28 12 L72 12 M40 22 L60 22 M40 48 L60 48 M28 58 L72 58 M28 72 L72 72 M40 82 L60 82 M40 108 L60 108 M28 118 L72 118"/>
+  </svg>
+  <div class="header-inner">
+    <div class="logo-badge">
+      <span class="logo-dot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 3c0 6 14 6 14 12M5 9c0 6 14 6 14 12"/></svg>
+      </span>
+      Guida Utente · v1.0 · 2026
+    </div>
+    <h1>Sapere-DNA <span class="heb">Studio</span></h1>
+    <p class="header-sub">Il laboratorio del genoma: costruisci il dizionario di riferimento, incidi la conoscenza in un filamento di DNA simbolico e rileggila — con controllo d'integrità, in un'unica app.</p>
+    <div class="header-tags">
+      <span class="htag">archiviazione simbolica</span>
+      <span class="htag">reversibile · auto-verificato</span>
+      <span class="htag">tracciabile</span>
+      <span class="htag">Windows · Electron</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#cosè">Cos'è</a>
+    <a href="#interfaccia">Interfaccia</a>
+    <a href="#genoma">Il Genoma</a>
+    <a href="#laboratorio">Laboratorio</a>
+    <a href="#codifica">Codifica</a>
+    <a href="#genoma-dettaglio">Modalità Genoma</a>
+    <a href="#classica-dettaglio">Modalità Classica</a>
+    <a href="#decodifica">Decodifica</a>
+    <a href="#archivio">Archivio</a>
+    <a href="#mente">Mente</a>
+    <a href="#transformer">Transformer</a>
+    <a href="#generatore">Generatore</a>
+    <a href="#integrità">Integrità</a>
+    <a href="#file">I file</a>
+    <a href="#installazione">Installazione</a>
+    <a href="#licenza">Licenza &amp; Sicurezza</a>
+    <a href="#glossario">Glossario</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main>
+
+<!-- ── 01 · COS'È ── -->
+<section id="cosè">
+  <div class="section-label">01 — il concetto</div>
+  <h2>Cos'è Sapere-DNA Studio</h2>
+  <p>Sapere-DNA Studio è un'applicazione che trasforma del <strong>testo leggibile</strong> in un <strong>filamento di DNA simbolico</strong> (una sequenza fatta delle quattro basi A, T, G, C) e poi lo riporta indietro, identico, parola per parola. Non è biologia reale e non è crittografia sicura: è un <strong>sistema simbolico</strong> di archiviazione, il cui valore sta in tre parole — <em>reversibile</em>, <em>verificabile</em>, <em>tracciabile</em>.</p>
+  <p>L'idea di fondo, che ritorna in tutto il progetto, è scritta nel cuore dell'app: <em>il senso non vive nelle basi, vive nell'interprete che le legge</em>. Un filamento di DNA da solo è muto; diventa conoscenza solo quando lo si rilegge con il giusto <strong>genoma di riferimento</strong>. Ogni parola incisa può sempre <strong>risalire al suo <span class="c-gold">locus</span></strong> — il suo indirizzo esatto nel genoma — ed è questa tracciabilità il punto del progetto.</p>
+
+  <div class="card-grid col2">
+    <div class="card-mini">
+      <span class="ic c-gold">⬡</span>
+      <h4>Due modalità, un solo motore</h4>
+      <p>La modalità <strong>Genoma</strong> tratta le parole come geni e produce un solo filamento compatto. La modalità <strong>Classica</strong> lavora carattere per carattere con lettere ebraiche e gematria. Convivono nello stesso motore e si possono confrontare.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-teal">✓</span>
+      <h4>Niente errori silenziosi</h4>
+      <p>Ogni voce porta con sé delle <strong>impronte di integrità</strong>. Se rileggi un filamento col genoma sbagliato o con un file troncato, l'app te lo <strong>dice</strong> invece di ricostruire una frase sbagliata facendo finta di niente.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-violet">∞</span>
+      <h4>Lossless al 100%</h4>
+      <p>Tutto si conserva: le parole conosciute diventano geni, quelle nuove vengono "sillabate" lettera per lettera, e qualunque carattere fuori tavola (perfino un'emoji o un ideogramma) passa per una <strong>via di fuga</strong> dedicata. Nulla viene buttato.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-gold">⚙</span>
+      <h4>Tutto in locale</h4>
+      <p>È un'app desktop (Electron) che gira sul tuo computer. Genoma e archivio si salvano automaticamente fra i tuoi dati utente; non c'è nessun server, nessun cloud, nessun dato che esce dal PC.</p>
+    </div>
+  </div>
+
+  <div class="callout note"><div class="ci">✦</div><div>Un modo semplice per immaginarlo: il <strong>genoma</strong> è un grande dizionario condiviso e <em>congelato</em> (uguale per chi incide e per chi rilegge). Un testo non è più una catena di lettere, ma una <strong>sequenza di indirizzi</strong>: "quali geni, in quale ordine". In biologia si direbbe <em>espressione</em> — il genoma è enorme e stabile, e ciò che conta è quali geni vengono espressi e quando.</div></div>
+</section>
+
+<!-- ── 02 · INTERFACCIA ── -->
+<section id="interfaccia">
+  <div class="section-label">02 — orientarsi</div>
+  <h2>L'interfaccia</h2>
+  <p>L'app è organizzata in un <strong>guscio</strong> semplice: una barra di stato in alto, una colonna di navigazione a sinistra con sette voci, e l'area di lavoro al centro. In alto a destra c'è sempre la <strong>"targhetta del genoma"</strong> (genome chip) che ti dice quale genoma è attivo in questo momento.</p>
+
+  <div class="ui-shell">
+    <div class="grid">
+      <div class="uib top">
+        <span><b>Barra di stato</b>Sapere-DNA Studio</span>
+        <span class="chip-mini">🧬 it-demo v2026.1 · 330 geni · 1a2b3c4d</span>
+      </div>
+      <div class="uib side">
+        <b>Navigazione</b>
+        <span class="navchip g">⬡ Genoma — laboratorio</span>
+        <span class="navchip t">◈ Codifica — incidi nel filo</span>
+        <span class="navchip v">∿ Decodifica — rileggi il filo</span>
+        <span class="navchip d">▦ Archivio — del sapere</span>
+        <span class="navchip b">⊹ Mente — scatola trasparente</span>
+        <span class="navchip am">≡ Transformer — modello di punta</span>
+        <span class="navchip gr">→ Generatore — modello reale</span>
+      </div>
+      <div class="uib body"><b>Area di lavoro</b>Cambia in base alla voce scelta: pannelli del laboratorio, editor di codifica/decodifica, elenco dell'archivio, e i banchi della «Mente» (rete trasparente, Transformer, generatore).</div>
+    </div>
+  </div>
+
+  <h3>Le sette sezioni</h3>
+  <div class="card-grid col2">
+    <div class="card-mini">
+      <h4><span class="c-gold">⬡ Genoma</span> — il laboratorio</h4>
+      <p>Dove costruisci, esplori, importi ed esporti il dizionario di riferimento. È il punto di partenza: codifica e decodifica poggiano su ciò che decidi qui.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-teal">◈ Codifica</span> — incidi nel filo</h4>
+      <p>Scrivi o incolli del testo e lo trasformi in DNA. Puoi scegliere modalità Genoma o Classica, vedi il risultato colorato, le statistiche e il confronto di dimensione.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-violet">∿ Decodifica</span> — rileggi il filo</h4>
+      <p>Incolli un filamento (o carichi una voce <code>.json</code>) e torni alla conoscenza. L'app riconosce la modalità e controlla l'integrità.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-gold" style="opacity:.7">▦ Archivio</span> — del sapere</h4>
+      <p>Tutte le voci che hai inciso, conservate e pronte da esportare. Ogni voce contiene tutto il necessario per essere riletta e verificata.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-blue">⊹ Mente</span> — la scatola trasparente</h4>
+      <p>Rende leggibile il ragionamento di una piccola rete: dai suoi neuroni estrae un genoma di concetti, incide il tracciato di ogni decisione e lo mette alla prova spegnendo i concetti.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-amber">≡ Transformer</span> — il modello di punta</h4>
+      <p>Un Transformer vero ma minuscolo, addestrato su un compito di cui conosciamo le regole: così i concetti estratti si possono <em>verificare</em> contro la verità di base, non solo raccontare.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-green">→ Generatore</span> — il modello reale</h4>
+      <p>Un piccolo Transformer a parole, addestrato sul tuo corpus, che <em>genera</em> testo. Fuori dal laboratorio non c'è verità di base: restano la prova di causa e il sigillo.</p>
+    </div>
+  </div>
+
+  <h3>La targhetta del genoma</h3>
+  <p>In alto a destra, sempre visibile, la targhetta mostra tre informazioni: il <strong>nome e la versione</strong> del genoma attivo (es. <code>it-demo v2026.1</code>), il <strong>numero di geni</strong> e le prime cifre dell'<strong>impronta</strong> (un codice breve che identifica univocamente quel preciso dizionario). Se l'impronta cambia, vuol dire che il genoma è cambiato — ed è esattamente l'informazione che serve per rileggere i file vecchi col dizionario giusto.</p>
+
+  <div class="callout tip"><div class="ci">💡</div><div>Una nota tecnica utile: fuori da Electron (cioè se apri i file in un normale browser per provarli) l'app funziona lo stesso con un "ripiego" — salva/carica tramite i dialoghi del browser e memorizza nel <code>localStorage</code>. Nell'app vera, invece, usa i dialoghi nativi di Windows e salva genoma e archivio fra i tuoi dati utente.</div></div>
+</section>
+
+<!-- ── 03 · IL GENOMA (CONCETTO) ── -->
+<section id="genoma">
+  <div class="section-label">03 — il cuore del sistema</div>
+  <h2>Il Genoma: geni, loci e indirizzi</h2>
+  <p>Il <strong>genoma</strong> è una lista ordinata di parole. Ogni parola è un <strong>gene</strong>, e la sua posizione nella lista è il suo <strong>locus</strong> (indirizzo). La regola d'oro è una sola e cambia tutto: <strong>l'ordine È l'indirizzo</strong>. Le parole messe per prime ottengono gli indirizzi più <em>corti</em> (e quindi più economici da scrivere); quelle più in fondo, indirizzi più lunghi.</p>
+  <p>Per questo i genomi seri si costruiscono <strong>ordinando le parole per frequenza</strong>: le parole comunissime — <em>di, e, il, la, che, è</em> — finiscono in cima e costano pochissimo; le parole rare costano di più, ma sono appunto rare. È lo stesso principio della compressione vera: <strong>le cose frequenti ricevono codici corti</strong>.</p>
+
+  <h3>I quattro livelli (tier) di indirizzo</h3>
+  <p>Gli indirizzi non hanno tutti la stessa lunghezza: si allargano man mano che servono. Un indirizzo è scritto con delle "cifre", e ogni cifra è un codone (3 basi). Delle 64 combinazioni possibili di codone, l'app ne riserva 8 per i segnali di controllo e usa le restanti <strong>56 come cifre</strong> (la "base" del sistema, come noi usiamo la base 10). Ecco come si distribuiscono gli indirizzi:</p>
+
+  <table class="t">
+    <thead><tr><th>Livello</th><th>Lunghezza</th><th>Quante parole entrano</th><th>Chi ci va</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold">Livello 1</td><td><span class="mono">1 codone · 3 basi</span></td><td><span class="mono">28</span></td><td>le 28 parole più frequenti in assoluto</td></tr>
+      <tr><td class="c-gold">Livello 2</td><td><span class="mono">2 codoni · 6 basi</span></td><td><span class="mono">896</span></td><td>parole molto comuni</td></tr>
+      <tr><td class="c-gold">Livello 3</td><td><span class="mono">3 codoni · 9 basi</span></td><td><span class="mono">25.088</span></td><td>vocabolario ampio</td></tr>
+      <tr><td class="c-gold">Livello 4</td><td><span class="mono">4 codoni · 12 basi</span></td><td><span class="mono">702.464</span></td><td>parole rare e forme flesse</td></tr>
+      <tr><td><strong>Totale</strong></td><td></td><td class="c-gold"><strong>~728.476</strong></td><td>capienza massima del genoma</td></tr>
+    </tbody>
+  </table>
+
+  <p>Tradotto: un genoma può contenere fino a circa <strong>728.000 parole</strong>, abbastanza per coprire un'intera lingua. E poiché le parole che reggono il peso di qualsiasi testo (articoli, preposizioni, congiunzioni) stanno tutte al Livello 1, la maggior parte di un testo italiano si scrive con indirizzi da 3 basi soltanto.</p>
+
+  <div class="callout note"><div class="ci">🧬</div><div><strong>La metafora biologica regge fino in fondo.</strong> Il DNA reale usa codoni di <em>start</em> e di <em>stop</em> per dire "qui inizia / qui finisce". Sapere-DNA fa lo stesso: dei 64 codoni ne riserva alcuni come <em>regolatori</em> (controllo) e usa gli altri come cifre. Non è una coincidenza poetica: è proprio quel margine di codoni liberi a rendere possibile un sistema lossless.</div></div>
+
+  <h3>Il genoma dimostrativo "it-demo"</h3>
+  <p>L'app parte con un genoma di esempio chiamato <code>it-demo</code> (versione <code>2026.1</code>): una piccola lista italiana, congelata e ordinata per frequenza, pensata per provare subito tutto. È pensato per essere <strong>sostituito</strong> con un genoma grande ricavato da un vero corpus (vedi il <a class="inline" href="#laboratorio">Laboratorio</a>). La regola è: <strong>non si modifica un genoma sul posto</strong> — se ne crea una <em>nuova versione</em>, così i file vecchi continuano a sapere con quale dizionario erano nati.</p>
+</section>
+
+<!-- ── 04 · LABORATORIO ── -->
+<section id="laboratorio">
+  <div class="section-label">04 — la sezione Genoma</div>
+  <h2>Il Laboratorio del genoma</h2>
+  <p>La sezione <strong class="c-gold">Genoma</strong> è divisa in tre pannelli: una <strong>panoramica</strong> in alto, un <strong>esploratore</strong> al centro e un <strong>costruttore</strong> in basso.</p>
+
+  <h3>Pannello 1 — Panoramica</h3>
+  <p>Mostra a colpo d'occhio lo stato del genoma attivo:</p>
+  <ul>
+    <li><strong>Geni (parole)</strong> — quante parole contiene.</li>
+    <li><strong>Capacità max</strong> — quante potrebbe contenerne al massimo (~728.476).</li>
+    <li><strong>Riempimento</strong> — la percentuale di capienza usata.</li>
+    <li><strong>Cifre (codoni)</strong> — il numero di cifre disponibili: 56.</li>
+    <li><strong>Distribuzione per costo</strong> — quante parole stanno in ciascuno dei quattro livelli.</li>
+    <li><strong>Impronta</strong> — il codice identificativo del genoma; se è "oltre capacità" l'app te lo segnala in rosso.</li>
+  </ul>
+  <p>Da qui puoi anche <strong>aggiornare l'identità</strong> (cambiare nome e versione), <strong>esportare</strong> il genoma in <code>.json</code> per condividerlo o congelarlo, <strong>importarne</strong> uno, oppure <strong>ripristinare il dimostrativo</strong>.</p>
+
+  <h3>Pannello 2 — Esploratore</h3>
+  <p>Una tabella di tutti i geni con il loro <strong>locus</strong> (#0, #1, #2…), la parola, l'<strong>indirizzo in codoni</strong> e quante basi occupa. C'è una casella di ricerca per trovare al volo una parola e vedere il suo indirizzo. È il modo più diretto per "vedere" come l'ordine diventa indirizzo.</p>
+
+  <h3>Pannello 3 — Costruttore</h3>
+  <p>Qui si fa il lavoro vero. Due strade:</p>
+
+  <h4 style="margin-top:18px">A · Aggiungere parole a mano</h4>
+  <p>Scrivi alcune parole separate da spazi o a-capo e premi <strong>Aggiungi al genoma</strong>. Le parole nuove vengono accodate (quelle già presenti vengono ignorate, niente doppioni).</p>
+
+  <h4 style="margin-top:18px">B · Costruire da un corpus</h4>
+  <p>È il metodo consigliato per un genoma serio. Incolli (o apri da file) un testo grande — un libro, un insieme di documenti — e l'app:</p>
+  <ol class="step-list">
+    <li><div><div class="step-title">Conta le frequenze</div><div class="step-body">scorre tutto il testo e conta quante volte appare ogni parola e ogni segno.</div></div></li>
+    <li><div><div class="step-title">Ordina per frequenza</div><div class="step-body">mette davanti le più comuni (a parità, in ordine alfabetico) — così ricevono gli indirizzi più corti.</div></div></li>
+    <li><div><div class="step-title">Applica la soglia</div><div class="step-body">con "frequenza minima" decidi di tenere solo le parole che appaiono almeno N volte, per scartare il rumore.</div></div></li>
+    <li><div><div class="step-title">(Opzionale) Unisce all'attuale</div><div class="step-body">la spunta "unisci al genoma attuale" tiene le parole che hai già e aggiunge le nuove.</div></div></li>
+  </ol>
+  <p>Premuto <strong>Costruisci genoma</strong>, ottieni un nuovo dizionario con una <strong>versione</strong> nuova (un timbro data/ora), pronto per essere esportato e congelato.</p>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Ogni volta che cambi il genoma (aggiungi parole, costruisci, importi) cambiano gli <strong>indirizzi</strong> e cambia l'<strong>impronta</strong>. I filamenti incisi con un genoma <em>precedente</em> vanno riletti con <em>quel</em> genoma. Per questo conviene <strong>esportare e conservare</strong> ogni versione di genoma che usi per archiviare cose importanti.</div></div>
+
+  <div class="tips"><div class="th">🎯 Consigli pratici</div><ul>
+    <li>Per un archivio stabile, <strong>costruisci una volta</strong> un buon genoma da un corpus ampio, esportalo, e poi <strong>non toccarlo più</strong>: usa sempre quella versione.</li>
+    <li>Conserva i <code>.json</code> dei genomi insieme ai filamenti che hanno prodotto: sono la "chiave di lettura".</li>
+    <li>Se l'esploratore mostra una parola comune con un indirizzo lungo, è il segnale che quel genoma non era ordinato per frequenza: ricostruiscilo da un corpus.</li>
+  </ul></div>
+</section>
+
+<!-- ── 05 · CODIFICA ── -->
+<section id="codifica">
+  <div class="section-label teal">05 — incidere nel filo</div>
+  <h2>Codifica</h2>
+  <p>La sezione <strong class="c-teal">Codifica</strong> è dove trasformi il testo in DNA. In alto un selettore ti fa scegliere tra le due modalità; sotto, l'area di testo dove scrivi o incolli la conoscenza da incidere.</p>
+
+  <ol class="step-list teal">
+    <li><div><div class="step-title">Scegli la modalità</div><div class="step-body"><strong>Genoma</strong> (filamento unico, parole come geni) oppure <strong>Classica</strong> (doppio binario: DNA + indice gematrico).</div></div></li>
+    <li><div><div class="step-title">Scrivi o incolla il testo</div><div class="step-body">Anche testi lunghi: il lavoro avviene a blocchi per non bloccare la finestra, con una barra di avanzamento.</div></div></li>
+    <li><div><div class="step-title">(Facoltativo) Dai un nome base ai file</div><div class="step-body">Es. <code>acqua-montagna</code>: sarà usato per i nomi dei file salvati. Se lo lasci vuoto, l'app ne genera uno dalle prime parole + data/ora.</div></div></li>
+    <li><div><div class="step-title">Premi "Incidi nel filo"</div><div class="step-body">Ottieni il risultato: testo colorato, il filamento, le statistiche e il confronto di dimensione.</div></div></li>
+  </ol>
+
+  <h3>Leggere il risultato (modalità Genoma)</h3>
+  <p>Il testo viene mostrato <strong>colorato per come è stato inciso</strong>, così vedi a occhio cosa è successo a ogni parola:</p>
+  <div class="strand">In <span class="sg">montagna</span> <span class="sg">l'</span><span class="sg">acqua</span> <span class="sg">bolle</span> <span class="sg">a</span> <span class="sc">90</span> <span class="sg">gradi</span> <span class="sg">perché</span> <span class="sg">la</span> <span class="sg">pressione</span> <span class="sg">è</span> <span class="sg">più</span> <span class="sg">bassa</span> <span class="sr">⚛</span></div>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--gold-bright)"></span><strong>gene</strong> — parola nel genoma</span>
+    <span><span class="dot" style="background:var(--violet-bright)"></span><strong>sillabato</strong> — parola fuori genoma, scritta lettera per lettera</span>
+    <span><span class="dot" style="background:var(--red)"></span><strong>via di fuga</strong> — carattere fuori tavola (emoji, simboli rari…)</span>
+  </div>
+  <p>Sotto trovi il <strong>filamento di DNA</strong> (uno solo, niente indice), le statistiche (quanti geni, quanti caratteri sillabati, quanti codoni, il tempo impiegato) e una verifica automatica: un badge <span class="c-teal">✓ riletta identica</span> ti conferma che l'app ha già provato a rileggere ciò che ha inciso e combacia.</p>
+
+  <h3>Il confronto di dimensione</h3>
+  <p>L'app calcola anche quanto sarebbe stato grande lo stesso testo in modalità Classica, e ti mostra il rapporto: <em>"Il Genoma occupa il <strong>X%</strong> della Classica — risparmio del Y%"</em>. È il modo concreto per vedere quanto rende un buon genoma.</p>
+
+  <h3>Salvare</h3>
+  <p>Tre possibilità, sempre disponibili dopo aver inciso:</p>
+  <ul>
+    <li><strong>Salva filamento</strong> — solo le basi ATGC, in un file di testo (<code>.dna.txt</code>).</li>
+    <li><strong>Salva voce .json</strong> — il "pacchetto completo": filamento + impronte di integrità + metadati. È il formato consigliato per archiviare, perché si rilegge e si verifica da solo.</li>
+    <li><strong>Aggiungi all'archivio</strong> — mette la voce nell'Archivio interno dell'app.</li>
+  </ul>
+
+  <div class="callout tip"><div class="ci">💡</div><div>In modalità <strong>Classica</strong> il risultato è diverso: vedi le <strong>lettere ebraiche</strong>, la <strong>sequenza di DNA</strong> e l'<strong>indice di recupero</strong> (i numeri), salvabili separatamente. Se un carattere è fuori tavola, in Classica viene <em>scartato e segnalato</em>; in Genoma, invece, sarebbe salvato dalla via di fuga. È una buona ragione per preferire la modalità Genoma quando l'archivio deve essere universale.</div></div>
+</section>
+
+<!-- ── 06 · MODALITÀ GENOMA (DETTAGLIO) ── -->
+<section id="genoma-dettaglio">
+  <div class="section-label">06 — sotto il cofano</div>
+  <h2>Modalità Genoma, in dettaglio</h2>
+  <p>Un filamento Genoma è un testo letto a gruppi di tre basi (codoni). Alcuni codoni sono <strong>regolatori</strong> (dicono cosa fare), gli altri sono <strong>cifre</strong> che compongono gli indirizzi. Ecco i quattro pezzi del meccanismo.</p>
+
+  <h3>1 · I geni (parole conosciute)</h3>
+  <p>Se una parola è nel genoma, viene scritta come il suo <strong>indirizzo</strong> (1–4 codoni, a seconda del livello). Le maiuscole non gonfiano il dizionario: il genoma contiene solo parole minuscole, e due regolatori gestiscono i casi speciali — <code>CAP</code> (maiuscola iniziale alla parola seguente) e <code>UP</code> (parola seguente tutta MAIUSCOLA). Così "Roma" diventa <code>CAP</code> + il gene <em>roma</em>: niente doppioni.</p>
+
+  <h3>2 · La sillabazione (parole fuori genoma)</h3>
+  <p>Se una parola <em>non</em> è nel genoma (un nome proprio sconosciuto, un termine tecnico, un refuso), l'app non si arrende: apre una "parentesi letterale" col regolatore <code>SHIFT</code> e scrive la parola <strong>lettera per lettera</strong>, usando la stessa tavola di 127 caratteri della modalità Classica. Finita la parola, un altro <code>SHIFT</code> richiude la parentesi e si torna ai geni. Nel testo colorato, questi pezzi sono <span class="c-violet">viola</span>.</p>
+
+  <h3>3 · La via di fuga RAW (qualunque carattere)</h3>
+  <p>E se un carattere non è nemmeno nei 127 della tavola — un'emoji, un ideogramma, un simbolo matematico raro? Entra in gioco la <strong>via di fuga</strong>: il regolatore <code>RAW</code> seguito da 4 cifre che codificano direttamente il <strong>punto-codice Unicode</strong> del carattere. In questo modo <strong>qualsiasi</strong> carattere esistente può essere salvato e riletto. Nel testo colorato è <span class="c-red">rosso</span>.</p>
+
+  <h3>4 · I regolatori (codoni di controllo)</h3>
+  <p>Sono i "segnali di interpunzione" del filamento. Cinque sono attivi, due tenuti di riserva per il futuro:</p>
+  <table class="t">
+    <thead><tr><th>Regolatore</th><th>Codone</th><th>Cosa fa</th></tr></thead>
+    <tbody>
+      <tr><td><strong>SHIFT</strong></td><td><code>CTA</code></td><td>apre/chiude la parentesi letterale (passa da geni a caratteri e viceversa)</td></tr>
+      <tr><td><strong>SP</strong></td><td><code>CTT</code></td><td>uno spazio (in un solo codone)</td></tr>
+      <tr><td><strong>NL</strong></td><td><code>CTC</code></td><td>un a-capo</td></tr>
+      <tr><td><strong>CAP</strong></td><td><code>CTG</code></td><td>maiuscola iniziale alla parola seguente</td></tr>
+      <tr><td><strong>UP</strong></td><td><code>CAC</code></td><td>parola seguente tutta maiuscola</td></tr>
+      <tr><td><strong>RAW</strong></td><td><code>CAG</code></td><td>via di fuga: i 4 codoni seguenti sono un punto-codice Unicode</td></tr>
+      <tr><td class="c-red">riserva</td><td><code>CGT · CGG</code></td><td>liberi, per estensioni future</td></tr>
+    </tbody>
+  </table>
+  <p>Le 56 combinazioni restanti sono le <strong>cifre</strong> con cui si scrivono gli indirizzi: il sistema lavora di fatto in <strong>base 56</strong>. La lunghezza variabile (1–4 codoni) nasce proprio da qui: la prima cifra di un indirizzo dice anche a quale livello appartiene, così il lettore sa quante cifre leggere.</p>
+
+  <div class="callout note"><div class="ci">∞</div><div><strong>Perché è lossless.</strong> Ogni possibile pezzo di testo ha sempre una via: se è un gene → indirizzo; se è una parola nuova → sillabazione; se è un carattere esotico → RAW. Non esiste un caso in cui qualcosa debba essere "buttato". È la differenza tra un archivio vero e un sistema che a volte perde pezzi in silenzio.</div></div>
+</section>
+
+<!-- ── 07 · MODALITÀ CLASSICA (DETTAGLIO) ── -->
+<section id="classica-dettaglio">
+  <div class="section-label">07 — il sistema originale</div>
+  <h2>Modalità Classica, in dettaglio</h2>
+  <p>La modalità Classica è il sistema da cui tutto è nato, qui intatto. Lavora <strong>carattere per carattere</strong> (non a parole) e usa <strong>due binari insieme</strong>: una sequenza di DNA e un indice di numeri. Da soli sono ambigui; insieme sono univoci.</p>
+
+  <h3>Come nasce un carattere</h3>
+  <p>Ogni carattere ha una posizione fissa in una tavola di <strong>127 caratteri</strong> (lettere minuscole e maiuscole, cifre, spazio/a-capo, punteggiatura, simboli e lettere accentate). Da quella posizione il motore ricava due cose:</p>
+  <ul>
+    <li>una <strong>lettera ebraica</strong> (tra 22), che determina sia il <strong>codone DNA</strong> sia un valore di <strong>gematria</strong> (il valore numerico tradizionale della lettera);</li>
+    <li>un <strong>numero d'indice</strong> = <em>numero primo del blocco</em> × <em>gematria della lettera</em>.</li>
+  </ul>
+
+  <h3>Perché servono entrambi</h3>
+  <p>Il numero d'indice, da solo, è ambiguo. Per esempio <code>12</code> può venire da <span class="mono">2×6</span> oppure da <span class="mono">3×4</span>: due caratteri diversi. È il <strong>codone</strong> a dire <em>quale lettera</em> è; da lì si ricava la gematria, si divide l'indice e si ottiene il blocco esatto — e quindi il carattere. Per questo, in decodifica, il numero di codoni e il numero di numeri-indice <strong>devono combaciare</strong>: è quel doppio binario a rendere la rilettura sicura.</p>
+
+  <table class="t">
+    <thead><tr><th></th><th class="c-teal">Modalità Genoma</th><th class="c-violet">Modalità Classica</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Unità</strong></td><td>la parola (gene)</td><td>il singolo carattere</td></tr>
+      <tr><td><strong>Cosa produce</strong></td><td>un solo filamento di DNA</td><td>DNA + un indice di numeri</td></tr>
+      <tr><td><strong>Serve un dizionario?</strong></td><td>sì, il genoma condiviso</td><td>no, solo la tavola interna</td></tr>
+      <tr><td><strong>Caratteri esotici</strong></td><td>salvati con la via di fuga</td><td>scartati e segnalati</td></tr>
+      <tr><td><strong>Dimensione</strong></td><td>compatta (su testi reali)</td><td>più grande (è il riferimento)</td></tr>
+      <tr><td><strong>Quando usarla</strong></td><td>archivio universale, testi lunghi</td><td>confronto, estetica, brevi cifrature simboliche</td></tr>
+    </tbody>
+  </table>
+
+  <p>In Classica, dopo l'incisione vedi anche un'<strong>anteprima in lettere ebraiche</strong> del testo: è la faccia "scritta" del filamento, da leggere da destra a sinistra.</p>
+</section>
+
+<!-- ── 08 · DECODIFICA ── -->
+<section id="decodifica">
+  <div class="section-label violet">08 — rileggere il filo</div>
+  <h2>Decodifica</h2>
+  <p>La sezione <strong class="c-violet">Decodifica</strong> riporta un filamento alla conoscenza. Anche qui scegli la modalità (Genoma o Classica), e hai due modi per dare in pasto i dati all'app.</p>
+
+  <h3>Due strade per caricare</h3>
+  <ul>
+    <li><strong>Carica voce .json</strong> — il modo migliore: apri un file <code>.json</code> prodotto dalla codifica. L'app imposta da sola la modalità giusta, riempie i campi e usa le impronte salvate per verificare l'integrità.</li>
+    <li><strong>Incolla a mano</strong> — in Genoma incolli solo il filamento di basi ATGC; in Classica incolli la sequenza di DNA <em>e</em> l'indice dei numeri.</li>
+  </ul>
+
+  <ol class="step-list violet">
+    <li><div><div class="step-title">Scegli o carica</div><div class="step-body">Carica una voce <code>.json</code>, oppure incolla manualmente filamento (e indice, in Classica).</div></div></li>
+    <li><div><div class="step-title">Assicurati del genoma giusto</div><div class="step-body">In modalità Genoma, il genoma attivo dev'essere quello con cui il filamento è stato inciso. L'impronta nella voce <code>.json</code> serve proprio a controllarlo.</div></div></li>
+    <li><div><div class="step-title">Premi "Rileggi il filo"</div><div class="step-body">L'app ricostruisce il testo, mostra le statistiche e un badge d'integrità.</div></div></li>
+    <li><div><div class="step-title">Salva il testo ricostruito</div><div class="step-body">Se serve, esporti il risultato in un file di testo.</div></div></li>
+  </ol>
+
+  <h3>I badge d'integrità</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-teal">✓</span><h4>Integrità verificata</h4><p>L'impronta del testo ricostruito combacia con quella salvata: la rilettura è certamente corretta.</p></div>
+    <div class="card-mini"><span class="ic c-red">⚠</span><h4>Impronta non corrispondente</h4><p>Qualcosa non torna: genoma sbagliato, filamento modificato o file troncato. L'app non finge che vada bene.</p></div>
+    <div class="card-mini"><span class="ic c-gold">?</span><h4>Verifica non disponibile</h4><p>Hai incollato solo un filamento "nudo" senza impronta: l'app rilegge comunque, ma non può garantire l'integrità.</p></div>
+  </div>
+
+  <div class="callout danger"><div class="ci">🚨</div><div>Se vedi dei simboli <code>□</code> nel testo ricostruito, sono i pezzi che l'app <strong>non è riuscita a interpretare</strong>: di solito significa che filamento e genoma non combaciano, oppure che il file è troncato. È un avviso onesto, non un errore "nascosto": meglio un quadratino visibile che una parola sbagliata camuffata da giusta.</div></div>
+</section>
+
+<!-- ── 09 · ARCHIVIO ── -->
+<section id="archivio">
+  <div class="section-label">09 — conservare</div>
+  <h2>L'Archivio del sapere</h2>
+  <p>L'<strong>Archivio</strong> raccoglie le voci che hai inciso e scelto di conservare. Ogni voce mostra la modalità (<span class="c-gold">genoma</span> o <span class="c-teal">classica</span>), il titolo (le prime parole del testo), il numero di caratteri e codoni, e la data.</p>
+
+  <h3>Cosa puoi fare</h3>
+  <ul>
+    <li><strong>Esporta intero archivio</strong> — salva tutte le voci in un unico <code>.json</code>.</li>
+    <li><strong>Importa archivio</strong> — unisce un archivio salvato a quello attuale.</li>
+    <li><strong>Esporta una voce</strong> (<code>.json</code>) — salva la singola voce.</li>
+    <li><strong>Elimina</strong> (✕) — rimuove la voce dall'archivio.</li>
+  </ul>
+  <p>L'archivio si <strong>salva da solo</strong> man mano che lo modifichi (nei dati utente dell'app), quindi lo ritrovi alla riapertura. Resta tutto in locale.</p>
+
+  <div class="callout tip"><div class="ci">💡</div><div>Per archiviazioni che ti stanno a cuore, esporta le voci come <code>.json</code> singoli e tienili insieme al <code>.json</code> del genoma con cui sono nate. Quella coppia — <em>voce + genoma</em> — è tutto ciò che serve, oggi e fra dieci anni, per rileggere e verificare ciò che hai inciso.</div></div>
+</section>
+
+<!-- ── 10 · MENTE ── -->
+<section id="mente">
+  <div class="section-label blue">10 — la scatola trasparente</div>
+  <h2>Mente: leggere dentro una rete</h2>
+  <p>La sezione <strong class="c-blue">Mente</strong> è diversa da tutte le altre: non incide un testo che scrivi tu, ma rende <strong>trasparente il ragionamento di una piccola rete neurale</strong> usando gli stessi tre strumenti di Sapere-DNA (genoma, espressione, impronta). È un banco di prova dell'idea che il sistema possa servire a illuminare le "scatole nere" — i modelli di IA di cui oggi non si vede il ragionamento.</p>
+  <p>La rete è un classificatore: impara a dividere il piano in quattro quadranti colorati. Fa il suo lavoro come sempre; <strong>la trasparenza si aggiunge sopra, senza cambiare ciò che la rete fa</strong>.</p>
+
+  <h3>Come si usa</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Inizializza e addestra</div><div class="step-body">Regola, se vuoi, nodi nascosti / iterazioni / dati / tasso di apprendimento, poi premi il pulsante. In un istante la rete impara, e l'app ne <strong>estrae il genoma dei concetti</strong>.</div></div></li>
+    <li><div><div class="step-title">Leggi il genoma dei concetti</div><div class="step-body">Ogni neurone nascosto diventa un <strong>gene-concetto</strong> (un rilevatore, es. "semipiano x positivo"), con il suo locus, l'indirizzo in codoni e la frequenza di accensione — i più attivi ricevono gli indirizzi più corti, come le parole comuni.</div></div></li>
+    <li><div><div class="step-title">Clicca un punto sul grafico</div><div class="step-body">L'app deriva il <strong>tracciato</strong>: quali concetti si accendono per classificare quel punto, in che ordine e con che intensità, e lo incide come un vero filamento.</div></div></li>
+    <li><div><div class="step-title">Guarda l'intervento</div><div class="step-body">L'app spegne un concetto alla volta e ti mostra <strong>se la risposta cambia</strong>. È la prova di causa: separa i concetti che reggono davvero la decisione da quelli che si accendono soltanto.</div></div></li>
+  </ol>
+
+  <h3>I tre strumenti di SDNA, qui</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⬡</span><h4>Genoma → concetti</h4><p>I neuroni della rete, ordinati per frequenza, diventano il dizionario dei concetti.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Espressione → tracciato</h4><p>Quali concetti si accendono, e in quale ordine, è il ragionamento reso visibile.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Impronta → fedeltà</h4><p>Il sigillo che lega il tracciato al genoma e ne verifica la rilettura.</p></div>
+  </div>
+
+  <h3>La fedeltà e l'intervento: tre letture</h3>
+  <p>L'intervento non dà un solo numero, ma <strong>tre letture complementari</strong> della stessa decisione, perché un'unica misura inganna. Ogni concetto acceso mostra anche di quanto fa <em>calare la sicurezza</em> della risposta quando lo spegni.</p>
+  <table class="t">
+    <thead><tr><th>Lettura</th><th>Domanda a cui risponde</th><th>Carattere</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold"><strong>Singola</strong></td><td>spento <em>da solo</em>, questo concetto ribalta la classe?</td><td>la più severa</td></tr>
+      <tr><td class="c-teal"><strong>Di gruppo</strong></td><td>spenti <em>insieme</em> tutti i neuroni che portano lo stesso concetto, la classe cambia?</td><td>scioglie la ridondanza</td></tr>
+      <tr><td class="c-violet"><strong>Graduata</strong></td><td>spegnendo i concetti accesi, <em>quanto crolla</em> la sicurezza nella risposta?</td><td>la più morbida e informativa</td></tr>
+    </tbody>
+  </table>
+  <p>Così una fedeltà singola bassa — perfino <strong>0%</strong> — smette di ingannare. Di solito non vuol dire che la rete non ragiona, ma che ha imparato lo stesso concetto in più neuroni (<strong>ridondanza</strong>): spegnerne uno non basta, ma spegnere il <em>gruppo</em> sì, e la <em>graduata</em> mostra comunque il calo di sicurezza. È il genere di fenomeno che un sistema di trasparenza deve <strong>mostrare invece di nascondere</strong>.</p>
+  <p>Consiglio pratico: clicca al <strong>centro</strong> di un quadrante (vedrai singola e gruppo a zero ma graduata viva) e poi vicino all'<strong>origine</strong> o a un <strong>asse</strong> (si accendono i concetti causali e tutte e tre le barre salgono). Il contrasto tra i due punti racconta da solo cos'è la ridondanza.</p>
+
+  <div class="callout note"><div class="ci">✦</div><div>Puoi salvare un tracciato come voce <code>.json</code> o aggiungerlo all'Archivio, esattamente come una codifica. Così anche un "ragionamento" diventa un oggetto conservabile, con il suo sigillo e la sua provenienza.</div></div>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Qui i concetti sono "facili" da leggere perché la rete è minuscola e lineare. In un modello grande, estrarre concetti puliti è il problema difficile dell'interpretabilità. Mente non lo risolve: ne è il <strong>prototipo dimostrabile</strong>, il banco dove le tre prese — derivazione, intervento, impronta — si vedono funzionare su un caso vero.</div></div>
+</section>
+
+<!-- ── 11 · TRANSFORMER ── -->
+<section id="transformer">
+  <div class="section-label amber">11 — il modello di punta</div>
+  <h2>Transformer: verificare, non solo raccontare</h2>
+  <p>La sezione <strong class="c-amber">Transformer</strong> alza la posta rispetto a Mente: non più un classificatore lineare, ma un <strong>Transformer vero, in miniatura</strong> — embedding, una testa di auto-attenzione, MLP, testa di classificazione. La differenza che conta non è l'architettura: è che qui il modello impara un <strong>compito di cui conosciamo le regole</strong>. Avendo piantato noi i concetti, possiamo <strong>verificare</strong> se quelli estratti combaciano — invece di doverci fidare di un racconto. È la prova che il metodo funziona, non un aneddoto.</p>
+  <p>Il corpus è fatto di sequenze in cui compaiono quattro "elementi" (<strong>acqua, fuoco, terra, aria</strong>); il compito decide cosa il modello deve dedurne. Sono compiti scelti apposta per andare dal facile al duro, perché il contrasto è istruttivo.</p>
+
+  <table class="t">
+    <thead><tr><th>Compito</th><th>Classi</th><th>Cosa costringe a imparare</th></tr></thead>
+    <tbody>
+      <tr><td class="c-amber"><strong>Lettura</strong></td><td>4</td><td><em>quali</em> concetti ci sono. Tiene i concetti separati: è qui che il recupero contro la verità di base è più pulito.</td></tr>
+      <tr><td class="c-amber"><strong>XOR · parità</strong></td><td>2</td><td>vero se è presente <em>esattamente uno</em> tra acqua e fuoco. Compito duro: il modello tende a <em>intrecciare</em> i concetti — e il sistema lo dichiara invece di fingere chiarezza.</td></tr>
+      <tr><td class="c-amber"><strong>Anelli · conteggio</strong></td><td>3</td><td>in quale fascia cade il <em>numero</em> di concetti presenti. Comprime l'identità in una quantità.</td></tr>
+      <tr><td class="c-amber"><strong>Completo · 16</strong></td><td>16</td><td>legge tutte e quattro le feature come bit: sovrapposizione spinta, concetti difficili da districare.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Come si usa</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Scegli il compito e addestra</div><div class="step-body">Seleziona uno dei quattro compiti, regola se vuoi passi / restart / quantità di dati / larghezza dell'MLP, poi premi <strong>Addestra il Transformer</strong>. A fine corsa l'app estrae da sola il <strong>genoma dei concetti</strong> (un dizionario sparso sulle rappresentazioni interne) e lo confronta con la verità di base.</div></div></li>
+    <li><div><div class="step-title">Leggi il confronto con la verità di base</div><div class="step-body">Due riquadri mostrano i <strong>concetti recuperati</strong> e le <strong>singole feature in sovrapposizione</strong>; lo stato in alto riassume accuratezza, numero di concetti attivi e <strong>monosemanticità</strong>. Nella tabella del genoma, ogni concetto porta accanto <em>con cosa combacia</em> (punteggio F1): è la verifica numerica, non un'impressione.</div></div></li>
+    <li><div><div class="step-title">Fai una domanda al Transformer</div><div class="step-body">Accendi le caselle dei concetti che vuoi mettere nella sequenza (acqua, fuoco, terra, aria) e premi <strong>Componi e interroga</strong>, oppure <strong>Pesca a caso</strong>. L'app incide il <strong>tracciato</strong> della risposta come filamento: quali concetti si accendono, in che ordine e con quale intensità.</div></div></li>
+    <li><div><div class="step-title">Mettilo alla prova e sigilla</div><div class="step-body">L'intervento spegne i concetti — <strong>uno alla volta</strong> e <strong>a gruppi</strong> — e ti mostra se la risposta cambia e di quanto cala la sicurezza (le tre fedeltà, come in Mente). Il <strong>sigillo</strong> lega il tracciato al genoma e ne verifica la rilettura; il <strong>ponte</strong> mostra lo stesso testo inciso col metodo classico.</div></div></li>
+  </ol>
+
+  <h3>I tre strumenti di SDNA, qui</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⬡</span><h4>Genoma → concetti</h4><p>Le rappresentazioni interne del Transformer diventano un dizionario di concetti, <em>confrontabile</em> con quelli che abbiamo piantato.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Espressione → tracciato</h4><p>Quali concetti si accendono, e in quale ordine, per una data sequenza: il ragionamento reso visibile.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Impronta → fedeltà</h4><p>Il sigillo lega il tracciato al genoma; l'intervento causale ne misura la fedeltà reale.</p></div>
+  </div>
+
+  <div class="callout note"><div class="ci">✦</div><div>La differenza con <strong class="c-blue">Mente</strong>: lì la rete è lineare e i concetti sono "facili"; qui c'è un'architettura vera <em>e</em> una <strong>verità di base</strong> con cui misurarsi. Quando su un compito duro (XOR) il recupero non è pulito, non è un difetto della guida: è il sistema che <strong>dichiara la sovrapposizione</strong> invece di nasconderla. È il cuore della tesi del progetto applicato a un modello realistico.</div></div>
+</section>
+
+<!-- ── 12 · GENERATORE ── -->
+<section id="generatore">
+  <div class="section-label green">12 — fuori dal laboratorio</div>
+  <h2>Generatore: il modello reale</h2>
+  <p>La sezione <strong class="c-green">Generatore</strong> è l'ultimo passo, ed è onesto fin dal nome del suo banco — «fuori dal laboratorio». È un piccolo <strong>Transformer causale a parole</strong> il cui vocabolario <strong>è il genoma</strong>: ogni parola un gene, con il suo indirizzo. Impara da un corpus vero a prevedere la parola seguente e <strong>genera testo</strong> continuando un avvio che gli dài tu.</p>
+  <p>Qui cambia una cosa decisiva: la <strong>verità di base non c'è</strong>. Su testo reale non sappiamo quali siano i concetti "giusti", quindi il confronto che fa il Transformer non si può fare. Restano però le due prove di Sapere-DNA che valgono <em>proprio dove la verità non la conosciamo</em>: l'<strong>intervento causale</strong> (spengo un concetto e guardo se la parola scelta cambia) e il <strong>sigillo</strong> (il tracciato è legato al calcolo reale e rileggibile col genoma, quindi non è una storia inventata). Il modello non sarà eloquente — e va bene così: <em>non è la fluenza la dimostrazione, è che possiamo aprirlo e provarlo.</em></p>
+
+  <h3>Come si usa</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Prepara vocabolario e corpus</div><div class="step-body">Il <strong>genoma attivo</strong> fa da vocabolario (il modello userà i primi «tetto» geni). Incolla o carica il <strong>testo del corpus</strong> — quello da cui il modello impara l'ordine delle parole — e premi <strong>Prepara</strong>. Lo stato ti dice quanti token ha il corpus e la percentuale di parole "ignote" (fuori dal tetto).</div></div></li>
+    <li><div><div class="step-title">Addestra una volta e salva il modello</div><div class="step-body">Premi <strong>Addestra</strong>. La perplessità scende: più è bassa, più ha imparato. Poi <strong>Salva modello…</strong> su disco — così <em>paghi il costo una volta sola</em> e con <strong>Carica modello…</strong> lo riprendi senza riaddestrare.</div></div></li>
+    <li><div><div class="step-title">Estrai i concetti (SAE)</div><div class="step-body">Dal vettore che decide la parola seguente, l'app estrae un dizionario sparso di concetti — gli stessi tre strumenti, anche qui. Senza verità di base, i nomi dei concetti sono <em>indicativi</em> (le parole che ciascuno favorisce).</div></div></li>
+    <li><div><div class="step-title">Genera</div><div class="step-body">Scrivi un <strong>avvio</strong> ("La simmetria dell'universo…"), regola la <strong>temperatura</strong> (più alta = più varietà) e premi <strong>Genera</strong>. Il testo compare con ogni parola-prodotta <strong>cliccabile</strong>.</div></div></li>
+    <li><div><div class="step-title">Clicca una parola generata</div><div class="step-body">Si apre la sua decisione: il <strong>filamento</strong> dei concetti accesi per scegliere proprio quella parola, l'<strong>intervento causale</strong>, il <strong>sigillo</strong> e il <strong>ponte</strong> con la codifica classica. È il gesto di Mente, ma su una generazione reale.</div></div></li>
+  </ol>
+
+  <div class="callout tip"><div class="ci">💡</div><div>Da questa versione l'<strong>addestramento</strong> e l'<strong>estrazione dei concetti</strong> girano in un <strong>Web Worker</strong>: la finestra <strong>resta viva</strong> e vedi una barra di avanzamento, invece di bloccarsi per qualche decina di secondi. Se per qualche motivo il Worker non potesse partire, l'app <strong>ricade da sola</strong> sul calcolo normale — più lento, ma con risultati identici. Non devi fare nulla: te ne accorgi solo dalla barra di avanzamento (che c'è) o dalla sua assenza (caso di ripiego).</div></div>
+
+  <h3>I tre strumenti di SDNA, qui</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⬡</span><h4>Genoma → concetti</h4><p>Dal vettore che decide la parola seguente si estrae un dizionario sparso: i concetti del modello reale.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Espressione → filamento</h4><p>Per ogni parola generata, quali concetti si accendono e in che ordine: la traccia della scelta.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Impronta → sigillo</h4><p>Senza verità di base, è ciò che resta: lega la traccia al calcolo, così non è un racconto a posteriori.</p></div>
+  </div>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Onestà piena: la ricostruzione del dizionario sparso è <strong>grossolana</strong>, perché l'ultima posizione su testo vero è ad alta entropia. È il prezzo, dichiarato, di essere fuori dal laboratorio. La qualità non si misura sulla fluenza ma sulla <strong>monosemanticità</strong> e, soprattutto, sull'<strong>intervento causale</strong>: quando spegni una parola-funzione molto comune e la fedeltà è bassa, non è un guasto — è il modello che ti dice che quella scelta è <em>sovra-determinata</em>.</div></div>
+</section>
+
+<!-- ── 13 · INTEGRITÀ ── -->
+<section id="integrità">
+  <div class="section-label">13 — fiducia e tracciabilità</div>
+  <h2>Integrità, impronte e provenienza</h2>
+  <p>È il punto che distingue Sapere-DNA da un semplice "codificatore di testo". Ogni voce di archivio in modalità Genoma porta con sé <strong>due impronte</strong> (in gergo, due <em>fingerprint</em>): brevi codici calcolati dai dati, che cambiano completamente se anche un solo carattere cambia.</p>
+
+  <table class="t">
+    <thead><tr><th>Impronta</th><th>Su cosa è calcolata</th><th>A cosa serve</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Impronta del genoma</strong></td><td>sull'intero dizionario</td><td>verifica che stai rileggendo col <em>genoma giusto</em>. Se non combacia, l'app si ferma e te lo dice.</td></tr>
+      <tr><td><strong>Impronta del testo</strong></td><td>sul testo originale</td><td>verifica che il testo ricostruito sia <em>identico</em> all'originale, anche quando i conteggi tornassero per caso.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Insieme, queste impronte realizzano una catena di fiducia: dal filamento risali al genoma corretto, dal genoma alla rilettura, e dalla rilettura alla certezza che è davvero ciò che era stato inciso. È la versione concreta del principio del progetto — <em>ogni cosa risale al suo significato</em> — e il vero motivo per cui ha senso parlare di "archivio del sapere" e non solo di "codifica".</p>
+
+  <div class="callout note"><div class="ci">✦</div><div>Da non confondere con la <strong>sicurezza crittografica</strong>: le impronte servono a garantire <em>integrità e provenienza</em> (sai che nulla è cambiato e con quale chiave leggere), non a tenere segreto il contenuto. Chiunque abbia il filamento e il genoma giusto può leggerlo. Il valore qui è la verificabilità, non la segretezza.</div></div>
+</section>
+
+<!-- ── 11 · I FILE ── -->
+<section id="file">
+  <div class="section-label">14 — i formati</div>
+  <h2>I file che produci</h2>
+  <p>Sapere-DNA usa file di testo semplici e file <code>.json</code> leggibili. Niente formati chiusi: puoi aprirli con un qualsiasi editor di testo per curiosare.</p>
+
+  <table class="t">
+    <thead><tr><th>File</th><th>Cosa contiene</th><th>Quando</th></tr></thead>
+    <tbody>
+      <tr><td><code>…-filamento.dna.txt</code></td><td>solo le basi ATGC del filamento Genoma</td><td>quando vuoi il "DNA nudo"</td></tr>
+      <tr><td><code>…-dna.txt</code> / <code>…-indice.txt</code></td><td>la sequenza DNA e l'indice (modalità Classica)</td><td>salvataggio Classica separato</td></tr>
+      <tr><td><code>….json</code> (voce)</td><td>filamento + impronte + metadati: il pacchetto auto-verificabile</td><td><strong>consigliato</strong> per archiviare</td></tr>
+      <tr><td><code>…-genome.json</code></td><td>il genoma completo (id, versione, lista parole)</td><td>per congelare/condividere un dizionario</td></tr>
+      <tr><td><code>archivio-…json</code></td><td>tutte le voci dell'archivio in un colpo solo</td><td>backup completo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><div class="ci">💡</div><div>La voce <code>.json</code> della codifica è il formato "che si spiega da solo": contiene il filamento, l'identità e l'impronta del genoma che serve, e l'impronta del testo. Caricandola in Decodifica, l'app sa già tutto — modalità, genoma atteso, come verificare.</div></div>
+</section>
+
+<!-- ── 12 · INSTALLAZIONE ── -->
+<section id="installazione">
+  <div class="section-label">15 — installare e compilare</div>
+  <h2>Installazione e compilazione</h2>
+  <p>Sapere-DNA Studio è un'applicazione <strong>Electron</strong> per Windows. Puoi usarla dall'installer, oppure compilarla tu.</p>
+
+  <h3>Compilare l'installer in locale</h3>
+  <p>Serve <strong>Node.js 18+</strong>. Apri il Prompt dei comandi nella cartella del progetto (quella con <code>package.json</code>) ed esegui:</p>
+  <div class="strand"><span class="sk">npm install</span><br><span class="sk">npm run dist</span></div>
+  <p>Al termine trovi l'installer in <code>dist\Sapere-DNA Studio Setup 1.0.0.exe</code>. Per provare l'app senza creare l'installer: <code>npm install</code> e poi <code>npm start</code>.</p>
+
+  <h3>Compilazione automatica su GitHub</h3>
+  <p>Il progetto include un workflow che compila l'installer da solo. Due modi:</p>
+  <ul>
+    <li><strong>Da una versione:</strong> pubblica un tag (es. <code>git tag v1.0.0</code> e <code>git push origin v1.0.0</code>); GitHub compila l'installer e lo allega automaticamente alla Release.</li>
+    <li><strong>A mano:</strong> scheda <strong>Actions</strong> del repo → <em>Compila installer Windows</em> → <em>Run workflow</em>. L'installer è poi scaricabile come <em>artifact</em> della run.</li>
+  </ul>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>L'installer non è firmato con un certificato a pagamento, quindi la prima volta Windows (SmartScreen) può mostrare un avviso "Editore sconosciuto". È normale per i progetti senza certificato: <strong>Ulteriori informazioni → Esegui comunque</strong>.</div></div>
+</section>
+
+<!-- ── 13 · LICENZA & SICUREZZA ── -->
+<section id="licenza">
+  <div class="section-label">16 — diritti e protezioni</div>
+  <h2>Licenza &amp; Sicurezza</h2>
+
+  <h3>Licenza</h3>
+  <p>Sapere-DNA Studio è software <strong>proprietario a uso libero e gratuito, senza modifica</strong>:</p>
+  <ul>
+    <li>chiunque può <strong>usarlo gratis</strong>, per qualsiasi scopo (personale o commerciale);</li>
+    <li>la <strong>ridistribuzione</strong> è permessa solo in forma originale e immutata, conservando licenza e note di copyright;</li>
+    <li><strong>non</strong> sono permesse modifiche, traduzioni o opere derivate senza permesso scritto del titolare;</li>
+    <li>il software è fornito "così com'è", senza garanzie.</li>
+  </ul>
+
+  <h3>Sicurezza e privacy</h3>
+  <p>L'app è costruita per restare ciò che deve essere: uno strumento locale.</p>
+  <div class="card-grid col2">
+    <div class="card-mini"><span class="ic c-teal">🔒</span><h4>Isolamento del processo</h4><p>La finestra gira con <code>contextIsolation</code> attivo e senza integrazione diretta di Node: il "ponte" verso il sistema espone solo le funzioni indispensabili (salva, apri, memorizza).</p></div>
+    <div class="card-mini"><span class="ic c-teal">🚫</span><h4>Nessuna rete</h4><p>L'app non parla con internet per funzionare: codifica, decodifica e archivio avvengono interamente sul tuo PC.</p></div>
+    <div class="card-mini"><span class="ic c-teal">💾</span><h4>Dati in locale</h4><p>Genoma di lavoro e archivio si salvano in un file nei tuoi dati utente. Nessun dato lascia il computer.</p></div>
+    <div class="card-mini"><span class="ic c-teal">📄</span><h4>Formati aperti</h4><p>Filamenti e voci sono testo semplice e <code>.json</code> leggibili: nessun lock-in, puoi sempre ispezionarli a mano.</p></div>
+  </div>
+</section>
+
+<!-- ── 14 · GLOSSARIO ── -->
+<section id="glossario">
+  <div class="section-label">17 — il vocabolario del progetto</div>
+  <h2>Glossario</h2>
+  <table class="t">
+    <thead><tr><th>Termine</th><th>Significato</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold"><strong>Genoma</strong></td><td>il dizionario di riferimento, ordinato per frequenza, condiviso tra chi incide e chi rilegge.</td></tr>
+      <tr><td class="c-gold"><strong>Gene</strong></td><td>una parola del genoma.</td></tr>
+      <tr><td class="c-gold"><strong>Locus</strong></td><td>la posizione di un gene nel genoma; coincide col suo indirizzo.</td></tr>
+      <tr><td class="c-gold"><strong>Indirizzo</strong></td><td>la sequenza di codoni (1–4) che rappresenta un gene nel filamento.</td></tr>
+      <tr><td class="c-teal"><strong>Codone</strong></td><td>tre basi (es. <code>ATG</code>); l'unità di lettura del filamento.</td></tr>
+      <tr><td class="c-teal"><strong>Cifra</strong></td><td>uno dei 56 codoni usati per comporre gli indirizzi (il sistema lavora in base 56).</td></tr>
+      <tr><td class="c-violet"><strong>Regolatore</strong></td><td>un codone di controllo (SHIFT, SP, NL, CAP, UP, RAW): non è una parola, è un comando.</td></tr>
+      <tr><td class="c-violet"><strong>Sillabazione</strong></td><td>scrivere una parola fuori genoma lettera per lettera, dentro una "parentesi letterale".</td></tr>
+      <tr><td class="c-red"><strong>Via di fuga (RAW)</strong></td><td>il modo per salvare qualunque carattere fuori tavola tramite il suo punto-codice Unicode.</td></tr>
+      <tr><td><strong>Impronta</strong></td><td>un codice breve calcolato dai dati che cambia se i dati cambiano; usato per verificare genoma e testo.</td></tr>
+      <tr><td><strong>Gematria</strong></td><td>il valore numerico tradizionale di una lettera ebraica, usato nella modalità Classica.</td></tr>
+      <tr><td><strong>Lossless</strong></td><td>"senza perdite": ogni carattere si conserva e torna identico.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tips"><div class="th">🎯 In tre frasi</div><ul>
+    <li>Il <strong>genoma</strong> è un dizionario ordinato per frequenza: l'ordine È l'indirizzo.</li>
+    <li>La <strong>codifica</strong> scrive le parole come indirizzi (geni), sillaba ciò che non conosce, e salva tutto il resto con la via di fuga.</li>
+    <li>La <strong>decodifica</strong> rilegge col genoma giusto e <strong>verifica</strong> con le impronte: niente errori silenziosi.</li>
+  </ul></div>
+</section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <strong>Sapere-DNA Studio</strong> · Guida Utente · v1.0 — 2026<br>
+  <span style="display:block;margin-top:8px" class="hebsig">«il senso non vive nelle basi, vive nell'interprete che le legge»</span>
+  <span style="display:block;margin-top:8px">Sistema simbolico di archiviazione · reversibile · auto-verificato · tracciabile</span>
+</footer>
+
+</body>
+</html>

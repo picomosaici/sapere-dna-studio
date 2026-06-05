@@ -1,0 +1,11 @@
+# dipendenze e build
+node_modules/
+dist/
+
+# log e temporanei
+*.log
+.DS_Store
+Thumbs.db
+
+# nota: package-lock.json NON è ignorato di proposito,
+# così le compilazioni restano riproducibili nel tempo.
