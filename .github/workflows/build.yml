@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Crea l'installer
-        run: npm run dist
+        run: npm run dist -- --publish never
 
       # L'installer resta sempre scaricabile dalla pagina della run (artifact)
       - name: Carica l'installer come artifact
