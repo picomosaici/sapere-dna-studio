@@ -119,4 +119,4 @@ silenziosa.**
 Software proprietario a **uso libero e gratuito, senza modifica**: chiunque può usarlo
 gratis per qualsiasi scopo; la ridistribuzione è permessa solo in forma originale e immutata;
 la modifica e le opere derivate non sono permesse senza permesso scritto. Vedi il file
-[`LICENSE`](./LICENSE). Ricordati di sostituire il nome del titolare del copyright nel file.
+[`LICENSE`](./LICENSE)
