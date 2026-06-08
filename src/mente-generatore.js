@@ -67,7 +67,7 @@
 
             <div class="out-label" style="margin-top:20px">Concetti primitivi del 1° blocco <span style="text-transform:none;color:var(--parch-faint);font-size:.62rem">la sbirciata sul calloso intermedio</span></div>
             <div class="row"><button class="btn green ghost" id="gG-peek">Sbircia il 1° blocco</button><span id="gG-peek-status" style="font-family:var(--font-mono);font-size:.66rem;color:var(--parch-dim)"></span></div>
-            <div class="note" style="margin:6px 0;font-size:.72rem">Cassandra ha più lastre: il <b>1° blocco</b> forma concetti «primitivi» che il blocco finale ricompone. Qui li leggiamo per <b>cosa li accende</b> (la parola più recente del contesto in cui scattano) — <i>non</i> per quale parola fanno dire, perché il 1° blocco non sceglie la parola direttamente. Il «cosa fanno a valle» è il <b>tracciamento causale profondo</b>, un passo futuro.</div>
+            <div class="note" style="margin:6px 0;font-size:.72rem">Cassandra ha più lastre: il <b>1° blocco</b> forma concetti «primitivi» che il blocco finale ricompone. Qui li leggiamo per <b>cosa li accende</b> (la parola più recente del contesto in cui scattano) — <i>non</i> per quale parola fanno dire, perché il 1° blocco non sceglie la parola direttamente. Il «cosa fanno a valle» è il <b>tracciamento causale profondo</b>: lo trovi nella decisione di ogni parola generata (passo 4), una volta fatta questa sbirciata.</div>
             <div id="gG-peek-out" style="display:none">
               <div class="callout-mini" id="gG-peek-info" style="margin:8px 0"></div>
               <div id="gG-peek-rows" style="margin-top:6px"></div>
