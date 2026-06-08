@@ -1,12 +1,22 @@
 # Sapere-DNA Studio
 
-Un'unica app **Electron** che riunisce **Codifica**, **Decodifica** e il **Laboratorio del
-genoma**. Costruisci il dizionario di riferimento (il "genoma"), incidi la conoscenza in un
-filamento di DNA simbolico e rileggila — con controllo d'integrità.
+Un'app **Electron** per rendere l'intelligenza artificiale **interpretabile e _verificabile_** — e, sullo stesso principio, per archiviare la conoscenza in modo reversibile e tracciabile.
 
-> Sistema **simbolico** di archiviazione e cifratura, non biologia reale e non crittografia
-> sicura. Il valore sta nella reversibilità verificabile e nella tracciabilità: ogni parola
-> risale al suo *locus* nel genoma di riferimento.
+Al centro c'è un'idea sola, applicata due volte. Prima a un **archivio**: costruisci un dizionario di riferimento (il **genoma**), incidi la conoscenza in un filamento di **DNA simbolico** e la rileggi con controllo d'integrità — ogni parola risale al suo _locus_. Poi a una **rete neurale**: gli stessi tre gesti — **derivare** un tracciato dal calcolo, **dimostrarne la causa**, **sigillarlo** — diventano un banco di interpretabilità, dove il ragionamento di un modello si apre, si mette alla prova e si firma.
+
+## Dove brilla
+
+L'interpretabilità di frontiera sa estrarre concetti da modelli enormi, e perfino metterli alla prova spegnendoli. Ma su un modello opaco da miliardi di parametri due cose restano fuori portata: **misurare** quanto una spiegazione è davvero fedele (manca la verità di base) e **legarla** al calcolo così che chiunque possa ri-verificarla. Sapere-DNA prende l'altra strada — **piccolo e interamente ispezionabile** — proprio per ottenere quelle due cose, e ne aggiunge una terza:
+
+- **Niente falsa attribuzione.** Quando un concetto _non_ è la causa, il sistema lo dichiara — «qui quel concetto è aggirato» — invece di raccontare una storia plausibile. È un'onestà costruita nel metodo, non una buona intenzione.
+- **La spiegazione legata al calcolo.** Il **sigillo** vincola il tracciato a un'impronta del calcolo reale: non è una glossa scritta dopo, è una firma che si può ri-verificare. Una spiegazione che non può barare.
+- **Verità di base e codice leggibile.** Tutto è scritto a mano, senza librerie opache: ogni peso è ispezionabile, e su modelli con risposta nota si _misura_ davvero la fedeltà della spiegazione — un lusso che su un colosso da miliardi di parametri non esiste.
+
+Il metodo è dimostrato su tre banchi di realismo crescente, fino a **Cassandra**: un piccolo Transformer causale a due emisferi e più blocchi, che si può aprire, sondare blocco per blocco — e firmare.
+
+Il principio guida, in una riga: **meglio un errore visibile che una spiegazione falsa silenziosa.**
+
+> **Nota onesta.** Il lato archivio è un sistema _simbolico_ — non biologia reale, non crittografia sicura: il suo valore è la **reversibilità verificabile** e la **tracciabilità**, non la segretezza. E il lato interpretabilità non gareggia sulla scala: gareggia sulla _prova_.
 
 ---
 
