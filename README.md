@@ -25,7 +25,7 @@ npm run dist
 Al termine troverai l'installer in:
 
 ```
-dist\Sapere-DNA Studio Setup 1.0.0.exe
+dist\Sapere-DNA Studio Setup 1.0.2.exe
 ```
 
 > Suggerimento: per aprire il Prompt nella cartella giusta, apri la cartella in Esplora File,
@@ -50,8 +50,8 @@ Il repo include un workflow (`.github/workflows/build.yml`) che compila l'instal
 
 - **Da una versione:** crea e pubblica un tag, ad esempio
   ```
-  git tag v1.0.0
-  git push origin v1.0.0
+  git tag v1.0.2
+  git push origin v1.0.2
   ```
   GitHub compila l'installer e lo **allega automaticamente alla Release** del tag.
 - **A mano:** vai nella scheda **Actions** del repo → *Compila installer Windows* →
@@ -63,21 +63,35 @@ Il repo include un workflow (`.github/workflows/build.yml`) che compila l'instal
 
 ```
 └─ src/
-   ├─ index.html              guscio: barra di stato + sidebar + 5 sezioni
+   ├─ index.html              guscio: barra di stato + sidebar + sezioni
    ├─ styles.css              estetica (schema colori SDNA, layout a laboratorio)
    ├─ motore.js               MOTORE unificato: Classico + Genoma
    ├─ genoma_it-demo.js       genoma dimostrativo (sostituibile con uno grande)
    ├─ codifica.js             controller della Codifica
    ├─ decodifica.js           controller della Decodifica
    ├─ rete.js                 rete neurale + analisi di trasparenza (Mente)
-   ├─ trasformatore.js        Transformer in miniatura (Mente — Transformer)
-   ├─ generatore.js           piccolo modello generativo reale (Mente — Generatore)
-   ├─ generatore-worker.js    addestramento del generatore in Web Worker
-   ├─ mente.js                controller della sezione Mente
+   ├─ trasformatore.js        Transformer in miniatura (banco Transformer)
    ├─ mente-trasformatore.js  controller del banco Transformer
-   ├─ mente-generatore.js     controller del banco Generatore
+   ├─ emisferi.js             due emisferi cablati dalla regola del π + corpo calloso
+   ├─ motore-emisferi.js      Transformer causale multi-blocco a emisferi (Cassandra)
+   ├─ generatore.js           interpretabilità su Cassandra: SAE, derivazione, intervento, sigillo, sbirciata, tracciamento profondo
+   ├─ generatore-worker.js    addestramento + SAE + sbirciata di Cassandra in Web Worker
+   ├─ mente-generatore.js     controller del banco Cassandra
+   ├─ mente.js                controller della sezione Mente
    └─ app.js                  orchestratore dell'app (sidebar, sezioni, archivio)
 ```
+
+---
+
+## Storico versioni
+
+- **1.0.2 — Tracciamento causale profondo.** In Cassandra, dalla decisione di ogni parola si
+  può spegnere un concetto «primitivo» del 1° blocco e seguirne l'effetto fino alla parola finale,
+  attraverso il blocco terminale. È una **sonda d'onestà**: se la parola non cambia lo dichiara —
+  «il 1° blocco qui è aggirato» — senza attribuire la decisione a concetti che non la causano.
+- **1.0.1 — Sbirciata sul calloso intermedio.** Cassandra mostra i concetti «primitivi» formati
+  dal 1° blocco, descritti da ciò che li accende: i mattoni che il blocco finale ricompone.
+- **1.0.0 — Prima release.** Codifica, Decodifica, Laboratorio del genoma e il banco Mente.
 
 ---
 
@@ -106,11 +120,12 @@ La sezione **Mente** applica gli stessi tre strumenti del genoma (dizionario, es
 impronta) a una rete neurale, per renderne il ragionamento leggibile e *verificabile*: si
 estrae dai neuroni un "genoma di concetti", si incide il **tracciato** delle decisioni, lo si
 mette alla prova con l'**intervento causale** (spegnere un concetto e vedere se la risposta
-cambia) e lo si **sigilla**. Il metodo è dimostrato su tre banchi di realismo crescente — un
-classificatore lineare e un Transformer in miniatura (entrambi con verità di base nota), e un
-piccolo modello generativo reale (senza verità di base, ma con la prova causale e il sigillo
-ancora validi). Il principio guida: **meglio un errore visibile che una spiegazione falsa
-silenziosa.**
+cambia) e lo si **sigilla**. Il metodo è dimostrato su tre banchi di realismo crescente — il classificatore lineare (**Mente**)
+e il **Transformer** in miniatura, entrambi con verità di base nota, e **Cassandra**, un Transformer
+causale a due emisferi e più blocchi: niente verità di base, ma prova causale e sigillo ancora
+validi. Su Cassandra si possono anche **sbirciare** i concetti primitivi del 1° blocco e farne il
+**tracciamento causale profondo** fino alla parola finale. Il principio guida: **meglio un errore
+visibile che una spiegazione falsa silenziosa.**
 
 ---
 
@@ -119,4 +134,4 @@ silenziosa.**
 Software proprietario a **uso libero e gratuito, senza modifica**: chiunque può usarlo
 gratis per qualsiasi scopo; la ridistribuzione è permessa solo in forma originale e immutata;
 la modifica e le opere derivate non sono permesse senza permesso scritto. Vedi il file
-[`LICENSE`](./LICENSE). Ricordati di sostituire il nome del titolare del copyright nel file.
+[`LICENSE`](./LICENSE)
