@@ -1,4 +1,5 @@
 name: Compila installer Windows
+run-name: Installer ${{ github.ref_name }} · avviato da @${{ github.actor }}
 
 # Si avvia in due modi:
 #  • automaticamente quando pubblichi un tag di versione (es. v1.0.0)

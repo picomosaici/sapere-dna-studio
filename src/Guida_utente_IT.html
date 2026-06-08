@@ -269,7 +269,7 @@
       <span class="logo-dot">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 3c0 6 14 6 14 12M5 9c0 6 14 6 14 12"/></svg>
       </span>
-      Guida Utente · v1.0 · 2026
+      Guida Utente · v1.0.2 · 2026
     </div>
     <h1>Sapere-DNA <span class="heb">Studio</span></h1>
     <p class="header-sub">Il laboratorio del genoma: costruisci il dizionario di riferimento, incidi la conoscenza in un filamento di DNA simbolico e rileggila — con controllo d'integrità, in un'unica app.</p>
@@ -721,7 +721,7 @@
     <li><div><div class="step-title">Sbircia il primo blocco <span class="c-faint" style="font-weight:400">(facoltativo)</span></div><div class="step-body">Se il modello ha più lastre, puoi leggere i <strong>concetti primitivi del 1° blocco</strong> sul suo calloso intermedio. Qui i concetti sono descritti per <em>cosa li accende</em> (la parola più recente del contesto in cui scattano), non per quale parola fanno dire — perché il primo blocco non sceglie la parola direttamente. Sono i mattoni che il blocco finale ricompone.</div></div></li>
     <li><div><div class="step-title">Studia la sovrapposizione <span class="c-faint" style="font-weight:400">(facoltativo)</span></div><div class="step-body">Per vedere l'<strong>impacchettamento</strong> servono <strong>più concetti che dimensioni</strong>: metti <strong>M</strong> sopra il numero di neuroni del calloso («lato calloso» al quadrato), e il dizionario diventa <em>sovra-completo</em>. L'app mostra la <strong>geometria delle direzioni-concetto</strong> e un <strong>censimento causale</strong> (spegne ogni concetto su molti contesti veri). Il verdetto è volutamente severo: dichiara sovrapposizione solo quando i concetti causali superano davvero le dimensioni.</div></div></li>
     <li><div><div class="step-title">Genera</div><div class="step-body">Scrivi un <strong>avvio</strong> (“La simmetria dell'universo…”), regola la <strong>temperatura</strong> (più alta = più varietà) e premi <strong>Genera</strong>. Il testo compare con ogni parola-prodotta <strong>cliccabile</strong>.</div></div></li>
-    <li><div><div class="step-title">Clicca una parola generata</div><div class="step-body">Si apre la sua decisione: il <strong>filamento</strong> dei concetti accesi per scegliere proprio quella parola, l'<strong>intervento causale</strong>, il <strong>sigillo</strong> e il <strong>ponte</strong> con la codifica classica. È il gesto di Mente, ma su una generazione reale.</div></div></li>
+    <li><div><div class="step-title">Clicca una parola generata</div><div class="step-body">Si apre la sua decisione: il <strong>filamento</strong> dei concetti accesi per scegliere proprio quella parola, l'<strong>intervento causale</strong>, il <strong>sigillo</strong> e il <strong>ponte</strong> con la codifica classica. Se prima hai sbirciato il primo blocco, qui compare anche il <strong>tracciamento causale profondo</strong>: spegne un concetto primitivo del 1° blocco e ne segue l'effetto fino alla parola, attraverso il blocco finale. Quando la parola non cambia lo dichiara — «il primo blocco qui è aggirato» — invece di attribuirle una causa che non ha. È il gesto di Mente, ma su una generazione reale.</div></div></li>
   </ol>
 
   <div class="callout note"><div class="ci">⚙️</div><div>I controlli del pannello <strong>Modello</strong>, in breve: <strong>tetto vocab.</strong> (quanti geni del genoma entrano nel vocabolario), <strong>contesto</strong> (quante parole indietro guarda), <strong>dim. residuo</strong> (la larghezza del flusso interno), <strong>lato emisfero</strong> e <strong>lato calloso</strong> (il lato delle griglie 2D: più grandi = più neuroni e più archi π), <strong>passi</strong> (durata dell'addestramento). I valori predefiniti sono pensati per girare bene su una macchina senza scheda grafica.</div></div>
@@ -787,12 +787,12 @@
   <h3>Compilare l'installer in locale</h3>
   <p>Serve <strong>Node.js 18+</strong>. Apri il Prompt dei comandi nella cartella del progetto (quella con <code>package.json</code>) ed esegui:</p>
   <div class="strand"><span class="sk">npm install</span><br><span class="sk">npm run dist</span></div>
-  <p>Al termine trovi l'installer in <code>dist\Sapere-DNA Studio Setup 1.0.0.exe</code>. Per provare l'app senza creare l'installer: <code>npm install</code> e poi <code>npm start</code>.</p>
+  <p>Al termine trovi l'installer in <code>dist\Sapere-DNA Studio Setup 1.0.2.exe</code>. Per provare l'app senza creare l'installer: <code>npm install</code> e poi <code>npm start</code>.</p>
 
   <h3>Compilazione automatica su GitHub</h3>
   <p>Il progetto include un workflow che compila l'installer da solo. Due modi:</p>
   <ul>
-    <li><strong>Da una versione:</strong> pubblica un tag (es. <code>git tag v1.0.0</code> e <code>git push origin v1.0.0</code>); GitHub compila l'installer e lo allega automaticamente alla Release.</li>
+    <li><strong>Da una versione:</strong> pubblica un tag (es. <code>git tag v1.0.2</code> e <code>git push origin v1.0.2</code>); GitHub compila l'installer e lo allega automaticamente alla Release.</li>
     <li><strong>A mano:</strong> scheda <strong>Actions</strong> del repo → <em>Compila installer Windows</em> → <em>Run workflow</em>. L'installer è poi scaricabile come <em>artifact</em> della run.</li>
   </ul>
 
@@ -856,7 +856,7 @@
 
 <!-- ═══════════════════ FOOTER ═══════════════════ -->
 <footer>
-  <strong>Sapere-DNA Studio</strong> · Guida Utente · v1.0 — 2026<br>
+  <strong>Sapere-DNA Studio</strong> · Guida Utente · v1.0.2 — 2026<br>
   <span style="display:block;margin-top:8px" class="hebsig">«il senso non vive nelle basi, vive nell'interprete che le legge»</span>
   <span style="display:block;margin-top:8px">Sistema simbolico di archiviazione · reversibile · auto-verificato · tracciabile</span>
 </footer>
