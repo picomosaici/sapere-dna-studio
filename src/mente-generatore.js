@@ -40,11 +40,12 @@
         <div class="out-label" style="margin-top:18px">2 · Modello</div>
         <div class="row" style="align-items:flex-end;gap:16px">
           <label class="men-f">tetto vocab.<input class="fin" id="gG-cap" value="1500" style="width:80px"></label>
-          <label class="men-f">contesto<input class="fin" id="gG-lc" value="16" style="width:60px"></label>
-          <label class="men-f">dim. residuo<input class="fin" id="gG-d" value="32" style="width:60px"></label>
-          <label class="men-f">lato emisfero<input class="fin" id="gG-hemi" value="12" style="width:60px"></label>
-          <label class="men-f">lato calloso<input class="fin" id="gG-cal" value="8" style="width:60px"></label>
-          <label class="men-f">passi<input class="fin" id="gG-steps" value="3000" style="width:80px"></label>
+          <label class="men-f">contesto<input class="fin" id="gG-lc" value="20" style="width:60px"></label>
+          <label class="men-f">dim. residuo<input class="fin" id="gG-d" value="48" style="width:60px"></label>
+          <label class="men-f">teste (sx+dx)<input class="fin" id="gG-heads" value="4" style="width:60px"></label>
+          <label class="men-f">lato emisfero<input class="fin" id="gG-hemi" value="16" style="width:60px"></label>
+          <label class="men-f">lato calloso<input class="fin" id="gG-cal" value="10" style="width:60px"></label>
+          <label class="men-f">passi<input class="fin" id="gG-steps" value="8000" style="width:80px"></label>
         </div>
         <div class="row mt">
           <button class="btn green" id="gG-train">Addestra</button>
@@ -55,7 +56,7 @@
 
         <div id="gG-after-train" style="display:none">
           <div class="out-label" style="margin-top:18px">3 · Concetti <span style="text-transform:none;color:var(--parch-faint);font-size:.62rem">dal vettore che decide la parola seguente</span></div>
-          <div class="row" style="align-items:flex-end;gap:16px"><label class="men-f">concetti del dizionario (M)<input class="fin" id="gG-M" value="48" style="width:70px"></label><label class="men-f">concetti attivi (K · TopK)<input class="fin" id="gG-K" value="8" style="width:70px"></label><button class="btn green ghost" id="gG-sae">Estrai concetti (SAE)</button><span id="gG-sae-status" style="font-family:var(--font-mono);font-size:.66rem;color:var(--parch-dim)"></span></div>
+          <div class="row" style="align-items:flex-end;gap:16px"><label class="men-f">concetti del dizionario (M)<input class="fin" id="gG-M" value="144" style="width:70px"></label><label class="men-f">concetti attivi (K · TopK)<input class="fin" id="gG-K" value="8" style="width:70px"></label><button class="btn green ghost" id="gG-sae">Estrai concetti (SAE)</button><span id="gG-sae-status" style="font-family:var(--font-mono);font-size:.66rem;color:var(--parch-dim)"></span></div>
           <div class="note" style="margin:6px 0;font-size:.72rem">Per studiare la <b>sovrapposizione</b> servono <b>più concetti che dimensioni</b>: in Cassandra la lente legge il <b>corpo calloso</b>, quindi imposta <b>M</b> sopra il numero di neuroni del calloso (<b>lato calloso × lato calloso</b>). Con M &gt; nC il dizionario è <i>sovra-completo</i> — è lo strumento che rende osservabile l'impacchettamento. <b>K</b> impone quanti concetti possono accendersi per decisione (TopK): più piccolo = concetti più puliti. Metti K=0 per la vecchia sparsità morbida (L1).</div>
           <div id="gG-sae-out" style="display:none">
             <div class="callout-mini" id="gG-honesty" style="margin:8px 0"></div>
@@ -91,7 +92,7 @@
           <div class="out-label" style="margin-top:20px">4 · Genera <span style="text-transform:none;color:var(--parch-faint);font-size:.62rem">poi clicca una parola generata per leggerne la decisione</span></div>
           <textarea id="gG-prime" class="fin" style="width:100%;min-height:48px" placeholder="Avvio, es: «La simmetria dell'universo»"></textarea>
           <div class="row mt" style="align-items:flex-end;gap:16px">
-            <label class="men-f">temperatura<input class="fin" id="gG-temp" value="0.8" style="width:60px"></label>
+            <label class="men-f">temperatura<input class="fin" id="gG-temp" value="0.7" style="width:60px"></label>
             <label class="men-f">parole<input class="fin" id="gG-len" value="30" style="width:60px"></label>
             <button class="btn green" id="gG-gen">Genera</button>
           </div>
@@ -212,19 +213,26 @@
       if (!vocab || !ids) { APP.toast("Prepara prima vocabolario e corpus", "warn"); return; }
       const cap = Math.max(50, parseInt($("gG-cap").value, 10) || 1500);
       if (cap !== vocab.cap) { vocab = Gen.makeVocab(APP.dict, { cap }); ids = Gen.encode($("gG-corpus").value, APP.dict, vocab, G); }
-      const Lc = Math.max(4, parseInt($("gG-lc").value, 10) || 16);
-      const d = Math.max(8, parseInt($("gG-d").value, 10) || 32);
-      const hemi = Math.max(3, parseInt($("gG-hemi").value, 10) || 12);
-      const cal = Math.max(2, parseInt($("gG-cal").value, 10) || 8);
-      const steps = Math.max(500, parseInt($("gG-steps").value, 10) || 3000);
-      const cfg = { Lc, d, hemiW: hemi, hemiH: hemi, calW: cal, calH: cal };
+      const Lc = Math.max(4, parseInt($("gG-lc").value, 10) || 20);
+      const d = Math.max(8, parseInt($("gG-d").value, 10) || 48);
+      const hemi = Math.max(3, parseInt($("gG-hemi").value, 10) || 16);
+      const cal = Math.max(2, parseInt($("gG-cal").value, 10) || 10);
+      const steps = Math.max(500, parseInt($("gG-steps").value, 10) || 8000);
+      // teste d'attenzione: PARI (metà sinistre, metà destre) e divisore esatto di d —
+      // stessa correzione che fa il motore, così il campo mostra il valore davvero usato
+      const dEff = (d % 2 !== 0) ? d + 1 : d;
+      let heads = Math.max(2, parseInt($("gG-heads").value, 10) || 4);
+      if (heads % 2 !== 0) heads -= 1; heads = Math.max(2, heads);
+      while (heads > 2 && dEff % heads !== 0) heads -= 2;
+      $("gG-heads").value = heads;
+      const cfg = { Lc, d, nHeads: heads, hemiW: hemi, hemiH: hemi, calW: cal, calH: cal };
       APP.showLoader("Addestramento di Cassandra", APP.fmt(steps) + " passi · vocab " + vocab.V + " · contesto " + Lc);
       await sleep(50);
 
       let ppl0, ppl1;
       try {
         const res = await runInWorker(
-          { job: "train", engine: ENGINE, cfg, vocab, ids, steps, lr: 0.01, pplSlice: 4000 },
+          { job: "train", engine: ENGINE, cfg, vocab, ids, steps, lr: 0.005, pplSlice: 4000 },
           (p) => loaderSub("addestramento " + Math.min(99, Math.round(p.frac * 100)) + "% · passo "
             + APP.fmt(Math.round(p.frac * steps)) + "/" + APP.fmt(steps)
             + (typeof p.loss === "number" ? " · perdita " + p.loss.toFixed(2) : "")
@@ -238,14 +246,13 @@
         await sleep(20);
         model = new Mot.LMEmisferi(vocab, cfg);
         ppl0 = Gen.perplexity(model, ids.slice(0, 4000));
-        Gen.train(model, ids, { steps, lr: 0.01 });
+        Gen.train(model, ids, { steps, lr: 0.005 });
         ppl1 = Gen.perplexity(model, ids.slice(0, 4000));
       }
       sae = null; genome = null;
       peekSAE = null;   // i primitivi del 1° blocco appartenevano al modello precedente
       modelSig = APP.dict.hash + "|" + vocab.cap;
-      $("gG-status").textContent = "perplessità " + ppl0.toFixed(0) + " → " + ppl1.toFixed(0) + " (più bassa = ha imparato)";
-      $("gG-after-train").style.display = "block";
+      $("gG-status").textContent = "perplessità " + ppl0.toFixed(0) + " → " + ppl1.toFixed(0) + " (più bassa = ha imparato) · " + model.nHeads + " teste (" + (model.nHeads / 2) + " sx + " + (model.nHeads / 2) + " dx)";      $("gG-after-train").style.display = "block";
       $("gG-sae-out").style.display = "none";
       $("gG-out").style.display = "none";
       $("gG-trace-wrap").style.display = "none";
@@ -265,10 +272,17 @@
       if (obj.format !== "sapere-dna-cassandra") { APP.toast("Non è un modello di Cassandra", "warn"); return; }
       vocab = Gen.makeVocab(APP.dict, { cap: obj.vocab.cap });
       if (obj.vocab.dict_hash && obj.vocab.dict_hash !== APP.dict.hash) APP.toast("Attenzione: il modello è stato addestrato su un genoma diverso", "warn");
-      model = Mot.deserialize(obj, vocab);
+      try {
+        model = Mot.deserialize(obj, vocab);
+      } catch (e) {
+        // formato v1/v2: architettura precedente alle teste divise — lo diciamo onestamente
+        APP.toast(e.message, "warn");
+        return;
+      }
       modelSig = (obj.vocab.dict_hash || APP.dict.hash) + "|" + vocab.cap;
       peekSAE = null;   // modello nuovo: i primitivi del 1° blocco vanno ri-sbirciati
       $("gG-cap").value = obj.vocab.cap; $("gG-lc").value = obj.cfg.Lc; $("gG-d").value = obj.cfg.d;
+      $("gG-heads").value = obj.cfg.nHeads || 4;
       $("gG-hemi").value = obj.cfg.hemiW; $("gG-cal").value = obj.cfg.calW;
       sae = null; genome = null;
       // serve comunque il corpus per estrarre i concetti
@@ -289,7 +303,7 @@
     $("gG-sae").addEventListener("click", async () => {
       if (!model) { APP.toast("Addestra o carica prima un modello", "warn"); return; }
       if (!ids || ids.length < 50) { APP.toast("Serve il testo del corpus (preparalo sopra)", "warn"); return; }
-      const M = Math.max(2, parseInt($("gG-M").value, 10) || 48);
+      const M = Math.max(2, parseInt($("gG-M").value, 10) || 144);
       const K = Math.max(0, parseInt($("gG-K").value, 10) || 0);
       $("gG-peek-out").style.display = "none"; $("gG-peek-status").textContent = ""; peekSAE = null;   // la sbirciata precedente non vale più
       APP.showLoader("Estrazione dei concetti", M + " concetti" + (K ? " · TopK=" + K : " · L1") + " · dizionario sparso (SAE)");
@@ -331,7 +345,7 @@
       if (!model) { APP.toast("Addestra o carica prima Cassandra", "warn"); return; }
       if ((model.L || 1) < 2) { peekSAE = null; $("gG-peek-info").innerHTML = "Questo modello ha un <b>solo blocco</b>: non c'è un calloso intermedio da sbirciare."; $("gG-peek-rows").innerHTML = ""; $("gG-peek-out").style.display = "block"; return; }
       if (!ids || ids.length < 50) { APP.toast("Serve il testo del corpus (preparalo sopra)", "warn"); return; }
-      const M = Math.max(2, parseInt($("gG-M").value, 10) || 48);
+      const M = Math.max(2, parseInt($("gG-M").value, 10) || 144);
       const K = Math.max(0, parseInt($("gG-K").value, 10) || 0);
       APP.showLoader("Sbirciata sul 1° blocco", "estraggo i concetti primitivi del calloso intermedio");
       await sleep(50);
@@ -366,7 +380,7 @@
     $("gG-gen").addEventListener("click", async () => {
       if (!model) { APP.toast("Addestra o carica prima un modello", "warn"); return; }
       const prime = $("gG-prime").value.trim();
-      const temp = Math.max(0, parseFloat($("gG-temp").value) || 0.8);
+      const temp = Math.max(0, parseFloat($("gG-temp").value) || 0.7);
       const len = Math.max(1, parseInt($("gG-len").value, 10) || 30);
       const primeIds = Gen.encode(prime, APP.dict, vocab, G);
       APP.showLoader("Generazione", len + " parole · temperatura " + temp);

@@ -35,7 +35,7 @@ npm run dist
 Al termine troverai l'installer in:
 
 ```
-dist\Sapere-DNA Studio Setup 1.0.2.exe
+dist\Sapere-DNA Studio Setup 1.1.0.exe
 ```
 
 > Suggerimento: per aprire il Prompt nella cartella giusta, apri la cartella in Esplora File,
@@ -60,8 +60,8 @@ Il repo include un workflow (`.github/workflows/build.yml`) che compila l'instal
 
 - **Da una versione:** crea e pubblica un tag, ad esempio
   ```
-  git tag v1.0.2
-  git push origin v1.0.2
+  git tag v1.1.0
+  git push origin v1.1.0
   ```
   GitHub compila l'installer e lo **allega automaticamente alla Release** del tag.
 - **A mano:** vai nella scheda **Actions** del repo → *Compila installer Windows* →
@@ -95,6 +95,16 @@ Il repo include un workflow (`.github/workflows/build.yml`) che compila l'instal
 
 ## Storico versioni
 
+- **1.1.0 — Teste divise, supervisione profonda, lente curata.** L'attenzione di Cassandra ora ha
+  **teste divise fra gli emisferi** (metà sinistre, metà destre: ogni emisfero legge il contesto delle
+  sue — corrispondenza fisica, provata al bit nei test; formato modello **v3**, i file v1/v2 vengono
+  rifiutati con un invito onesto a riaddestrare). Tre cure misurate su corpus reale: il **passo
+  d'addestramento** è stato calmato (a passo pieno il calloso terminale moriva dopo pochi migliaia di
+  passi, e con lui bravura e trasparenza); la **supervisione profonda** (la testa legge anche il calloso
+  intermedio durante l'addestramento, inferenza identica) tiene vivo il 1° blocco — la sbirciata passa
+  da 0 a ~14 primitivi leggibili e il bypass nel tracciamento profondo crolla; la **lente** usa una
+  normalizzazione a sola scala che rispetta la sparsità del calloso (perdita recuperata da ≈0% a
+  ≈80-90%).
 - **1.0.2 — Tracciamento causale profondo.** In Cassandra, dalla decisione di ogni parola si
   può spegnere un concetto «primitivo» del 1° blocco e seguirne l'effetto fino alla parola finale,
   attraverso il blocco terminale. È una **sonda d'onestà**: se la parola non cambia lo dichiara —

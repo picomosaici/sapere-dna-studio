@@ -246,11 +246,16 @@
   }
   function trainSAE(A, opts) {
     opts = opts || {}; const d = A[0].length, N = A.length;
-    const M = opts.M || 32, steps = opts.steps || 9000, lr = opts.lr || 0.02, l1 = opts.l1 == null ? 0.004 : opts.l1;
+    const M = opts.M || 32, steps = opts.steps || 9000, lr = opts.lr || 0.005, l1 = opts.l1 == null ? 0.004 : opts.l1;
     const k = Math.max(0, opts.k || 0);   // TopK: 0 = sparsità morbida L1 (storico) · >0 = TopK netto
+    // normalizzazione SOLO-SCALA (RMS, media lasciata a zero): il calloso è un
+    // segnale SPARSO e non-negativo — sottrarre la media renderebbe denso lo
+    // «spento» e la TopK non potrebbe più catturarlo. Misurato su corpus reale:
+    // con la z-normalizzazione la ricostruzione collassava (perdita recuperata 0%),
+    // con la sola scala risale a ~80-90%. I file di lenti già salvati restano
+    // leggibili: media e scala viaggiano dentro il file.
     const mean = new Float64Array(d), std = new Float64Array(d);
-    for (const r of A) for (let i = 0; i < d; i++) mean[i] += r[i] / N;
-    for (const r of A) for (let i = 0; i < d; i++) std[i] += (r[i] - mean[i]) ** 2 / N;
+    for (const r of A) for (let i = 0; i < d; i++) std[i] += r[i] * r[i] / N;
     for (let i = 0; i < d; i++) std[i] = Math.sqrt(std[i]) || 1;
     const norm = (r) => { const z = new Float64Array(d); for (let i = 0; i < d; i++) z[i] = (r[i] - mean[i]) / std[i]; return z; };
     const We = randMat(M, d, 0.1), Wd = randMat(d, M, 0.1), be = matZeros(1, M), bd = matZeros(1, d);
@@ -423,7 +428,7 @@ function deserialize(obj, vocab) {
   function saeQuality(model, sae, ids, opts) {
     opts = opts || {}; const S = opts.samples || 160, Lc = model.Lc;
     const maxStart = Math.max(1, ids.length - 2);
-    const meanRep = sae.denorm(new Float64Array(sae.d));   // z=0 → rappresentazione media
+    const meanRep = sae.denorm(new Float64Array(sae.d));   // z=0 → riferimento «senza rappresentazione» (calloso spento: con la normalizzazione solo-scala la media non viene sottratta)
     const nll = (rep, tgt) => { const p = softmaxInto(model.logitsAt(rep)); return -Math.log(Math.max(1e-12, p[tgt])); };
     let Lvera = 0, Lric = 0, Lmedia = 0, cnt = 0;
     for (let s = 0; s < S; s++) {
