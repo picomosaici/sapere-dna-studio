@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapere-DNA Studio — User Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --ink:#0b0d10; --ink2:#0f1318; --ink3:#141a20; --panel:#10151a;
+    --parch:#e6ece8; --parch-dim:#9fb0a8; --parch-faint:#65726c;
+    --gold:#c9a24b; --gold-bright:#e8c878;
+    --teal:#4fb89a; --teal-bright:#6fe0bd;
+    --violet:#9b7bd4; --violet-bright:#b89ae8;
+    --blue:#6f9fe0; --blue-bright:#8fb8f0;
+    --red:#e08a8a; --green:#7fce9a; --green-bright:#9fe6b8;
+    --amber:#d9943f; --amber-bright:#f0b968;
+    --line:rgba(120,150,140,0.16); --line2:rgba(120,150,140,0.09);
+    --font-serif:'Spectral',Georgia,serif;
+    --font-display:'Fraunces',Georgia,serif;
+    --font-mono:'JetBrains Mono','Consolas',monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--parch);
+    font-family:var(--font-serif);
+    font-size:16px;
+    line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(201,162,75,0.30);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:rgba(120,150,140,0.24);border-radius:6px}
+  ::-webkit-scrollbar-track{background:var(--ink2)}
+
+  /* ── HEADER ── */
+  header{
+    position:relative;
+    overflow:hidden;
+    padding:74px 48px 64px;
+    background:
+      radial-gradient(ellipse at 78% 30%, rgba(201,162,75,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse at 12% 90%, rgba(79,184,154,0.07) 0%, transparent 55%),
+      linear-gradient(180deg,var(--ink2),var(--ink));
+    border-bottom:1px solid var(--line);
+  }
+  .helix{
+    position:absolute; right:-40px; top:-30px; width:360px; height:460px;
+    opacity:.16; color:var(--gold-bright); pointer-events:none;
+  }
+  .header-inner{position:relative;max-width:900px;margin:0 auto}
+  .logo-badge{
+    display:inline-flex;align-items:center;gap:11px;
+    background:rgba(201,162,75,0.06);
+    border:1px solid var(--line);
+    border-radius:100px;padding:6px 16px 6px 7px;margin-bottom:26px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold-bright);
+  }
+  .logo-dot{
+    width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold));
+    display:flex;align-items:center;justify-content:center;color:#1a1305;
+  }
+  .logo-dot svg{width:15px;height:15px}
+  h1{
+    font-family:var(--font-display);font-weight:400;
+    font-size:clamp(40px,6vw,64px);line-height:1.06;color:#fff;margin-bottom:18px;
+  }
+  h1 .heb{color:var(--gold-bright);font-style:italic}
+  .header-sub{font-size:18px;color:var(--parch-dim);font-weight:300;max-width:620px;line-height:1.6}
+  .header-tags{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
+  .htag{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;
+    padding:5px 12px;border-radius:6px;border:1px solid var(--line);color:var(--parch-dim);
+    background:rgba(8,10,13,0.5);
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(11,13,16,0.86);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1040px;margin:0 auto;padding:0 20px;
+    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center;
+  }
+  nav a{
+    display:block;padding:13px 13px;
+    font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;
+    color:var(--parch-dim);text-decoration:none;white-space:nowrap;
+    border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+  }
+  nav a:hover{color:var(--gold-bright);border-color:var(--gold)}
+
+  /* ── LAYOUT ── */
+  main{max-width:900px;margin:0 auto;padding:60px 48px 110px}
+
+  section{margin-bottom:74px;scroll-margin-top:70px}
+  section+section{border-top:1px solid var(--line);padding-top:66px}
+
+  .section-label{
+    font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-label.teal{color:var(--teal-bright)}
+  .section-label.violet{color:var(--violet-bright)}
+  .section-label.blue{color:var(--blue-bright)}
+  .section-label.amber{color:var(--amber-bright)}
+  .section-label.green{color:var(--green-bright)}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line);max-width:90px}
+
+  h2{font-family:var(--font-display);font-weight:400;font-size:34px;line-height:1.16;margin-bottom:18px;color:#fff}
+  h3{font-family:var(--font-display);font-size:22px;font-weight:400;margin:34px 0 12px;color:var(--parch)}
+  h4{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--parch)}
+  p{margin-bottom:14px;color:var(--parch-dim)}
+  p:last-child{margin-bottom:0}
+  strong{color:var(--parch);font-weight:600}
+  em{font-style:italic;color:var(--parch)}
+  a.inline{color:var(--gold-bright);text-decoration:none;border-bottom:1px dotted currentColor}
+  a.inline:hover{color:#fff}
+  code{
+    background:rgba(8,10,13,0.7);padding:2px 7px;border-radius:5px;
+    font-family:var(--font-mono);font-size:13px;color:var(--gold-bright);
+    border:1px solid var(--line2);
+  }
+  ul,ol{margin-left:24px;margin-bottom:14px;color:var(--parch-dim)}
+  li{margin-bottom:7px}
+  li strong{color:var(--parch)}
+
+  /* ── CARDS ── */
+  .card-grid{display:grid;gap:14px;margin-bottom:20px}
+  .card-grid.col2{grid-template-columns:1fr 1fr}
+  .card-grid.col3{grid-template-columns:1fr 1fr 1fr}
+  .card-mini{
+    background:linear-gradient(180deg,rgba(230,236,232,0.035),rgba(230,236,232,0.01));
+    border-radius:9px;border:1px solid var(--line);padding:17px 19px;
+    box-shadow:0 24px 60px -50px rgba(0,0,0,.9);
+  }
+  .card-mini h4{margin-bottom:7px}
+  .card-mini p{font-size:14px;color:var(--parch-dim);line-height:1.6;margin-bottom:0}
+  .card-mini .ic{font-size:18px;margin-bottom:8px;display:block}
+
+  /* ── CALLOUTS ── */
+  .callout{
+    border-left:3px solid var(--gold);background:rgba(201,162,75,0.06);
+    padding:14px 18px;border-radius:7px;margin:20px 0;display:flex;gap:13px;align-items:flex-start;
+  }
+  .callout .ci{font-size:17px;flex-shrink:0;line-height:1.5}
+  .callout>div:last-child{flex:1;font-size:14.5px;line-height:1.66;color:var(--parch-dim)}
+  .callout.tip{border-color:var(--teal);background:rgba(79,184,154,0.07)}
+  .callout.warning{border-color:var(--gold-bright);background:rgba(201,162,75,0.08)}
+  .callout.danger{border-color:var(--red);background:rgba(224,138,138,0.08)}
+  .callout.note{border-color:var(--violet);background:rgba(155,123,212,0.07)}
+
+  /* ── STEP LIST ── */
+  .step-list{list-style:none;margin-left:0;counter-reset:step}
+  .step-list>li{
+    counter-increment:step;padding:16px 0 16px 56px;position:relative;
+    border-bottom:1px solid var(--line2);
+  }
+  .step-list>li:last-child{border-bottom:none}
+  .step-list>li::before{
+    content:counter(step);position:absolute;left:0;top:15px;width:36px;height:36px;
+    background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1305;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;font-family:var(--font-mono);
+  }
+  .step-list.teal>li::before{background:linear-gradient(180deg,var(--teal-bright),var(--teal));color:#06120e}
+  .step-list.violet>li::before{background:linear-gradient(180deg,var(--violet-bright),var(--violet));color:#0e0a16}
+  .step-title{font-weight:600;margin-bottom:3px;color:var(--parch)}
+  .step-body{font-size:14px;color:var(--parch-dim);line-height:1.6}
+
+  /* ── TABLE ── */
+  table.t{
+    width:100%;border-collapse:collapse;margin:8px 0 18px;
+    background:rgba(8,10,13,0.4);border:1px solid var(--line);border-radius:9px;overflow:hidden;
+  }
+  table.t th{
+    background:rgba(201,162,75,0.08);color:var(--parch);padding:11px 15px;text-align:left;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
+    border-bottom:1px solid var(--line);
+  }
+  table.t td{padding:11px 15px;border-bottom:1px solid var(--line2);font-size:14px;vertical-align:top}
+  table.t tr:last-child td{border-bottom:none}
+  table.t td code, table.t td .mono{font-family:var(--font-mono);font-size:12.5px}
+  .c-gold{color:var(--gold-bright)} .c-teal{color:var(--teal-bright)} .c-violet{color:var(--violet-bright)} .c-red{color:var(--red)} .c-blue{color:var(--blue-bright)} .c-amber{color:var(--amber-bright)} .c-green{color:var(--green-bright)}
+
+  /* ── UI DIAGRAM (guscio app) ── */
+  .ui-shell{
+    background:#0a0c0f;border:1px solid var(--line);border-radius:12px;
+    padding:14px;margin:24px 0;box-shadow:0 30px 70px -40px #000;
+  }
+  .ui-shell .grid{
+    display:grid;grid-template-columns:188px 1fr;grid-template-rows:auto 1fr;
+    grid-template-areas:"top top" "side body";gap:8px;min-height:300px;
+    font-family:var(--font-mono);font-size:11px;
+  }
+  .uib{border:1px solid var(--line);border-radius:7px;padding:11px 13px;color:var(--parch-dim)}
+  .uib b{color:var(--parch);display:block;margin-bottom:3px;font-family:var(--font-serif);font-weight:600;font-size:13px}
+  .uib.top{grid-area:top;background:rgba(201,162,75,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .uib.side{grid-area:side;background:rgba(8,10,13,0.6);display:flex;flex-direction:column;gap:6px}
+  .uib.body{grid-area:body;background:rgba(230,236,232,0.02)}
+  .navchip{padding:8px 10px;border-radius:6px;border:1px solid transparent;color:var(--parch-dim)}
+  .navchip.g{border-color:rgba(201,162,75,.4);color:var(--gold-bright)}
+  .navchip.t{border-color:rgba(79,184,154,.4);color:var(--teal-bright)}
+  .navchip.v{border-color:rgba(155,123,212,.4);color:var(--violet-bright)}
+  .navchip.d{border-color:rgba(160,170,165,.3);color:var(--parch-dim)}
+  .navchip.b{border-color:rgba(111,159,224,.4);color:var(--blue-bright)}
+  .navchip.am{border-color:rgba(217,148,63,.4);color:var(--amber-bright)}
+  .navchip.gr{border-color:rgba(127,206,154,.4);color:var(--green-bright)}
+  .chip-mini{font-family:var(--font-mono);font-size:10px;color:var(--gold-bright);border:1px solid var(--line);border-radius:6px;padding:5px 10px}
+
+  /* strand demo */
+  .strand{
+    font-family:var(--font-mono);font-size:13px;line-height:1.9;word-break:break-all;
+    background:rgba(8,10,13,0.7);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin:6px 0 16px;
+  }
+  .sg{color:var(--gold-bright);font-weight:700}
+  .sc{color:var(--violet-bright)}
+  .sr{color:var(--red);font-weight:700}
+  .sk{color:var(--parch-faint)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12px;color:var(--parch-dim);margin:-6px 0 16px}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  /* tips */
+  .tips{
+    background:rgba(79,184,154,0.07);border-left:3px solid var(--teal);border-radius:9px;
+    padding:18px 22px;margin:24px 0 0;font-size:14.5px;line-height:1.66;
+  }
+  .tips .th{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--parch);margin-bottom:10px;font-size:15px}
+  .tips ul{margin:0 0 0 18px;color:var(--parch-dim)}
+  .tips li{margin-bottom:7px}
+
+  /* footer */
+  footer{
+    background:var(--ink2);border-top:1px solid var(--line);
+    color:var(--parch-faint);padding:34px 48px;text-align:center;font-size:13px;font-family:var(--font-mono);
+  }
+  footer strong{color:var(--parch-dim)}
+  footer .hebsig{color:var(--gold);font-family:var(--font-serif);font-size:15px}
+
+  @media (max-width:760px){
+    header{padding:46px 22px 40px}
+    main{padding:36px 22px 70px}
+    .card-grid.col2,.card-grid.col3{grid-template-columns:1fr}
+    .ui-shell .grid{grid-template-columns:1fr;grid-template-areas:"top" "side" "body"}
+    .helix{opacity:.08}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <svg class="helix" viewBox="0 0 100 130" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <path d="M20 5 C70 25, 70 45, 20 65 C70 85, 70 105, 20 125"/>
+    <path d="M80 5 C30 25, 30 45, 80 65 C30 85, 30 105, 80 125"/>
+    <path d="M28 12 L72 12 M40 22 L60 22 M40 48 L60 48 M28 58 L72 58 M28 72 L72 72 M40 82 L60 82 M40 108 L60 108 M28 118 L72 118"/>
+  </svg>
+  <div class="header-inner">
+    <div class="logo-badge">
+      <span class="logo-dot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 3c0 6 14 6 14 12M5 9c0 6 14 6 14 12"/></svg>
+      </span>
+      User Guide · v1.1.0 · 2026
+    </div>
+    <h1>Sapere-DNA <span class="heb">Studio</span></h1>
+    <p class="header-sub">The genome laboratory: build the reference dictionary, engrave knowledge into a strand of symbolic DNA and read it back — with integrity checking, in a single app.</p>
+    <div class="header-tags">
+      <span class="htag">symbolic archiving</span>
+      <span class="htag">reversible · self-verified</span>
+      <span class="htag">traceable</span>
+      <span class="htag">Windows · Electron</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#cosè">What it is</a>
+    <a href="#interfaccia">Interface</a>
+    <a href="#genoma">The Genome</a>
+    <a href="#laboratorio">Laboratory</a>
+    <a href="#codifica">Encoding</a>
+    <a href="#genoma-dettaglio">Genome mode</a>
+    <a href="#classica-dettaglio">Classic mode</a>
+    <a href="#decodifica">Decoding</a>
+    <a href="#archivio">Archive</a>
+    <a href="#mente">Mind</a>
+    <a href="#transformer">Transformer</a>
+    <a href="#generatore">Cassandra</a>
+    <a href="#integrità">Integrity</a>
+    <a href="#file">The files</a>
+    <a href="#installazione">Installation</a>
+    <a href="#licenza">License &amp; Security</a>
+    <a href="#glossario">Glossary</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ MAIN ═══════════════════ -->
+<main>
+
+<!-- ── 01 · COS'È ── -->
+<section id="cosè">
+  <div class="section-label">01 — the concept</div>
+  <h2>What Sapere-DNA Studio is</h2>
+  <p>Sapere-DNA Studio is an application that turns <strong>readable text</strong> into a <strong>strand of symbolic DNA</strong> (a sequence made of the four bases A, T, G, C) and then brings it back, identical, word for word. It is not real biology and it is not secure cryptography: it is a <strong>symbolic archiving system</strong>, whose value lies in three words — <em>reversible</em>, <em>verifiable</em>, <em>traceable</em>.</p>
+  <p>The underlying idea, which returns throughout the project, is written into the heart of the app: <em>meaning does not live in the bases, it lives in the interpreter that reads them</em>. A DNA strand by itself is mute; it becomes knowledge only when it is read back with the right <strong>reference genome</strong>. Every engraved word can always <strong>trace back to its <span class="c-gold">locus</span></strong> — its exact address in the genome — and that traceability is the point of the project.</p>
+
+  <div class="card-grid col2">
+    <div class="card-mini">
+      <span class="ic c-gold">⬡</span>
+      <h4>Two modes, one engine</h4>
+      <p>The <strong>Genome</strong> mode treats words as genes and produces a single compact strand. The <strong>Classic</strong> mode works character by character with Hebrew letters and gematria. They live in the same engine and can be compared.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-teal">✓</span>
+      <h4>No silent errors</h4>
+      <p>Every entry carries <strong>integrity fingerprints</strong>. If you read a strand back with the wrong genome or a truncated file, the app <strong>tells you</strong> instead of reconstructing a wrong sentence and pretending nothing happened.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-violet">∞</span>
+      <h4>100% lossless</h4>
+      <p>Everything is preserved: known words become genes, new ones are "spelled out" letter by letter, and any character outside the table (even an emoji or an ideogram) goes through a dedicated <strong>escape route</strong>. Nothing is thrown away.</p>
+    </div>
+    <div class="card-mini">
+      <span class="ic c-gold">⚙</span>
+      <h4>Everything local</h4>
+      <p>It is a desktop app (Electron) running on your computer. Genome and archive save automatically among your user data; there is no server, no cloud, no data leaving the PC.</p>
+    </div>
+  </div>
+
+  <div class="callout note"><div class="ci">✦</div><div>A simple way to picture it: the <strong>genome</strong> is a large shared dictionary, <em>frozen</em> (the same for whoever engraves and whoever reads back). A text is no longer a chain of letters, but a <strong>sequence of addresses</strong>: "which genes, in which order". In biology one would say <em>expression</em> — the genome is huge and stable, and what matters is which genes are expressed and when.</div></div>
+</section>
+
+<!-- ── 02 · INTERFACCIA ── -->
+<section id="interfaccia">
+  <div class="section-label">02 — finding your way</div>
+  <h2>The interface</h2>
+  <p>The app is organized in a simple <strong>shell</strong>: a status bar at the top, a navigation column on the left with seven entries, and the workspace in the middle. At the top right there is always the <strong>"genome chip"</strong>, which tells you which genome is currently active.</p>
+
+  <div class="ui-shell">
+    <div class="grid">
+      <div class="uib top">
+        <span><b>Status bar</b>Sapere-DNA Studio</span>
+        <span class="chip-mini">🧬 it-demo v2026.1 · 330 genes · 1a2b3c4d</span>
+      </div>
+      <div class="uib side">
+        <b>Navigation</b>
+        <span class="navchip g">⬡ Genome — laboratory</span>
+        <span class="navchip t">◈ Encoding — engrave into the strand</span>
+        <span class="navchip v">∿ Decoding — read the strand back</span>
+        <span class="navchip d">▦ Archive — of knowledge</span>
+        <span class="navchip b">⊹ Mind — transparent box</span>
+        <span class="navchip am">≡ Transformer — flagship model</span>
+        <span class="navchip gr">→ Cassandra — sincere model</span>
+      </div>
+      <div class="uib body"><b>Workspace</b>Changes with the selected entry: laboratory panels, encoding/decoding editors, the archive list, and the «Mind» benches (transparent network, Transformer, Cassandra).</div>
+    </div>
+  </div>
+
+  <h3>The seven sections</h3>
+  <div class="card-grid col2">
+    <div class="card-mini">
+      <h4><span class="c-gold">⬡ Genome</span> — the laboratory</h4>
+      <p>Where you build, explore, import and export the reference dictionary. It is the starting point: encoding and decoding rest on what you decide here.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-teal">◈ Encoding</span> — engrave into the strand</h4>
+      <p>You write or paste text and turn it into DNA. You can pick the Genome or Classic mode, see the colored result, the statistics and the size comparison.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-violet">∿ Decoding</span> — read the strand back</h4>
+      <p>You paste a strand (or load a <code>.json</code> entry) and return to the knowledge. The app recognizes the mode and checks integrity.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-gold" style="opacity:.7">▦ Archive</span> — of knowledge</h4>
+      <p>All the entries you have engraved, preserved and ready to export. Each entry contains everything needed to be read back and verified.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-blue">⊹ Mind</span> — the transparent box</h4>
+      <p>Makes the reasoning of a small network readable: from its neurons it extracts a genome of concepts, engraves the trace of every decision and puts it to the test by switching concepts off.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-amber">≡ Transformer</span> — the flagship model</h4>
+      <p>A real but tiny Transformer, trained on a task whose rules we know: the extracted concepts can be <em>verified</em> against ground truth, not just narrated.</p>
+    </div>
+    <div class="card-mini">
+      <h4><span class="c-green">→ Cassandra</span> — the sincere model</h4>
+      <p>A small word-level Transformer on <em>two hemispheres</em> and a <em>corpus callosum</em>, trained on your corpus, which <em>generates</em> text. Outside the laboratory there is no ground truth: the proof of cause and the seal remain.</p>
+    </div>
+  </div>
+
+  <h3>The genome chip</h3>
+  <p>At the top right, always visible, the chip shows three pieces of information: the <strong>name and version</strong> of the active genome (e.g. <code>it-demo v2026.1</code>), the <strong>number of genes</strong> and the first digits of the <strong>fingerprint</strong> (a short code that uniquely identifies that exact dictionary). If the fingerprint changes, the genome has changed — which is exactly the information you need to read old files back with the right dictionary.</p>
+
+  <div class="callout tip"><div class="ci">💡</div><div>A useful technical note: outside Electron (i.e. if you open the files in an ordinary browser to try them) the app still works with a "fallback" — it saves/loads through the browser dialogs and stores things in <code>localStorage</code>. In the real app, instead, it uses the native Windows dialogs and saves genome and archive among your user data.</div></div>
+</section>
+
+<!-- ── 03 · IL GENOMA (CONCETTO) ── -->
+<section id="genoma">
+  <div class="section-label">03 — the heart of the system</div>
+  <h2>The Genome: genes, loci and addresses</h2>
+  <p>The <strong>genome</strong> is an ordered list of words. Each word is a <strong>gene</strong>, and its position in the list is its <strong>locus</strong> (address). The golden rule is one and it changes everything: <strong>the order IS the address</strong>. Words placed first get the <em>shortest</em> addresses (and therefore the cheapest to write); those further down, longer addresses.</p>
+  <p>This is why serious genomes are built by <strong>ordering words by frequency</strong>: the very common words — in Italian <em>di, e, il, la, che, è</em> — end up at the top and cost almost nothing; rare words cost more, but they are, precisely, rare. It is the same principle as real compression: <strong>frequent things receive short codes</strong>.</p>
+
+  <h3>The four address levels (tiers)</h3>
+  <p>Addresses are not all the same length: they widen as needed. An address is written with "digits", and each digit is a codon (3 bases). Of the 64 possible codon combinations, the app reserves 8 for control signals and uses the remaining <strong>56 as digits</strong> (the "base" of the system, as we use base 10). Here is how the addresses are distributed:</p>
+
+  <table class="t">
+    <thead><tr><th>Level</th><th>Length</th><th>How many words fit</th><th>Who goes there</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold">Level 1</td><td><span class="mono">1 codon · 3 bases</span></td><td><span class="mono">28</span></td><td>the 28 most frequent words of all</td></tr>
+      <tr><td class="c-gold">Level 2</td><td><span class="mono">2 codons · 6 bases</span></td><td><span class="mono">896</span></td><td>very common words</td></tr>
+      <tr><td class="c-gold">Level 3</td><td><span class="mono">3 codons · 9 bases</span></td><td><span class="mono">25,088</span></td><td>broad vocabulary</td></tr>
+      <tr><td class="c-gold">Level 4</td><td><span class="mono">4 codons · 12 bases</span></td><td><span class="mono">702,464</span></td><td>rare words and inflected forms</td></tr>
+      <tr><td><strong>Total</strong></td><td></td><td class="c-gold"><strong>~728,476</strong></td><td>maximum capacity of the genome</td></tr>
+    </tbody>
+  </table>
+
+  <p>Translated: a genome can hold up to about <strong>728,000 words</strong>, enough to cover an entire language. And since the words that carry the weight of any text (articles, prepositions, conjunctions) all sit at Level 1, most of an Italian text is written with 3-base addresses only.</p>
+
+  <div class="callout note"><div class="ci">🧬</div><div><strong>The biological metaphor holds all the way.</strong> Real DNA uses <em>start</em> and <em>stop</em> codons to say "here it begins / here it ends". Sapere-DNA does the same: of the 64 codons it reserves a few as <em>regulators</em> (control) and uses the others as digits. It is not a poetic coincidence: it is precisely that margin of free codons that makes a lossless system possible.</div></div>
+
+  <h3>The demo genome "it-demo"</h3>
+  <p>The app starts with an example genome called <code>it-demo</code> (version <code>2026.1</code>): a small Italian list, frozen and ordered by frequency, designed to let you try everything right away. It is meant to be <strong>replaced</strong> with a large genome derived from a real corpus (see the <a class="inline" href="#laboratorio">Laboratory</a>). The rule is: <strong>you never modify a genome in place</strong> — you create a <em>new version</em>, so that old files keep knowing which dictionary they were born with.</p>
+</section>
+
+<!-- ── 04 · LABORATORIO ── -->
+<section id="laboratorio">
+  <div class="section-label">04 — the Genome section</div>
+  <h2>The genome Laboratory</h2>
+  <p>The <strong class="c-gold">Genome</strong> section is divided into three panels: an <strong>overview</strong> at the top, an <strong>explorer</strong> in the middle and a <strong>builder</strong> at the bottom.</p>
+
+  <h3>Panel 1 — Overview</h3>
+  <p>Shows the state of the active genome at a glance:</p>
+  <ul>
+    <li><strong>Genes (words)</strong> — how many words it contains.</li>
+    <li><strong>Max capacity</strong> — how many it could hold at most (~728,476).</li>
+    <li><strong>Fill level</strong> — the percentage of capacity used.</li>
+    <li><strong>Digits (codons)</strong> — the number of available digits: 56.</li>
+    <li><strong>Distribution by cost</strong> — how many words sit in each of the four levels.</li>
+    <li><strong>Fingerprint</strong> — the identifying code of the genome; if it is "over capacity" the app flags it in red.</li>
+  </ul>
+  <p>From here you can also <strong>update the identity</strong> (change name and version), <strong>export</strong> the genome to <code>.json</code> to share or freeze it, <strong>import</strong> one, or <strong>restore the demo</strong>.</p>
+
+  <h3>Panel 2 — Explorer</h3>
+  <p>A table of all the genes with their <strong>locus</strong> (#0, #1, #2…), the word, the <strong>address in codons</strong> and how many bases it occupies. There is a search box to find a word on the fly and see its address. It is the most direct way to "see" how order becomes address.</p>
+
+  <h3>Panel 3 — Builder</h3>
+  <p>This is where the real work happens. Two paths:</p>
+
+  <h4 style="margin-top:18px">A · Adding words by hand</h4>
+  <p>Write a few words separated by spaces or line breaks and press <strong>Add to genome</strong>. New words are appended (those already present are ignored, no duplicates).</p>
+
+  <h4 style="margin-top:18px">B · Building from a corpus</h4>
+  <p>This is the recommended method for a serious genome. You paste (or open from file) a large text — a book, a set of documents — and the app:</p>
+  <ol class="step-list">
+    <li><div><div class="step-title">Counts frequencies</div><div class="step-body">scans the whole text and counts how many times every word and every mark appears.</div></div></li>
+    <li><div><div class="step-title">Orders by frequency</div><div class="step-body">puts the most common ones first (ties broken alphabetically) — so they receive the shortest addresses.</div></div></li>
+    <li><div><div class="step-title">Applies the threshold</div><div class="step-body">with "minimum frequency" you decide to keep only words appearing at least N times, to discard noise.</div></div></li>
+    <li><div><div class="step-title">(Optional) Merges with the current one</div><div class="step-body">the "merge with current genome" checkbox keeps the words you already have and adds the new ones.</div></div></li>
+  </ol>
+  <p>Once you press <strong>Build genome</strong>, you get a new dictionary with a new <strong>version</strong> (a date/time stamp), ready to be exported and frozen.</p>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Every time you change the genome (add words, build, import) the <strong>addresses</strong> change and the <strong>fingerprint</strong> changes. Strands engraved with a <em>previous</em> genome must be read back with <em>that</em> genome. This is why it pays to <strong>export and keep</strong> every genome version you use to archive important things.</div></div>
+
+  <div class="tips"><div class="th">🎯 Practical advice</div><ul>
+    <li>For a stable archive, <strong>build once</strong> a good genome from a broad corpus, export it, and then <strong>never touch it again</strong>: always use that version.</li>
+    <li>Keep the genome <code>.json</code> files together with the strands they produced: they are the "reading key".</li>
+    <li>If the explorer shows a common word with a long address, it is the sign that that genome was not ordered by frequency: rebuild it from a corpus.</li>
+  </ul></div>
+</section>
+
+<!-- ── 05 · CODIFICA ── -->
+<section id="codifica">
+  <div class="section-label teal">05 — engraving into the strand</div>
+  <h2>Encoding</h2>
+  <p>The <strong class="c-teal">Encoding</strong> section is where you turn text into DNA. At the top a selector lets you choose between the two modes; below, the text area where you write or paste the knowledge to engrave.</p>
+
+  <ol class="step-list teal">
+    <li><div><div class="step-title">Choose the mode</div><div class="step-body"><strong>Genome</strong> (single strand, words as genes) or <strong>Classic</strong> (double track: DNA + gematric index).</div></div></li>
+    <li><div><div class="step-title">Write or paste the text</div><div class="step-body">Even long texts: the work happens in chunks so the window doesn't freeze, with a progress bar.</div></div></li>
+    <li><div><div class="step-title">(Optional) Give the files a base name</div><div class="step-body">E.g. <code>water-mountain</code>: it will be used for the names of the saved files. If you leave it empty, the app generates one from the first words + date/time.</div></div></li>
+    <li><div><div class="step-title">Press "Engrave into the strand"</div><div class="step-body">You get the result: colored text, the strand, the statistics and the size comparison.</div></div></li>
+  </ol>
+
+  <h3>Reading the result (Genome mode)</h3>
+  <p>The text is shown <strong>colored according to how it was engraved</strong>, so you see at a glance what happened to each word. The example below is the Italian sentence <em>«In montagna l'acqua bolle a 90 gradi perché la pressione è più bassa»</em> — "in the mountains, water boils at 90 degrees because the pressure is lower":</p>
+  <div class="strand">In <span class="sg">montagna</span> <span class="sg">l'</span><span class="sg">acqua</span> <span class="sg">bolle</span> <span class="sg">a</span> <span class="sc">90</span> <span class="sg">gradi</span> <span class="sg">perché</span> <span class="sg">la</span> <span class="sg">pressione</span> <span class="sg">è</span> <span class="sg">più</span> <span class="sg">bassa</span> <span class="sr">⚛</span></div>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--gold-bright)"></span><strong>gene</strong> — word in the genome</span>
+    <span><span class="dot" style="background:var(--violet-bright)"></span><strong>spelled out</strong> — word outside the genome, written letter by letter</span>
+    <span><span class="dot" style="background:var(--red)"></span><strong>escape route</strong> — character outside the table (emoji, rare symbols…)</span>
+  </div>
+  <p>Below you find the <strong>DNA strand</strong> (a single one, no index), the statistics (how many genes, how many spelled-out characters, how many codons, the time taken) and an automatic verification: a <span class="c-teal">✓ read back identical</span> badge confirms that the app has already tried to read back what it engraved and it matches.</p>
+
+  <h3>The size comparison</h3>
+  <p>The app also computes how large the same text would have been in Classic mode, and shows you the ratio: <em>"The Genome takes <strong>X%</strong> of the Classic — a Y% saving"</em>. It is the concrete way to see how much a good genome pays off.</p>
+
+  <h3>Saving</h3>
+  <p>Three options, always available after engraving:</p>
+  <ul>
+    <li><strong>Save strand</strong> — only the ATGC bases, in a text file (<code>.dna.txt</code>).</li>
+    <li><strong>Save .json entry</strong> — the "complete package": strand + integrity fingerprints + metadata. It is the recommended format for archiving, because it reads back and verifies itself.</li>
+    <li><strong>Add to archive</strong> — puts the entry into the app's internal Archive.</li>
+  </ul>
+
+  <div class="callout tip"><div class="ci">💡</div><div>In <strong>Classic</strong> mode the result is different: you see the <strong>Hebrew letters</strong>, the <strong>DNA sequence</strong> and the <strong>recovery index</strong> (the numbers), saveable separately. If a character is outside the table, in Classic it is <em>discarded and flagged</em>; in Genome, it would be saved by the escape route. That is a good reason to prefer the Genome mode when the archive must be universal.</div></div>
+</section>
+
+<!-- ── 06 · MODALITÀ GENOMA (DETTAGLIO) ── -->
+<section id="genoma-dettaglio">
+  <div class="section-label">06 — under the hood</div>
+  <h2>Genome mode, in detail</h2>
+  <p>A Genome strand is a text read in groups of three bases (codons). Some codons are <strong>regulators</strong> (they say what to do), the others are <strong>digits</strong> composing the addresses. Here are the four pieces of the mechanism.</p>
+
+  <h3>1 · Genes (known words)</h3>
+  <p>If a word is in the genome, it is written as its <strong>address</strong> (1–4 codons, depending on the level). Capital letters do not inflate the dictionary: the genome contains only lowercase words, and two regulators handle the special cases — <code>CAP</code> (initial capital on the next word) and <code>UP</code> (next word all UPPERCASE). So "Roma" becomes <code>CAP</code> + the gene <em>roma</em>: no duplicates.</p>
+
+  <h3>2 · Spelling out (words outside the genome)</h3>
+  <p>If a word is <em>not</em> in the genome (an unknown proper name, a technical term, a typo), the app doesn't give up: it opens a "literal parenthesis" with the <code>SHIFT</code> regulator and writes the word <strong>letter by letter</strong>, using the same 127-character table as the Classic mode. When the word is done, another <code>SHIFT</code> closes the parenthesis and you are back to genes. In the colored text, these pieces are <span class="c-violet">violet</span>.</p>
+
+  <h3>3 · The RAW escape route (any character)</h3>
+  <p>And what if a character is not even among the 127 of the table — an emoji, an ideogram, a rare mathematical symbol? The <strong>escape route</strong> kicks in: the <code>RAW</code> regulator followed by 4 digits that directly encode the character's <strong>Unicode code point</strong>. This way <strong>any</strong> existing character can be saved and read back. In the colored text it is <span class="c-red">red</span>.</p>
+
+  <h3>4 · Regulators (control codons)</h3>
+  <p>They are the "punctuation signals" of the strand. Five are active, two are kept in reserve for the future:</p>
+  <table class="t">
+    <thead><tr><th>Regulator</th><th>Codon</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><strong>SHIFT</strong></td><td><code>CTA</code></td><td>opens/closes the literal parenthesis (switches from genes to characters and back)</td></tr>
+      <tr><td><strong>SP</strong></td><td><code>CTT</code></td><td>a space (in a single codon)</td></tr>
+      <tr><td><strong>NL</strong></td><td><code>CTC</code></td><td>a line break</td></tr>
+      <tr><td><strong>CAP</strong></td><td><code>CTG</code></td><td>initial capital on the next word</td></tr>
+      <tr><td><strong>UP</strong></td><td><code>CAC</code></td><td>next word all uppercase</td></tr>
+      <tr><td><strong>RAW</strong></td><td><code>CAG</code></td><td>escape route: the next 4 codons are a Unicode code point</td></tr>
+      <tr><td class="c-red">reserve</td><td><code>CGT · CGG</code></td><td>free, for future extensions</td></tr>
+    </tbody>
+  </table>
+  <p>The remaining 56 combinations are the <strong>digits</strong> with which addresses are written: the system effectively works in <strong>base 56</strong>. The variable length (1–4 codons) comes precisely from here: the first digit of an address also says which level it belongs to, so the reader knows how many digits to read.</p>
+
+  <div class="callout note"><div class="ci">∞</div><div><strong>Why it is lossless.</strong> Every possible piece of text always has a path: if it is a gene → address; if it is a new word → spelling out; if it is an exotic character → RAW. There is no case in which something must be "thrown away". It is the difference between a real archive and a system that sometimes loses pieces in silence.</div></div>
+</section>
+
+<!-- ── 07 · MODALITÀ CLASSICA (DETTAGLIO) ── -->
+<section id="classica-dettaglio">
+  <div class="section-label">07 — the original system</div>
+  <h2>Classic mode, in detail</h2>
+  <p>The Classic mode is the system everything was born from, kept here intact. It works <strong>character by character</strong> (not by words) and uses <strong>two tracks together</strong>: a DNA sequence and an index of numbers. Alone they are ambiguous; together they are unambiguous.</p>
+
+  <h3>How a character is born</h3>
+  <p>Every character has a fixed position in a table of <strong>127 characters</strong> (lowercase and uppercase letters, digits, space/line break, punctuation, symbols and accented letters). From that position the engine derives two things:</p>
+  <ul>
+    <li>a <strong>Hebrew letter</strong> (among 22), which determines both the <strong>DNA codon</strong> and a <strong>gematria</strong> value (the traditional numeric value of the letter);</li>
+    <li>an <strong>index number</strong> = <em>prime number of the block</em> × <em>gematria of the letter</em>.</li>
+  </ul>
+
+  <h3>Why both are needed</h3>
+  <p>The index number, alone, is ambiguous. For example <code>12</code> can come from <span class="mono">2×6</span> or from <span class="mono">3×4</span>: two different characters. It is the <strong>codon</strong> that says <em>which letter</em> it is; from there you derive the gematria, divide the index and obtain the exact block — and therefore the character. This is why, in decoding, the number of codons and the number of index numbers <strong>must match</strong>: that double track is what makes the read-back safe.</p>
+
+  <table class="t">
+    <thead><tr><th></th><th class="c-teal">Genome mode</th><th class="c-violet">Classic mode</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Unit</strong></td><td>the word (gene)</td><td>the single character</td></tr>
+      <tr><td><strong>What it produces</strong></td><td>a single DNA strand</td><td>DNA + an index of numbers</td></tr>
+      <tr><td><strong>Needs a dictionary?</strong></td><td>yes, the shared genome</td><td>no, just the internal table</td></tr>
+      <tr><td><strong>Exotic characters</strong></td><td>saved via the escape route</td><td>discarded and flagged</td></tr>
+      <tr><td><strong>Size</strong></td><td>compact (on real texts)</td><td>larger (it is the reference)</td></tr>
+      <tr><td><strong>When to use it</strong></td><td>universal archive, long texts</td><td>comparison, aesthetics, short symbolic ciphers</td></tr>
+    </tbody>
+  </table>
+
+  <p>In Classic, after engraving you also see a <strong>Hebrew-letter preview</strong> of the text: it is the "written" face of the strand, to be read right to left.</p>
+</section>
+
+<!-- ── 08 · DECODIFICA ── -->
+<section id="decodifica">
+  <div class="section-label violet">08 — reading the strand back</div>
+  <h2>Decoding</h2>
+  <p>The <strong class="c-violet">Decoding</strong> section brings a strand back to knowledge. Here too you choose the mode (Genome or Classic), and there are two ways to feed the data to the app.</p>
+
+  <h3>Two ways to load</h3>
+  <ul>
+    <li><strong>Load .json entry</strong> — the best way: open a <code>.json</code> file produced by the encoding. The app sets the right mode by itself, fills in the fields and uses the saved fingerprints to verify integrity.</li>
+    <li><strong>Paste by hand</strong> — in Genome you paste only the strand of ATGC bases; in Classic you paste the DNA sequence <em>and</em> the index of numbers.</li>
+  </ul>
+
+  <ol class="step-list violet">
+    <li><div><div class="step-title">Choose or load</div><div class="step-body">Load a <code>.json</code> entry, or paste the strand manually (and the index, in Classic).</div></div></li>
+    <li><div><div class="step-title">Make sure the genome is right</div><div class="step-body">In Genome mode, the active genome must be the one the strand was engraved with. The fingerprint in the <code>.json</code> entry exists precisely to check this.</div></div></li>
+    <li><div><div class="step-title">Press "Read the strand back"</div><div class="step-body">The app reconstructs the text, shows the statistics and an integrity badge.</div></div></li>
+    <li><div><div class="step-title">Save the reconstructed text</div><div class="step-body">If needed, export the result to a text file.</div></div></li>
+  </ol>
+
+  <h3>The integrity badges</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-teal">✓</span><h4>Integrity verified</h4><p>The fingerprint of the reconstructed text matches the saved one: the read-back is certainly correct.</p></div>
+    <div class="card-mini"><span class="ic c-red">⚠</span><h4>Fingerprint mismatch</h4><p>Something doesn't add up: wrong genome, modified strand or truncated file. The app does not pretend everything is fine.</p></div>
+    <div class="card-mini"><span class="ic c-gold">?</span><h4>Verification unavailable</h4><p>You pasted only a "bare" strand with no fingerprint: the app reads it back anyway, but cannot guarantee integrity.</p></div>
+  </div>
+
+  <div class="callout danger"><div class="ci">🚨</div><div>If you see <code>□</code> symbols in the reconstructed text, those are the pieces the app <strong>could not interpret</strong>: usually it means strand and genome don't match, or the file is truncated. It is an honest warning, not a "hidden" error: better a visible little square than a wrong word disguised as right.</div></div>
+</section>
+
+<!-- ── 09 · ARCHIVIO ── -->
+<section id="archivio">
+  <div class="section-label">09 — preserving</div>
+  <h2>The Archive of knowledge</h2>
+  <p>The <strong>Archive</strong> collects the entries you have engraved and chosen to keep. Each entry shows the mode (<span class="c-gold">genome</span> or <span class="c-teal">classic</span>), the title (the first words of the text), the number of characters and codons, and the date.</p>
+
+  <h3>What you can do</h3>
+  <ul>
+    <li><strong>Export whole archive</strong> — saves all the entries in a single <code>.json</code>.</li>
+    <li><strong>Import archive</strong> — merges a saved archive with the current one.</li>
+    <li><strong>Export one entry</strong> (<code>.json</code>) — saves the single entry.</li>
+    <li><strong>Delete</strong> (✕) — removes the entry from the archive.</li>
+  </ul>
+  <p>The archive <strong>saves itself</strong> as you change it (among the app's user data), so you find it again when you reopen. Everything stays local.</p>
+
+  <div class="callout tip"><div class="ci">💡</div><div>For archives you care about, export the entries as individual <code>.json</code> files and keep them together with the <code>.json</code> of the genome they were born with. That pair — <em>entry + genome</em> — is everything you need, today and in ten years, to read back and verify what you engraved.</div></div>
+</section>
+
+<!-- ── 10 · MENTE ── -->
+<section id="mente">
+  <div class="section-label blue">10 — the transparent box</div>
+  <h2>Mind: reading inside a network</h2>
+  <p>The <strong class="c-blue">Mind</strong> section is unlike all the others: it does not engrave a text you write, it makes <strong>the reasoning of a small neural network transparent</strong> using the same three tools of Sapere-DNA (genome, expression, fingerprint). It is a test bench for the idea that the system can serve to illuminate the "black boxes" — the AI models whose reasoning cannot be seen today.</p>
+  <p>The network is a classifier: it learns to divide the plane into four colored quadrants. It does its job as always; <strong>transparency is added on top, without changing what the network does</strong>.</p>
+
+  <h3>How to use it</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Initialize and train</div><div class="step-body">Adjust, if you wish, hidden nodes / iterations / data / learning rate, then press the button. In an instant the network learns, and the app <strong>extracts its genome of concepts</strong>.</div></div></li>
+    <li><div><div class="step-title">Read the genome of concepts</div><div class="step-body">Each hidden neuron becomes a <strong>concept-gene</strong> (a detector, e.g. "positive x half-plane"), with its locus, the address in codons and the firing frequency — the most active ones receive the shortest addresses, like common words.</div></div></li>
+    <li><div><div class="step-title">Click a point on the chart</div><div class="step-body">The app derives the <strong>trace</strong>: which concepts fire to classify that point, in what order and with what intensity, and engraves it as a real strand.</div></div></li>
+    <li><div><div class="step-title">Watch the intervention</div><div class="step-body">The app switches one concept off at a time and shows you <strong>whether the answer changes</strong>. It is the proof of cause: it separates the concepts that truly carry the decision from those that merely light up.</div></div></li>
+  </ol>
+
+  <h3>The three SDNA tools, here</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⬡</span><h4>Genome → concepts</h4><p>The network's neurons, ordered by frequency, become the dictionary of concepts.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Expression → trace</h4><p>Which concepts fire, and in what order, is the reasoning made visible.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Fingerprint → fidelity</h4><p>The seal that binds the trace to the genome and verifies its read-back.</p></div>
+  </div>
+
+  <h3>Fidelity and the intervention: three readings</h3>
+  <p>The intervention does not yield a single number, but <strong>three complementary readings</strong> of the same decision, because a single measure deceives. Each firing concept also shows how much it makes the <em>confidence</em> of the answer drop when you switch it off.</p>
+  <table class="t">
+    <thead><tr><th>Reading</th><th>Question it answers</th><th>Character</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold"><strong>Single</strong></td><td>switched off <em>alone</em>, does this concept flip the class?</td><td>the strictest</td></tr>
+      <tr><td class="c-teal"><strong>Group</strong></td><td>switched off <em>together</em>, do all the neurons carrying the same concept change the class?</td><td>dissolves redundancy</td></tr>
+      <tr><td class="c-violet"><strong>Graded</strong></td><td>switching off the firing concepts, <em>how much does</em> the confidence in the answer collapse?</td><td>the softest and most informative</td></tr>
+    </tbody>
+  </table>
+  <p>This way a low single fidelity — even <strong>0%</strong> — stops being misleading. It usually does not mean the network is not reasoning, but that it learned the same concept in several neurons (<strong>redundancy</strong>): switching one off is not enough, but switching off the <em>group</em> is, and the <em>graded</em> reading still shows the confidence drop. It is the kind of phenomenon a transparency system must <strong>show instead of hiding</strong>.</p>
+  <p>Practical tip: click at the <strong>center</strong> of a quadrant (you will see single and group at zero but graded alive) and then near the <strong>origin</strong> or an <strong>axis</strong> (the causal concepts fire and all three bars rise). The contrast between the two points tells the story of redundancy on its own.</p>
+
+  <div class="callout note"><div class="ci">✦</div><div>You can save a trace as a <code>.json</code> entry or add it to the Archive, exactly like an encoding. So a "reasoning" too becomes a preservable object, with its seal and its provenance.</div></div>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Here the concepts are "easy" to read because the network is tiny and linear. In a large model, extracting clean concepts is the hard problem of interpretability. Mind does not solve it: it is its <strong>demonstrable prototype</strong>, the bench where the three grips — derivation, intervention, fingerprint — can be seen working on a real case.</div></div>
+</section>
+
+<!-- ── 11 · TRANSFORMER ── -->
+<section id="transformer">
+  <div class="section-label amber">11 — the flagship model</div>
+  <h2>Transformer: verifying, not just narrating</h2>
+  <p>The <strong class="c-amber">Transformer</strong> section raises the stakes compared to Mind: no longer a linear classifier, but a <strong>real Transformer, in miniature</strong> — embedding, one self-attention head, MLP, classification head. The difference that matters is not the architecture: it is that here the model learns a <strong>task whose rules we know</strong>. Having planted the concepts ourselves, we can <strong>verify</strong> whether the extracted ones match — instead of having to trust a story. It is proof that the method works, not an anecdote.</p>
+  <p>The corpus is made of sequences featuring four "elements" (<strong>water, fire, earth, air</strong>); the task decides what the model must deduce from them. The tasks are chosen on purpose to go from easy to hard, because the contrast is instructive.</p>
+
+  <table class="t">
+    <thead><tr><th>Task</th><th>Classes</th><th>What it forces the model to learn</th></tr></thead>
+    <tbody>
+      <tr><td class="c-amber"><strong>Reading</strong></td><td>4</td><td><em>which</em> concepts are there. Keeps the concepts separate: this is where recovery against ground truth is cleanest.</td></tr>
+      <tr><td class="c-amber"><strong>XOR · parity</strong></td><td>2</td><td>true if <em>exactly one</em> of water and fire is present. A hard task: the model tends to <em>entangle</em> the concepts — and the system declares it instead of feigning clarity.</td></tr>
+      <tr><td class="c-amber"><strong>Rings · counting</strong></td><td>3</td><td>which band the <em>number</em> of present concepts falls into. Compresses identity into a quantity.</td></tr>
+      <tr><td class="c-amber"><strong>Complete · 16</strong></td><td>16</td><td>reads all four features as bits: pushed superposition, concepts hard to untangle.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How to use it</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Choose the task and train</div><div class="step-body">Select one of the four tasks, adjust if you wish steps / restarts / amount of data / MLP width, then press <strong>Train the Transformer</strong>. At the end of the run the app extracts the <strong>genome of concepts</strong> by itself (a sparse dictionary on the internal representations) and compares it with the ground truth.</div></div></li>
+    <li><div><div class="step-title">Read the comparison with the ground truth</div><div class="step-body">Two panels show the <strong>recovered concepts</strong> and the <strong>individual features in superposition</strong>; the status at the top summarizes accuracy, number of active concepts and <strong>monosemanticity</strong>. In the genome table, each concept carries beside it <em>what it matches</em> (F1 score): it is the numerical verification, not an impression.</div></div></li>
+    <li><div><div class="step-title">Ask the Transformer a question</div><div class="step-body">Tick the boxes of the concepts you want in the sequence (water, fire, earth, air) and press <strong>Compose and query</strong>, or <strong>Draw at random</strong>. The app engraves the <strong>trace</strong> of the answer as a strand: which concepts fire, in what order and with what intensity.</div></div></li>
+    <li><div><div class="step-title">Put it to the test and seal it</div><div class="step-body">The intervention switches the concepts off — <strong>one at a time</strong> and <strong>in groups</strong> — and shows you whether the answer changes and how much the confidence drops (the three fidelities, as in Mind). The <strong>seal</strong> binds the trace to the genome and verifies its read-back; the <strong>bridge</strong> shows the same text engraved with the classic method.</div></div></li>
+  </ol>
+
+  <h3>The three SDNA tools, here</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⬡</span><h4>Genome → concepts</h4><p>The Transformer's internal representations become a dictionary of concepts, <em>comparable</em> with the ones we planted.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Expression → trace</h4><p>Which concepts fire, and in what order, for a given sequence: the reasoning made visible.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Fingerprint → fidelity</h4><p>The seal binds the trace to the genome; the causal intervention measures its real fidelity.</p></div>
+  </div>
+
+  <div class="callout note"><div class="ci">✦</div><div>The difference with <strong class="c-blue">Mind</strong>: there the network is linear and the concepts are "easy"; here there is a real architecture <em>and</em> a <strong>ground truth</strong> to measure against. When on a hard task (XOR) the recovery is not clean, it is not a flaw of the guide: it is the system <strong>declaring the superposition</strong> instead of hiding it. It is the heart of the project's thesis applied to a realistic model.</div></div>
+</section>
+
+<!-- ── 12 · CASSANDRA (id: generatore) ── -->
+<section id="generatore">
+  <div class="section-label green">12 — outside the laboratory</div>
+  <h2>Cassandra: the sincere model</h2>
+  <p>The last bench is called <strong class="c-green">Cassandra</strong>, and it is honest starting with its name: it tells the truth but does not try to convince you with eloquence. It is a small <strong>causal word-level Transformer</strong> whose vocabulary <strong>is the genome</strong> — every word a gene, with its address — which learns from a real corpus to predict the next word and <strong>generates text</strong> by continuing a prompt you give it.</p>
+  <p>Underneath, though, the machine is new. The neurons are not in a row: they sit on <strong>two grids</strong> — the <strong>two hemispheres</strong> — and are wired by a single rule, the <strong>rule of π</strong>: a neuron connects to all those that, on the plane, fall on a ring at a distance that is a multiple of π. The two hemispheres <strong>do not talk to each other</strong>; both write into a third space, the <strong>corpus callosum</strong>, the only place where everything comes back together. And since 1.1.0 the <strong>attention is split</strong> as well: the attention heads are divided in half — half <em>left</em>, half <em>right</em> — and each hemisphere reads <strong>only the context of its own heads</strong> (besides the block's input, which is shared). The head→hemisphere correspondence is <em>physical</em>, not for convenience: switching off the left heads leaves the right hemisphere identical to the bit — it is proven in the engine's tests. <strong>The lens rests on the callosum</strong>, where we read the concepts — so the Mind tools (strand, intervention, seal, superposition) work here exactly as on the other benches.</p>
+  <p>And there is depth: Cassandra is made of <strong>several stacked slabs</strong> (normally two). The first block forms <em>primitive</em> concepts; the second <strong>recomposes</strong> them. It serves to unlock behaviors that do not exist with a single slab — recognizing a pattern already seen in the context and continuing it (<strong>induction</strong>), building abstract concepts on simple ones (<strong>composition</strong>). Only the <strong>callosum of the last slab</strong> chooses the word and is read by the lens; the intermediate one can still be <strong>peeked at</strong> separately. So that there is something to peek at, during training the output head reads the intermediate callosum <em>too</em>, with a small weight (<strong>deep supervision</strong>): this way the 1st block has a direct reason to stay alive instead of being bypassed by the residual stream. It is an honest, declared choice — and <strong>inference stays identical</strong>: the word is chosen by the terminal callosum alone.</p>
+  <p>Here one decisive thing changes: <strong>there is no ground truth</strong>. On real text nobody tells us which concepts are the "right" ones, so the comparison the Transformer bench performs cannot be repeated. What remains are the two Sapere-DNA proofs that matter <em>precisely where you don't know the truth</em>: the <strong>causal intervention</strong> (I switch a concept off and watch whether the chosen word changes) and the <strong>seal</strong> (the trace is bound to the real computation and re-readable with the genome, so it is not an invented story). The model will not be eloquent — and that is fine: <em>the demonstration is not fluency, it is that we can open it and test it.</em></p>
+
+  <h3>How to use it</h3>
+  <ol class="step-list">
+    <li><div><div class="step-title">Prepare vocabulary and corpus</div><div class="step-body">The <strong>active genome</strong> serves as vocabulary (the model will use the first «cap» genes). Paste or load the <strong>corpus text</strong> — the one the model learns word order from — and press <strong>Prepare</strong>. The status tells you how many tokens the corpus has and the percentage of "unknown" words (outside the cap). A practical caution: the corpus file must be <strong>UTF-8</strong> — if it comes from Word or a dated Notepad (Windows/ANSI encodings or "Unicode" UTF-16), accented letters get mangled and the genome is born dirty. When in doubt: Notepad → <em>Save as</em> → Encoding: <strong>UTF-8</strong>.</div></div></li>
+    <li><div><div class="step-title">Train once and save the model</div><div class="step-body">Press <strong>Train</strong>. The perplexity drops: the lower, the more it has learned. Then <strong>Save model…</strong> to disk (a <code>cassandra-….json</code> file) — so you <em>pay the cost once</em>, and with <strong>Load model…</strong> you pick it up again without retraining.</div></div></li>
+    <li><div><div class="step-title">Extract the concepts (SAE)</div><div class="step-body">From the <strong>corpus callosum</strong> — the vector that decides the next word — the app extracts a sparse dictionary of concepts. You set how many concepts to keep in the dictionary (<strong>M</strong>) and how many may fire together for each decision (<strong>K</strong>, the <em>TopK</em> sparsity: smaller = cleaner concepts; <code>K=0</code> returns to the old soft sparsity). Without ground truth the names are <em>indicative</em> (the words each concept favors); the quality is read as <strong>loss recovered</strong> and number of <strong>dead features</strong>.</div></div></li>
+    <li><div><div class="step-title">Peek at the first block <span class="c-faint" style="font-weight:400">(optional)</span></div><div class="step-body">If the model has several slabs, you can read the <strong>primitive concepts of the 1st block</strong> on its intermediate callosum. Here the concepts are described by <em>what fires them</em> (the most recent word of the context in which they trigger), not by which word they make the model say — because the first block does not choose the word directly. They are the bricks the final block recomposes. Thanks to deep supervision the intermediate callosum stays <em>alive</em> on real corpora too — before 1.1.0, on real text it died during training and there was nothing to read here.</div></div></li>
+    <li><div><div class="step-title">Study the superposition <span class="c-faint" style="font-weight:400">(optional)</span></div><div class="step-body">To see the <strong>packing</strong> you need <strong>more concepts than dimensions</strong>: set <strong>M</strong> above the number of callosum neurons («callosum side» squared), and the dictionary becomes <em>over-complete</em>. The app shows the <strong>geometry of the concept directions</strong> and a <strong>causal census</strong> (it switches each concept off across many real contexts). The verdict is deliberately strict: it declares superposition only when the causal concepts truly exceed the dimensions.</div></div></li>
+    <li><div><div class="step-title">Generate</div><div class="step-body">Write a <strong>prompt</strong> ("La simmetria dell'universo…"), adjust the <strong>temperature</strong> (higher = more variety) and press <strong>Generate</strong>. The text appears with every produced word <strong>clickable</strong>.</div></div></li>
+    <li><div><div class="step-title">Click a generated word</div><div class="step-body">Its decision opens: the <strong>strand</strong> of the concepts that fired to choose exactly that word, the <strong>causal intervention</strong>, the <strong>seal</strong> and the <strong>bridge</strong> to the classic encoding. If you peeked at the first block beforehand, the <strong>deep causal tracing</strong> appears here too: it switches off a primitive concept of the 1st block and follows its effect all the way to the word, through the final block. When the word does not change it declares it — "the first block is bypassed here" — instead of attributing to it a cause it does not have. It is the Mind gesture, but on a real generation.</div></div></li>
+  </ol>
+
+  <div class="callout note"><div class="ci">⚙️</div><div>The <strong>Model</strong> panel controls, in short: <strong>vocab cap</strong> (how many genome genes enter the vocabulary), <strong>context</strong> (how many words back it looks), <strong>residual dim.</strong> (the width of the internal stream), <strong>heads (L+R)</strong> (how many attention heads, even and a divisor of the residual dim.: half feed the left hemisphere, half the right — if the number doesn't fit, the app corrects it by itself), <strong>hemisphere side</strong> and <strong>callosum side</strong> (the side of the 2D grids: larger = more neurons and more π arcs), <strong>steps</strong> (training duration). The defaults are designed to run well on a machine without a graphics card.</div></div>
+
+  <div class="callout tip"><div class="ci">💡</div><div><strong>Training</strong> and <strong>concept extraction</strong> (including the peek) run in a <strong>Web Worker</strong>: the window <strong>stays alive</strong> and you see a progress bar, instead of freezing. If the Worker could not start, the app <strong>falls back by itself</strong> to ordinary computation — slower, but with identical results. You don't have to do anything: you only notice from the bar (which is there) or its absence (the fallback case).</div></div>
+
+  <h3>The three SDNA tools, here</h3>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">⧡</span><h4>Genome → concepts</h4><p>From the corpus callosum — the vector that decides the next word — a sparse dictionary is extracted: the concepts of the real model.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◈</span><h4>Expression → strand</h4><p>For every generated word, which concepts fire and in what order: the trace of the choice.</p></div>
+    <div class="card-mini"><span class="ic c-violet">∿</span><h4>Fingerprint → seal</h4><p>Without ground truth, it is what remains: it binds the trace to the computation, so it is not an after-the-fact tale.</p></div>
+  </div>
+
+  <div class="callout note"><div class="ci">🔧</div><div><strong>Under the hood, since 1.1.0.</strong> Three cures, all born from measurements on a real corpus and told in full in the code comments: the <strong>training step</strong> was calmed down (at full step, after a few thousand steps, the terminal callosum <em>died</em> — and capability and transparency with it); <strong>deep supervision</strong> keeps the intermediate callosum alive; the <strong>lens</strong> uses a normalization that respects the sparsity of the callosum. None of these changes inference or the strand format: only training and extraction change.</div></div>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>Full honesty, updated: until 1.0.2 the lens reconstruction on real text was <strong>coarse</strong>, and we declared it as the price of leaving the laboratory. Measuring on a real corpus, however, we found the true cause: the lens was <em>z-normalizing</em> every channel of the callosum, but the callosum is a <strong>sparse</strong> signal — subtracting the mean turned "off" into a dense value and the TopK could no longer capture it. Since 1.1.0 the normalization is <strong>scale-only</strong>: on our test corpus the loss recovered went from ≈0% to ≈80-90%. The other half of the honesty still holds: when you switch off a very common function word and the fidelity is low, it is not a malfunction — it is the model telling you that that choice is <em>over-determined</em>.</div></div>
+</section>
+
+<!-- ── 13 · INTEGRITÀ ── -->
+<section id="integrità">
+  <div class="section-label">13 — trust and traceability</div>
+  <h2>Integrity, fingerprints and provenance</h2>
+  <p>This is the point that distinguishes Sapere-DNA from a mere "text encoder". Every archive entry in Genome mode carries <strong>two fingerprints</strong>: short codes computed from the data, which change completely if even a single character changes.</p>
+
+  <table class="t">
+    <thead><tr><th>Fingerprint</th><th>Computed on</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Genome fingerprint</strong></td><td>the whole dictionary</td><td>verifies you are reading back with the <em>right genome</em>. If it doesn't match, the app stops and tells you.</td></tr>
+      <tr><td><strong>Text fingerprint</strong></td><td>the original text</td><td>verifies the reconstructed text is <em>identical</em> to the original, even when the counts happened to match by chance.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Together, these fingerprints realize a chain of trust: from the strand you trace back to the correct genome, from the genome to the read-back, and from the read-back to the certainty that it really is what was engraved. It is the concrete version of the project's principle — <em>everything traces back to its meaning</em> — and the real reason it makes sense to speak of an "archive of knowledge" and not just of "encoding".</p>
+
+  <div class="callout note"><div class="ci">✦</div><div>Not to be confused with <strong>cryptographic security</strong>: the fingerprints serve to guarantee <em>integrity and provenance</em> (you know nothing has changed and which key to read with), not to keep the content secret. Anyone with the strand and the right genome can read it. The value here is verifiability, not secrecy.</div></div>
+</section>
+
+<!-- ── 11 · I FILE ── -->
+<section id="file">
+  <div class="section-label">14 — the formats</div>
+  <h2>The files you produce</h2>
+  <p>Sapere-DNA uses simple text files and readable <code>.json</code> files. No closed formats: you can open them with any text editor to take a look.</p>
+
+  <table class="t">
+    <thead><tr><th>File</th><th>What it contains</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td><code>…-filamento.dna.txt</code></td><td>only the ATGC bases of the Genome strand</td><td>when you want the "bare DNA"</td></tr>
+      <tr><td><code>…-dna.txt</code> / <code>…-indice.txt</code></td><td>the DNA sequence and the index (Classic mode)</td><td>separate Classic save</td></tr>
+      <tr><td><code>….json</code> (entry)</td><td>strand + fingerprints + metadata: the self-verifying package</td><td><strong>recommended</strong> for archiving</td></tr>
+      <tr><td><code>…-genome.json</code></td><td>the complete genome (id, version, word list)</td><td>to freeze/share a dictionary</td></tr>
+      <tr><td><code>archivio-…json</code></td><td>all the archive entries in one go</td><td>complete backup</td></tr>
+      <tr><td><code>cassandra-….json</code></td><td>the weights of the Cassandra model (format <code>sapere-dna-cassandra</code>, since 1.1.0 version <strong>v3</strong>)</td><td>to avoid retraining: reload it and pick up again. v1/v2 files (the architecture before the split heads) are <em>refused with an honest message</em>: retrain and re-save</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout tip"><div class="ci">💡</div><div>The encoding's <code>.json</code> entry is the "self-explaining" format: it contains the strand, the identity and fingerprint of the genome it needs, and the fingerprint of the text. Loading it in Decoding, the app already knows everything — mode, expected genome, how to verify.</div></div>
+</section>
+
+<!-- ── 12 · INSTALLAZIONE ── -->
+<section id="installazione">
+  <div class="section-label">15 — installing and building</div>
+  <h2>Installation and building</h2>
+  <p>Sapere-DNA Studio is an <strong>Electron</strong> application for Windows. You can use it from the installer, or build it yourself.</p>
+
+  <h3>Building the installer locally</h3>
+  <p>You need <strong>Node.js 18+</strong>. Open the Command Prompt in the project folder (the one with <code>package.json</code>) and run:</p>
+  <div class="strand"><span class="sk">npm install</span><br><span class="sk">npm run dist</span></div>
+  <p>At the end you find the installer in <code>dist\Sapere-DNA Studio Setup 1.1.0.exe</code>. To try the app without building the installer: <code>npm install</code> and then <code>npm start</code>.</p>
+
+  <h3>Automatic build on GitHub</h3>
+  <p>The project includes a workflow that builds the installer by itself. Two ways:</p>
+  <ul>
+    <li><strong>From a release:</strong> publish a tag (e.g. <code>git tag v1.1.0</code> and <code>git push origin v1.1.0</code>); GitHub builds the installer and automatically attaches it to the tag's Release.</li>
+    <li><strong>By hand:</strong> the repo's <strong>Actions</strong> tab → <em>Compila installer Windows</em> → <em>Run workflow</em>. The installer is then downloadable as an <em>artifact</em> of the run.</li>
+  </ul>
+
+  <div class="callout warning"><div class="ci">⚠️</div><div>The installer is not signed with a paid certificate, so the first time Windows (SmartScreen) may show an "Unknown publisher" warning. It is normal for projects without a certificate: <strong>More info → Run anyway</strong>.</div></div>
+</section>
+
+<!-- ── 13 · LICENZA & SICUREZZA ── -->
+<section id="licenza">
+  <div class="section-label">16 — rights and protections</div>
+  <h2>License &amp; Security</h2>
+
+  <h3>License</h3>
+  <p>Sapere-DNA Studio is <strong>proprietary software, free to use, no modification</strong>:</p>
+  <ul>
+    <li>anyone can <strong>use it for free</strong>, for any purpose (personal or commercial);</li>
+    <li><strong>redistribution</strong> is permitted only in original, unaltered form, preserving license and copyright notices;</li>
+    <li>modifications, translations or derivative works are <strong>not</strong> permitted without written permission of the owner;</li>
+    <li>the software is provided "as is", with no warranties.</li>
+  </ul>
+
+  <h3>Security and privacy</h3>
+  <p>The app is built to remain what it should be: a local tool.</p>
+  <div class="card-grid col2">
+    <div class="card-mini"><span class="ic c-teal">🔒</span><h4>Process isolation</h4><p>The window runs with <code>contextIsolation</code> on and without direct Node integration: the "bridge" to the system exposes only the indispensable functions (save, open, store).</p></div>
+    <div class="card-mini"><span class="ic c-teal">🚫</span><h4>No network</h4><p>The app does not talk to the internet to work: encoding, decoding and archive happen entirely on your PC.</p></div>
+    <div class="card-mini"><span class="ic c-teal">💾</span><h4>Local data</h4><p>Working genome and archive are saved in a file among your user data. No data leaves the computer.</p></div>
+    <div class="card-mini"><span class="ic c-teal">📄</span><h4>Open formats</h4><p>Strands and entries are plain text and readable <code>.json</code>: no lock-in, you can always inspect them by hand.</p></div>
+  </div>
+</section>
+
+<!-- ── 14 · GLOSSARIO ── -->
+<section id="glossario">
+  <div class="section-label">17 — the project's vocabulary</div>
+  <h2>Glossary</h2>
+  <table class="t">
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td class="c-gold"><strong>Genome</strong></td><td>the reference dictionary, ordered by frequency, shared between whoever engraves and whoever reads back.</td></tr>
+      <tr><td class="c-gold"><strong>Gene</strong></td><td>a word of the genome.</td></tr>
+      <tr><td class="c-gold"><strong>Locus</strong></td><td>the position of a gene in the genome; it coincides with its address.</td></tr>
+      <tr><td class="c-gold"><strong>Address</strong></td><td>the sequence of codons (1–4) representing a gene in the strand.</td></tr>
+      <tr><td class="c-teal"><strong>Codon</strong></td><td>three bases (e.g. <code>ATG</code>); the reading unit of the strand.</td></tr>
+      <tr><td class="c-teal"><strong>Digit</strong></td><td>one of the 56 codons used to compose addresses (the system works in base 56).</td></tr>
+      <tr><td class="c-violet"><strong>Regulator</strong></td><td>a control codon (SHIFT, SP, NL, CAP, UP, RAW): it is not a word, it is a command.</td></tr>
+      <tr><td class="c-violet"><strong>Spelling out</strong></td><td>writing a word outside the genome letter by letter, inside a "literal parenthesis".</td></tr>
+      <tr><td class="c-red"><strong>Escape route (RAW)</strong></td><td>the way to save any character outside the table through its Unicode code point.</td></tr>
+      <tr><td><strong>Fingerprint</strong></td><td>a short code computed from the data which changes if the data change; used to verify genome and text.</td></tr>
+      <tr><td><strong>Gematria</strong></td><td>the traditional numeric value of a Hebrew letter, used in the Classic mode.</td></tr>
+      <tr><td><strong>Lossless</strong></td><td>"without losses": every character is preserved and comes back identical.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tips"><div class="th">🎯 In three sentences</div><ul>
+    <li>The <strong>genome</strong> is a dictionary ordered by frequency: the order IS the address.</li>
+    <li><strong>Encoding</strong> writes words as addresses (genes), spells out what it doesn't know, and saves everything else with the escape route.</li>
+    <li><strong>Decoding</strong> reads back with the right genome and <strong>verifies</strong> with the fingerprints: no silent errors.</li>
+  </ul></div>
+</section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <strong>Sapere-DNA Studio</strong> · User Guide · v1.1.0 — 2026<br>
+  <span style="display:block;margin-top:8px" class="hebsig">«il senso non vive nelle basi, vive nell'interprete che le legge» — "meaning does not live in the bases, it lives in the interpreter that reads them"</span>
+  <span style="display:block;margin-top:8px">Symbolic archiving system · reversible · self-verified · traceable</span>
+</footer>
+
+</body>
+</html>

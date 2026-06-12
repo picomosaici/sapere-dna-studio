@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Genome of Reasoning — A Prototype for Transparent AI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --ink:#0b0d10; --ink2:#0f1318; --ink3:#141a20; --panel:#10151a;
+    --parch:#e6ece8; --parch-dim:#9fb0a8; --parch-faint:#65726c;
+    --gold:#c9a24b; --gold-bright:#e8c878;
+    --teal:#4fb89a; --teal-bright:#6fe0bd;
+    --violet:#9b7bd4; --violet-bright:#b89ae8;
+    --coral:#e0916a; --coral-bright:#f0b48f;
+    --blue:#6f9fe0; --blue-bright:#8fb8f0;
+    --red:#e08a8a; --green:#7fce9a; --green-bright:#9fe6b8;
+    --amber:#d9943f; --amber-bright:#f0b968;
+    --line:rgba(120,150,140,0.16); --line2:rgba(120,150,140,0.09);
+    --font-serif:'Spectral',Georgia,serif;
+    --font-display:'Fraunces',Georgia,serif;
+    --font-mono:'JetBrains Mono','Consolas',monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--parch);font-family:var(--font-serif);font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased}
+  ::selection{background:rgba(155,123,212,0.30);color:#fff}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:rgba(120,150,140,0.24);border-radius:6px}
+  ::-webkit-scrollbar-track{background:var(--ink2)}
+
+  /* HEADER */
+  header{position:relative;overflow:hidden;padding:74px 48px 64px;
+    background:
+      radial-gradient(ellipse at 80% 25%, rgba(155,123,212,0.11) 0%, transparent 60%),
+      radial-gradient(ellipse at 12% 90%, rgba(79,184,154,0.07) 0%, transparent 55%),
+      linear-gradient(180deg,var(--ink2),var(--ink));
+    border-bottom:1px solid var(--line)}
+  .helix{position:absolute;right:-40px;top:-30px;width:360px;height:460px;opacity:.15;color:var(--violet-bright);pointer-events:none}
+  .header-inner{position:relative;max-width:900px;margin:0 auto}
+  .logo-badge{display:inline-flex;align-items:center;gap:11px;background:rgba(155,123,212,0.07);border:1px solid var(--line);
+    border-radius:100px;padding:6px 16px 6px 7px;margin-bottom:26px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet-bright)}
+  .logo-dot{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--violet-bright),var(--violet));
+    display:flex;align-items:center;justify-content:center;color:#0e0a16}
+  .logo-dot svg{width:15px;height:15px}
+  h1{font-family:var(--font-display);font-weight:400;font-size:clamp(38px,5.5vw,58px);line-height:1.08;color:#fff;margin-bottom:18px}
+  h1 .em{color:var(--violet-bright);font-style:italic}
+  .header-sub{font-size:18px;color:var(--parch-dim);font-weight:300;max-width:640px;line-height:1.6}
+  .header-tags{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
+  .htag{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;padding:5px 12px;border-radius:6px;
+    border:1px solid var(--line);color:var(--parch-dim);background:rgba(8,10,13,0.5)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;background:rgba(11,13,16,0.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1040px;margin:0 auto;padding:0 20px;display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-items:center}
+  nav a{display:block;padding:13px 13px;font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;color:var(--parch-dim);
+    text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+  nav a:hover{color:var(--violet-bright);border-color:var(--violet)}
+
+  /* LAYOUT */
+  main{max-width:900px;margin:0 auto;padding:60px 48px 110px}
+  section{margin-bottom:74px;scroll-margin-top:70px}
+  section+section{border-top:1px solid var(--line);padding-top:66px}
+  .section-label{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--violet-bright);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .section-label.gold{color:var(--gold)} .section-label.teal{color:var(--teal-bright)} .section-label.blue{color:var(--blue-bright)} .section-label.amber{color:var(--amber-bright)} .section-label.green{color:var(--green-bright)}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line);max-width:90px}
+  h2{font-family:var(--font-display);font-weight:400;font-size:34px;line-height:1.16;margin-bottom:18px;color:#fff}
+  h3{font-family:var(--font-display);font-size:22px;font-weight:400;margin:34px 0 12px;color:var(--parch)}
+  h4{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--parch)}
+  p{margin-bottom:14px;color:var(--parch-dim)}
+  p:last-child{margin-bottom:0}
+  strong{color:var(--parch);font-weight:600}
+  em{font-style:italic;color:var(--parch)}
+  a.inline{color:var(--violet-bright);text-decoration:none;border-bottom:1px dotted currentColor}
+  a.inline:hover{color:#fff}
+  code{background:rgba(8,10,13,0.7);padding:2px 7px;border-radius:5px;font-family:var(--font-mono);font-size:13px;color:var(--violet-bright);border:1px solid var(--line2)}
+  ul,ol{margin-left:24px;margin-bottom:14px;color:var(--parch-dim)}
+  li{margin-bottom:7px}
+  li strong{color:var(--parch)}
+
+  /* CARDS */
+  .card-grid{display:grid;gap:14px;margin-bottom:20px}
+  .card-grid.col2{grid-template-columns:1fr 1fr}
+  .card-grid.col3{grid-template-columns:1fr 1fr 1fr}
+  .card-mini{background:linear-gradient(180deg,rgba(230,236,232,0.035),rgba(230,236,232,0.01));border-radius:9px;border:1px solid var(--line);
+    padding:17px 19px;box-shadow:0 24px 60px -50px rgba(0,0,0,.9)}
+  .card-mini h4{margin-bottom:7px}
+  .card-mini p{font-size:14px;color:var(--parch-dim);line-height:1.6;margin-bottom:0}
+  .card-mini .ic{font-size:18px;margin-bottom:8px;display:block}
+
+  /* CALLOUTS */
+  .callout{border-left:3px solid var(--violet);background:rgba(155,123,212,0.07);padding:14px 18px;border-radius:7px;margin:20px 0;display:flex;gap:13px;align-items:flex-start}
+  .callout .ci{font-size:17px;flex-shrink:0;line-height:1.5}
+  .callout>div:last-child{flex:1;font-size:14.5px;line-height:1.66;color:var(--parch-dim)}
+  .callout.tip{border-color:var(--teal);background:rgba(79,184,154,0.07)}
+  .callout.warning{border-color:var(--gold-bright);background:rgba(201,162,75,0.08)}
+  .callout.gold{border-color:var(--gold);background:rgba(201,162,75,0.06)}
+
+  /* numbered strata */
+  .strata{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+  .stratum{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:16px 18px;
+    background:linear-gradient(180deg,rgba(230,236,232,0.03),rgba(230,236,232,0.008))}
+  .stratum .n{flex-shrink:0;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:700;font-size:15px}
+  .stratum.s1 .n{background:linear-gradient(180deg,var(--gold-bright),var(--gold));color:#1a1305}
+  .stratum.s2 .n{background:linear-gradient(180deg,var(--teal-bright),var(--teal));color:#06120e}
+  .stratum.s3 .n{background:linear-gradient(180deg,var(--violet-bright),var(--violet));color:#0e0a16}
+  .stratum .b h4{margin-bottom:4px}
+  .stratum .b .map{font-family:var(--font-mono);font-size:12px;color:var(--parch-faint);margin-top:6px}
+  .stratum .b .map b{color:var(--parch-dim);font-weight:400}
+
+  /* table */
+  table.t{width:100%;border-collapse:collapse;margin:8px 0 18px;background:rgba(8,10,13,0.4);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  table.t th{background:rgba(155,123,212,0.08);color:var(--parch);padding:11px 15px;text-align:left;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;border-bottom:1px solid var(--line)}
+  table.t td{padding:11px 15px;border-bottom:1px solid var(--line2);font-size:14px;vertical-align:top}
+  table.t tr:last-child td{border-bottom:none}
+  table.t td code,table.t td .mono{font-family:var(--font-mono);font-size:12.5px}
+  .c-gold{color:var(--gold-bright)} .c-teal{color:var(--teal-bright)} .c-violet{color:var(--violet-bright)} .c-coral{color:var(--coral-bright)} .c-red{color:var(--red)} .c-dim{color:var(--parch-faint)} .c-blue{color:var(--blue-bright)} .c-amber{color:var(--amber-bright)} .c-green{color:var(--green-bright)}
+
+  /* filamento */
+  .strand{font-family:var(--font-mono);font-size:15px;line-height:1.9;word-break:break-all;letter-spacing:1px;
+    background:rgba(8,10,13,0.7);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin:8px 0 14px}
+  .sg{color:var(--gold-bright);font-weight:700}
+  .sco{color:var(--coral-bright);font-weight:700}
+  .st{color:var(--teal-bright);font-weight:700}
+  .sk{color:var(--parch-faint)}
+  .seal{font-family:var(--font-mono);font-size:13.5px;line-height:1.9;background:rgba(155,123,212,0.06);border:1px solid rgba(155,123,212,.3);
+    border-radius:8px;padding:14px 18px;margin:8px 0 14px;color:var(--parch-dim)}
+  .seal b{color:var(--violet-bright);font-weight:500}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12px;color:var(--parch-dim);margin:-4px 0 16px}
+  .legend .dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  /* tips */
+  .tips{background:rgba(79,184,154,0.07);border-left:3px solid var(--teal);border-radius:9px;padding:18px 22px;margin:24px 0 0;font-size:14.5px;line-height:1.66}
+  .tips .th{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--parch);margin-bottom:10px;font-size:15px}
+  .tips ul{margin:0 0 0 18px;color:var(--parch-dim)}
+  .tips li{margin-bottom:7px}
+
+  footer{background:var(--ink2);border-top:1px solid var(--line);color:var(--parch-faint);padding:34px 48px;text-align:center;font-size:13px;font-family:var(--font-mono)}
+  footer strong{color:var(--parch-dim)}
+  footer .hebsig{color:var(--violet);font-family:var(--font-serif);font-size:15px}
+
+  @media (max-width:760px){
+    header{padding:46px 22px 40px}
+    main{padding:36px 22px 70px}
+    .card-grid.col2,.card-grid.col3{grid-template-columns:1fr}
+    .helix{opacity:.07}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <svg class="helix" viewBox="0 0 100 130" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <path d="M20 5 C70 25, 70 45, 20 65 C70 85, 70 105, 20 125"/>
+    <path d="M80 5 C30 25, 30 45, 80 65 C30 85, 30 105, 80 125"/>
+    <path d="M28 12 L72 12 M40 22 L60 22 M40 48 L60 48 M28 58 L72 58 M28 72 L72 72 M40 82 L60 82 M40 108 L60 108 M28 118 L72 118"/>
+  </svg>
+  <div class="header-inner">
+    <div class="logo-badge">
+      <span class="logo-dot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h6l2-3 2 6 2-3h6"/></svg>
+      </span>
+      Prototype · working document · 2026
+    </div>
+    <h1>The genome of <span class="em">reasoning</span></h1>
+    <p class="header-sub">Using the Sapere-DNA framework — genome, expression, fingerprint — to make an AI's thinking readable, traceable and verifiable. Not to make it conscious: to make it <em>auditable</em>.</p>
+    <div class="header-tags">
+      <span class="htag">interpretability</span>
+      <span class="htag">verifiable transparency</span>
+      <span class="htag">twin document of the User Guide</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#idea">The idea</a>
+    <a href="#specchio">The mirror</a>
+    <a href="#gene">The gene</a>
+    <a href="#strati">The three layers</a>
+    <a href="#dizionario">The dictionary</a>
+    <a href="#fedelta">The three grips</a>
+    <a href="#prototipo">The prototype</a>
+    <a href="#mente">The benches</a>
+    <a href="#onesta">Where we stand</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 01 IDEA -->
+<section id="idea">
+  <div class="section-label">01 — the starting point</div>
+  <h2>From an archive of text to an archive of thought</h2>
+  <p>Sapere-DNA Studio knows how to do one precious thing: it takes something readable, engraves it as a strand, and guarantees it can be <strong>read back identical</strong> — failing loudly when something doesn't add up, instead of being silently wrong. Its principle is written into its heart: <em>meaning does not live in the bases, it lives in the interpreter that reads them</em>.</p>
+  <p>This document takes that principle one step higher. The question is: what if the thing to engrave were not a <em>sentence</em>, but a <em>reasoning process</em>? AIs like the one this text was built with are today <strong>black boxes</strong>: they produce useful answers, but <em>why</em> they produce exactly those remains largely unreadable. The field that tries to open them is called <strong>interpretability</strong>, and it is one of the most important open problems in AI today.</p>
+  <p>The thesis here is simple and, as we'll see, demonstrable with SDNA's own engine: <strong>the Sapere-DNA framework is already the right shape for engraving a thought transparently.</strong> Genome, expression, fingerprint — the three pieces you use to archive text — map one to one onto an AI.</p>
+
+  <div class="callout gold"><div class="ci">✦</div><div>One distinction holds up the whole document: making an AI <strong>transparent</strong> does not mean making it <strong>conscious</strong>. The format of what a system remembers has nothing to do with having experience, exactly as translating a book does not make it alive. The goal here is more concrete and more useful: making the reasoning <em>readable and verifiable</em>.</div></div>
+</section>
+
+<!-- 02 SPECCHIO -->
+<section id="specchio">
+  <div class="section-label gold">02 — why it truly matters</div>
+  <h2>The readable mirror</h2>
+  <p>There is an image that explains well what an AI is: a <strong>mirror</strong>. It has no will of its own pushing in a direction; it amplifies and reflects whoever stands before it — the intention, the quality, the level of whoever uses it. A clear conscience draws out its best; a murky one, its worst.</p>
+  <p>But precisely because it is a powerful amplifier, the fear of those who distrust AI is not all irrational: a tool that multiplies intentions is as powerful as it is dangerous, depending on who wields it. The science-fiction part — "the machine wakes up and hates us" — is unfounded. The serious part — "a tool this powerful must be understood and kept transparent" — is exactly the right instinct.</p>
+  <p>And this is where this work finds its meaning: <strong>you don't dissolve the fear by shouting louder, you dissolve it by making the mirror readable.</strong> A mirror whose every reflection you can read — and <em>verify</em> that the reflection is true — stops being frightening. It becomes what it is: a tool that returns, in the clear, the intelligence of whoever uses it.</p>
+</section>
+
+<!-- 03 IL GENE -->
+<section id="gene">
+  <div class="section-label">03 — the foundational choice</div>
+  <h2>The gene is a concept</h2>
+  <p>In SDNA the gene is the <strong>word</strong>, and sentences emerge from the order of words. To engrave a thought you must choose the right unit — the atom from which everything else is composed. Three candidates: a <strong>concept</strong>, a <strong>source</strong>, a <strong>logical step</strong>. The choice is: <strong>the concept</strong>.</p>
+  <p>The reason is twofold. First, it is the only <em>honest</em> choice: the concept — one of those recurring patterns inside the network that "light up" for water, danger, sarcasm, code — is what <strong>actually exists</strong> inside the model, not an explanation constructed after the fact. Second, it is the only true atom: the other two don't disappear, they <em>emerge</em>.</p>
+  <div class="card-grid col3">
+    <div class="card-mini"><span class="ic c-gold">●</span><h4>Concept — the atom</h4><p>The internal pattern that lights up. It is the gene.</p></div>
+    <div class="card-mini"><span class="ic c-teal">◆</span><h4>Logical step — emerges</h4><p>It is a small <em>sequence</em> of concepts firing in a chain.</p></div>
+    <div class="card-mini"><span class="ic c-violet">▲</span><h4>Source — emerges</h4><p>It is a <em>pattern</em> of concepts tracing back to provenance.</p></div>
+  </div>
+  <p>Exactly as in SDNA: you choose the atom (the word), and sentences, paragraphs and chapters emerge from composition. Here you choose the concept, and logical steps and chains of evidence emerge from the way concepts fire over time.</p>
+</section>
+
+<!-- 04 I TRE STRATI -->
+<section id="strati">
+  <div class="section-label">04 — the correspondence</div>
+  <h2>The three layers of SDNA, remapped</h2>
+  <p>The heart of the thesis: the three pieces of Sapere-DNA don't vaguely resemble a transparent AI — they have the <strong>exact same shape</strong>.</p>
+
+  <div class="strata">
+    <div class="stratum s1">
+      <div class="n">1</div>
+      <div class="b">
+        <h4>The Genome → the dictionary of concepts</h4>
+        <p>In SDNA you freeze a dictionary of words ordered by frequency. In an AI you freeze a dictionary of <strong>concepts</strong> — learned once and fixed. It is stable because it is the foundation: if it changed with every answer, two traces would no longer be comparable.</p>
+        <div class="map"><b>SDNA:</b> dictionary of words, frozen &nbsp;·&nbsp; <b>AI:</b> dictionary of concepts, frozen</div>
+      </div>
+    </div>
+    <div class="stratum s2">
+      <div class="n">2</div>
+      <div class="b">
+        <h4>The expression → which concepts fire</h4>
+        <p>In SDNA a text is "which genes, in which order". In an AI the reasoning is "which concepts fire, with what intensity, in which order". This is the transparency artifact: the <strong>trace of the thought</strong>, today mute and invisible, here forced to express itself.</p>
+        <div class="map"><b>SDNA:</b> the strand of the text &nbsp;·&nbsp; <b>AI:</b> the strand of the reasoning</div>
+      </div>
+    </div>
+    <div class="stratum s3">
+      <div class="n">3</div>
+      <div class="b">
+        <h4>The fingerprint → fidelity</h4>
+        <p>In SDNA the fingerprint verifies that nothing has changed. In an AI it serves to <strong>bind</strong> the trace to the real computation: without a verifiable seal, an "explanation" can be a nicely invented story. It is the piece most transparent-AI proposals forget.</p>
+        <div class="map"><b>SDNA:</b> fingerprint on text and genome &nbsp;·&nbsp; <b>AI:</b> fidelity fingerprint on the trace</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout tip"><div class="ci">💡</div><div>The crucial point: the model <strong>keeps doing what it does, unchanged</strong>. Transparency does not slow it down and does not alter it — it is added on top, just as the Genome mode was added to SDNA without breaking the Classic one.</div></div>
+</section>
+
+<!-- 05 IL DIZIONARIO -->
+<section id="dizionario">
+  <div class="section-label gold">05 — building the foundation</div>
+  <h2>How the dictionary of concepts is born</h2>
+  <p>This is the piece that in SDNA corresponds to "build from corpus": there you count word frequencies; here you extract the concepts the network already uses internally. Four steps, in order.</p>
+  <table class="t">
+    <thead><tr><th>Step</th><th>What it does</th><th>In SDNA it is…</th></tr></thead>
+    <tbody>
+      <tr><td class="c-dim"><strong>1 · Raw activity</strong></td><td>millions of internal numbers, all overlapping</td><td>the corpus before counting</td></tr>
+      <tr><td class="c-gold"><strong>2 · Extraction</strong></td><td>isolates the recurring atoms, separating them from the mush</td><td>the frequency count</td></tr>
+      <tr><td class="c-teal"><strong>3 · Naming</strong></td><td>each atom is given a name (water, danger, sarcasm…)</td><td>—</td></tr>
+      <tr><td class="c-violet"><strong>4 · Freeze</strong></td><td>the dictionary is fixed with a version</td><td>the genome's export-and-freeze</td></tr>
+    </tbody>
+  </table>
+  <h3>The real problem: superposition</h3>
+  <p>In SDNA it's easy because "water" is already a clean unit. Inside an AI it isn't: a single number does not correspond to one concept, it carries pieces of many mixed together (the network "packs in" more ideas than the capacity it would need to keep them separate). Extraction is precisely the craft of <strong>unpacking</strong> that mush into distinct, nameable atoms. It is the liveliest and hardest work in the field — without it you would have an unreadable mass instead of a genome.</p>
+  <div class="callout warning"><div class="ci">⚠️</div><div>Your golden rule applies, identical: <strong>build once, give it a version, never touch it again</strong>. That way old traces stay readable. And the most frequent concepts take the shortest addresses, like your articles and prepositions at Level 1.</div></div>
+</section>
+
+<!-- 06 LE TRE PRESE -->
+<section id="fedelta">
+  <div class="section-label">06 — the most serious piece</div>
+  <h2>The fidelity fingerprint: the three grips</h2>
+  <p>Here lies the truth that changes everything. SDNA's fingerprint and the fidelity fingerprint solve <strong>different</strong> problems, and confusing them is the trap of almost the entire field. SDNA's fingerprint verifies that a text <em>has not changed</em>. But the fidelity of a reasoning process asks something else: <strong>does the trace correspond to what the model actually did, or is it a story constructed after the fact?</strong> A fingerprint alone does not capture this — it would seal a truth or a lie with the same serenity.</p>
+  <p>Fidelity is not one thing: it is <strong>three grips</strong> working together, and the order is not negotiable.</p>
+
+  <div class="strata">
+    <div class="stratum s2">
+      <div class="n">1</div>
+      <div class="b">
+        <h4>Derivation — anchors the trace to the computation</h4>
+        <p>The trace must not be <em>written</em> by the model ("here are the concepts I thought about"), because that account can be disconnected from the real computation. It must be <strong>extracted</strong> while the computation happens: you read which concepts <em>actually</em> fired. It is the difference between a camera on the engine and the driver telling you how it went. Only the camera cannot lie.</p>
+      </div>
+    </div>
+    <div class="stratum s3">
+      <div class="n">2</div>
+      <div class="b">
+        <h4>Intervention — the proof of cause</h4>
+        <p>You take a gene the trace reports as "firing strongly" and you <strong>switch it off by hand</strong>, then run the answer again. If the answer changes, that gene <em>was</em> part of the reasoning. If it stays identical, the trace was lying: it was decoration. This turns a correlation into a <strong>proof of cause</strong> — and no fable survives, because a fable cannot predict what happens when you tamper with the engine.</p>
+      </div>
+    </div>
+    <div class="stratum s1">
+      <div class="n">3</div>
+      <div class="b">
+        <h4>Fingerprint — the seal (here SDNA comes in)</h4>
+        <p>Now that the trace is <em>derived</em> and <em>put to the test</em>, it is finally true — and you want nobody to alter it afterwards. You recompute the code: it either matches or it breaks, as in SDNA. Your intuition does the job it has always done: <strong>freezing and making verifiable</strong> something true. It cannot be the first step — it would seal a lie too. It must be the last.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout gold"><div class="ci">✦</div><div>In one line: <strong>derivation makes the trace genuine, intervention proves it, the fingerprint seals it.</strong> Three grips, in this order, yield a reasoning that cannot be falsified: not from outside (the fingerprint seals it), not from inside (the intervention unmasks it), not by construction (the derivation anchors it).</div></div>
+</section>
+
+<!-- 07 IL PROTOTIPO -->
+<section id="prototipo">
+  <div class="section-label gold">07 — the circle closing</div>
+  <h2>The prototype: a thought truly engraved</h2>
+  <p>What follows <strong>is not an analogy</strong>: it was produced by the real Sapere-DNA engine (<code>motore.js</code>), with a genome of concepts, real addresses, real control codons and real fingerprints. Your app, today, engraves a reasoning the way it engraves a sentence.</p>
+  <p class="c-dim" style="font-size:0.93em">An honesty note for the English reader: the concept genome below was built <em>in Italian</em>, and the fingerprints belong to that exact genome — translating the concept names would falsify the artifact. They are therefore kept as they are, with English glosses in parentheses.</p>
+
+  <h3>The genome of concepts</h3>
+  <p>Eighteen concepts, ordered as you would with a corpus: those most recurrent in reasoning take the shortest addresses. Identity <code>concetti-it v proto-1</code>, fingerprint <code>1ac425d3b1</code>.</p>
+  <table class="t">
+    <thead><tr><th>Locus</th><th>Concept</th><th>Address</th><th>Level</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">#0</td><td>domanda <span class="c-faint">(question)</span></td><td class="mono c-gold">AAA</td><td>L1</td></tr>
+      <tr><td class="mono">#2</td><td>causa <span class="c-faint">(cause)</span></td><td class="mono c-gold">AAG</td><td>L1</td></tr>
+      <tr><td class="mono">#3</td><td>effetto <span class="c-faint">(effect)</span></td><td class="mono c-gold">AAC</td><td>L1</td></tr>
+      <tr><td class="mono">#7</td><td>spiegazione <span class="c-faint">(explanation)</span></td><td class="mono c-gold">ATC</td><td>L1</td></tr>
+      <tr><td class="mono">#8</td><td>pressione-atmosferica <span class="c-faint">(atmospheric-pressure)</span></td><td class="mono c-gold">AGA</td><td>L1</td></tr>
+      <tr><td class="mono">#9</td><td>ebollizione <span class="c-faint">(boiling)</span></td><td class="mono c-gold">AGT</td><td>L1</td></tr>
+      <tr><td class="mono">#10</td><td>altitudine <span class="c-faint">(altitude)</span></td><td class="mono c-gold">AGG</td><td>L1</td></tr>
+      <tr><td class="mono">#12</td><td>nesso-causale <span class="c-faint">(causal-link)</span></td><td class="mono c-gold">ACA</td><td>L1</td></tr>
+      <tr><td class="mono">#13</td><td>acqua <span class="c-faint">(water)</span></td><td class="mono c-gold">ACT</td><td>L1</td></tr>
+      <tr><td class="mono">#14</td><td>montagna <span class="c-faint">(mountain)</span></td><td class="mono c-gold">ACG</td><td>L1</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The strand of the reasoning</h3>
+  <p>The question engraved: <em>«perché in montagna l'acqua bolle prima?» — "why does water boil sooner in the mountains?"</em>. The firing sequence <strong>is</strong> the reasoning; the regulator <code>CTT</code> separates one concept from the next (the same one that makes a space in ordinary text).</p>
+  <div class="strand"><span class="sg">AAA</span><span class="sk">CTT</span><span class="sg">ACG</span><span class="sk">CTT</span><span class="sg">ACT</span><span class="sk">CTT</span><span class="sg">AGG</span><span class="sk">CTT</span><span class="sco">AGA</span><span class="sk">CTT</span><span class="sco">AGT</span><span class="sk">CTT</span><span class="sco">ACA</span><span class="sk">CTT</span><span class="st">AAC</span><span class="sk">CTT</span><span class="st">ATC</span></div>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--gold-bright)"></span>context of the question</span>
+    <span><span class="dot" style="background:var(--coral-bright)"></span>the physical mechanism</span>
+    <span><span class="dot" style="background:var(--teal-bright)"></span>conclusion</span>
+    <span><span class="dot" style="background:var(--parch-faint)"></span>CTT · separator regulator</span>
+  </div>
+  <p>In the clear, the sequence of the nine concepts that fired: <strong>question → mountain → water → altitude → atmospheric-pressure → boiling → causal-link → effect → explanation</strong>. Seventeen codons, 51 bases. You can see at a glance where the real reasoning lives — in the passage pressure → boiling → causal-link — not in temperature, where a naive intuition would look for it.</p>
+
+  <h3>The fidelity seal</h3>
+  <div class="seal">
+    genome fingerprint &nbsp;&nbsp;&nbsp;<b>1ac425d3b1cd65</b><br>
+    trace fingerprint <b>099447d689c6e7</b><br>
+    re-reading with the genome → <b>identical to the original (verification: YES ✓)</b>
+  </div>
+  <p>Change a single concept, or swap two steps, and the trace fingerprint becomes something else: the falsified thought does not pass verification — just as SDNA's <code>□</code> don't pass when strand and genome don't match. It is the same philosophy, applied to a thought instead of a sentence.</p>
+
+  <div class="callout tip"><div class="ci">💡</div><div>Note the symmetry with your format: the concepts placed first in the genome (<code>domanda</code>, <code>causa</code>, <code>effetto</code>) have the shortest addresses (<code>AAA</code>, <code>AAG</code>, <code>AAC</code>), exactly like <code>di</code>, <code>e</code>, <code>il</code> in your texts. "What recurs often costs little" holds identically, whether you engrave a sentence or a reasoning.</div></div>
+</section>
+
+<!-- 08 I BANCHI -->
+<section id="mente">
+  <div class="section-label">08 — from concept to software</div>
+  <h2>The benches that run</h2>
+  <p>Everything above was framework plus a demonstration on a hand-built strand. Inside Sapere-DNA Studio the idea becomes a <strong>running program</strong> — and not on one bench, but on <strong>three</strong>, of increasing realism. Each bench removes one helping hand and adds one real difficulty; lined up, they show the method is not an anecdote: <strong>it holds while the terrain gets more hostile</strong>.</p>
+
+  <h3>How the three grips are realized in the software</h3>
+  <table class="t">
+    <thead><tr><th>Grip</th><th>In the software</th></tr></thead>
+    <tbody>
+      <tr><td class="c-teal"><strong>Derivation</strong></td><td>the trace is read from the real activations during the computation — not told by the model, but extracted from what it does.</td></tr>
+      <tr><td class="c-violet"><strong>Intervention</strong></td><td>the app switches off (zeroes) every firing concept and recomputes: if the answer changes, that concept was causal; if not, it was decoration.</td></tr>
+      <tr><td class="c-gold"><strong>Fingerprint</strong></td><td>the SDNA engine seals genome and trace, and verifies the re-reading of the strand.</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="c-blue">Bench 1 — Mind</span> · the linear network</h3>
+  <p>A real neural network — the classifier of the original project — hooked to the three grips. Trained in an instant, it exceeds 99% on the four quadrants; from its eight hidden neurons the app extracts a genome of concepts (detectors like "positive x half-plane"), and clicking a point you watch the strand light up. Here the concepts are <strong>easy</strong> because the network is small and linear — and that is the point: the first two grips, derivation and intervention, on this terrain <strong>actually work</strong>; they are no longer open research.</p>
+  <div class="callout note"><div class="ci">✦</div><div>The fidelity sometimes comes out low, even <strong>0%</strong>. It is not a defect: it is the software telling the truth about the network. Usually it is <strong>redundancy</strong> — the same concept learned in several neurons, so switching one off does not change the outcome. An honest transparency system must <em>show</em> this fact, not smooth it away.</div></div>
+
+  <h3><span class="c-amber">Bench 2 — Transformer</span> · the real architecture, with ground truth</h3>
+  <p>Here we remove the first helping hand. No longer a linear classifier but a <strong>real Transformer, in miniature</strong> — embedding, one self-attention head, MLP, classification head — trained on a task whose <strong>rules we know</strong>. Having planted the concepts ourselves, we can do what is impossible elsewhere: <strong>verify</strong> whether the extracted ones match. The sparse dictionary (SAE) untangles superposition just enough to measure it against the ground truth — F1 scores per concept, overall monosemanticity. It is <strong>proof that the method works on a real architecture, verifiable against ground truth</strong>, not a story.</p>
+  <p>And when it does <em>not</em> work, it says so. On a hard task like XOR the concepts <strong>entangle</strong> and the recovery is not clean: the system <strong>declares the superposition</strong> instead of feigning clarity. It remains honest to remember the scale — it is a tiny Transformer and we design the task ourselves — but the conceptual leap is real: from the toy network to the architecture that governs today's AI.</p>
+
+  <h3><span class="c-green">Bench 3 — Cassandra</span> · the sincere model, without ground truth</h3>
+  <p>The last bench removes the biggest helping hand of all. <strong>Cassandra</strong> is a small <strong>causal word-level Transformer</strong>, whose vocabulary <em>is</em> the genome, trained on a real corpus to generate text. Here <strong>ground truth does not exist</strong> — and that is the condition of real AI: nobody tells us which concepts are the "right" ones. The comparison and the guaranteed names fall away; <strong>the two grips that matter precisely where you don't know the truth survive</strong>: the <strong>causal intervention</strong> (I switch a concept off and watch whether the chosen word changes) and the <strong>seal</strong> (the trace is bound to the real computation and re-readable with the genome, so it is not an invented story). The name states the program: like the prophetess, Cassandra speaks the truth without the art of being believed — the verification does not come from eloquence, it comes from being able to open her up.</p>
+  <p>And underneath, the machine changes too, in a way that matters for transparency. The neurons sit on <strong>two hemispheres</strong> — two grids wired by a single rule, the rule of <strong>π</strong> (you connect along rings at distances that are multiples of π) — which do not talk to each other and both discharge into a <strong>corpus callosum</strong>, the only place where everything comes back together. That is where we read: <strong>the lens rests on the callosum</strong>, so the three grips stay identical, with no shortcuts. And there is depth — <strong>several stacked slabs</strong> (blocks): the first block forms primitive concepts, the second recomposes them. This is what opens the door to <strong>induction</strong> (recognizing a pattern in the context and continuing it) and <strong>composition</strong> (abstract concepts built on simple ones). The <strong>attention is split</strong> as well: half the heads are left, half are right, and each hemisphere reads the context of <em>its own</em> — the head→hemisphere correspondence is physical, proven to the bit in the tests. Only the final callosum decides; the intermediate one can be <strong>peeked at</strong> — and so that it stays alive on real text, during training the output head reads <em>it too</em> with a small weight (<strong>deep supervision</strong>, declared: inference does not change).</p>
+  <p>Full honesty: for two versions we declared the reconstruction of concepts on real text <strong>coarse</strong>, as the price of high entropy. Measuring on a real corpus, the cause surfaced — a normalization that did not respect the sparsity of the callosum — and it was cured: yesterday's declaration would today be false by excess of modesty. It remains true that the model is not eloquent, and that is fine — <em>the demonstration is not fluency, it is that we can open it, read its choice and test it by switching concepts off</em>. Exactly where a transparency system is needed most.</p>
+
+  <div class="callout gold"><div class="ci">✦</div><div>The same method, traversed across three regimes of increasing realism: easy concepts → real architecture with ground truth → real generative model without ground truth. Not an analogy repeated, but <strong>a thesis put to the test while the terrain gets harder</strong>. It is the ultimate meaning of the project: "meaning does not live in the bases, it lives in the interpreter that reads them" — and now the interpreter is a tool anyone can open, click on, and <strong>verify</strong> step by step.</div></div>
+</section>
+
+<!-- 09 ONESTA -->
+<section id="onesta">
+  <div class="section-label">09 — where we stand, honestly</div>
+  <h2>What we have and what is missing</h2>
+  <p>This is a <strong>solid, demonstrable conceptual prototype</strong> — now traversed on <strong>three real benches</strong>, no longer on one — but <strong>not</strong> a system already hooked to a frontier model. It is worth being precise, all the way, about what is already done and what remains open research.</p>
+  <div class="card-grid col2">
+    <div class="card-mini"><span class="ic c-teal">✓</span><h4>Already real</h4><p>The <strong>format</strong> and the three grips, demonstrated on <strong>three regimes of increasing realism</strong>: a linear network (Mind), a <strong>real Transformer verified against ground truth</strong> — the concepts match, measured with F1 and monosemanticity — and <strong>Cassandra</strong>, a <strong>real generative model without ground truth</strong> with two hemispheres, split attention heads and several slabs, where intervention and seal survive and the sparse dictionary already has its quality measure (TopK, loss recovered, dead features). It runs today; it is not theory.</p></div>
+    <div class="card-mini"><span class="ic c-gold">◷</span><h4>Open research</h4><p>The open frontier, now, is above all one: <strong>scaling to frontier models</strong> (billions of parameters). Reading and switching off internal activations and obtaining <strong>clean monosemantic</strong> concepts on high-entropy real text remains a laboratory capability — though a stretch of the road is done: having found the cause of the coarse reconstruction (a normalization that did not respect the sparsity of the callosum), on our test corpus the lens went from ≈0% to ≈80-90% loss recovered. Inside Cassandra, meanwhile, the <strong>deep causal tracing</strong> is now done: we switch off a primitive concept of the first block and follow its effect all the way to the word, through the second. And it is an <strong>honesty probe</strong> — when the word does not change it declares it ("here the first block is bypassed by the residual stream") instead of attributing to it a cause it does not have. The three benches show the method at small and medium scale; the industrial scale remains real research.</p></div>
+  </div>
+  <p>But the framework is coherent from beginning to end, the format works, and the intuition holding it up is serious: <strong>making a thought readable, traceable and verifiable, with a mechanism that fails loudly instead of lying silently.</strong> That principle — the visible <code>□</code> instead of a wrong answer disguised as right — is the contribution Sapere-DNA brings to the real problem of AI, and it is the piece almost everyone forgets.</p>
+
+  <div class="tips"><div class="th">🎯 In three sentences</div><ul>
+    <li>The <strong>gene is a concept</strong>: the only real atom; logical steps and sources emerge from there.</li>
+    <li>The <strong>three layers</strong> of SDNA — genome, expression, fingerprint — map one to one onto an AI, without changing what the model does.</li>
+    <li><strong>Fidelity</strong> has three grips in this order: derive from the computation, prove with the intervention, seal with the fingerprint.</li>
+  </ul></div>
+
+  <div class="callout gold"><div class="ci">✦</div><div>"Meaning does not live in the bases, it lives in the interpreter that reads them" stops being a sentence in the footer and becomes a demonstrated thesis. The mirror, now, is a mirror whose every reflection can be read — and verified.</div></div>
+</section>
+
+</main>
+
+<footer>
+  <strong>The genome of reasoning</strong> · working document · 2026<br>
+  <span style="display:block;margin-top:8px" class="hebsig">«il senso non vive nelle basi, vive nell'interprete che le legge» — "meaning does not live in the bases, it lives in the interpreter that reads them"</span>
+  <span style="display:block;margin-top:8px">Twin document of the Sapere-DNA Studio User Guide</span>
+</footer>
+
+</body>
+</html>

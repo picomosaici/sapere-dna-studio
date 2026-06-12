@@ -93,6 +93,17 @@ Il repo include un workflow (`.github/workflows/build.yml`) che compila l'instal
 
 ---
 
+## Documentazione · Documentation
+
+Due guide gemelle, in due lingue · Two twin guides, in two languages:
+
+| Documento | Italiano | English |
+|---|---|---|
+| Guida utente · come si usa l'app, banco per banco | `Guida_utente_IT.html` | `User_Guide_EN.html` |
+| Il genoma del ragionamento · la tesi del progetto: genoma, espressione, impronta applicati a un'IA | `Prototipo_genoma_ragionamento_IT.html` | `Reasoning_Genome_Prototype_EN.html` |
+
+Nota onesta sulla versione inglese del Prototipo: il genoma dei concetti e il filamento dimostrativi sono artefatti reali del motore, con impronte calcolate sul genoma italiano — i nomi dei concetti restano quindi in italiano, con glossa inglese tra parentesi. *An honesty note on the English Prototype: the demo concept genome and strand are real engine artifacts, with fingerprints computed over the Italian genome — concept names therefore stay in Italian, with English glosses in parentheses.*
+
 ## Storico versioni
 
 - **1.1.0 — Teste divise, supervisione profonda, lente curata.** L'attenzione di Cassandra ora ha
